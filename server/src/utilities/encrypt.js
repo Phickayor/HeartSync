@@ -6,4 +6,9 @@ const handleEncryption = async (text) => {
   return encryptedText;
 };
 
-module.exports = handleEncryption;
+const comparePassword = async (password, correctPassword) => {
+  const status = await bcrypt.compare(password, correctPassword);
+  return status;
+};
+
+module.exports = { handleEncryption, comparePassword };

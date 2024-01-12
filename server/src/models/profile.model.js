@@ -1,13 +1,13 @@
 const { mongoose } = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, "Users name is required"]
   },
   gender: {
     type: String,
-    enum: ["male", "female", "non-binary"],
+    enum: ["Male", "Female", "Non-binary"],
     required: true
   },
   age: {
@@ -75,15 +75,16 @@ const userSchema = new mongoose.Schema({
       "Yobe",
       "Zamfara",
       "Abuja"
-    ]
+    ],
+    required: true
   },
   revealGender: {
     type: Boolean,
     default: true
   },
   pictures: {
-    type: [String], // Assuming it's an array of strings, you can adjust the type accordingly
-    required: true, // The array field is required
+    type: [String],
+    required: true,
     validate: {
       validator: function (array) {
         return array.length >= 3; // Minimum three items required
@@ -97,8 +98,9 @@ const userSchema = new mongoose.Schema({
   },
   auth: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "auth", // Reference to the Auth model
-    required: true
+    ref: "auth",
+    required: true,
+    unique: true
   },
   preference: [
     {
@@ -120,5 +122,5 @@ const userSchema = new mongoose.Schema({
   ]
 });
 
-const userModel = mongoose.model("User", userSchema);
-module.exports = userModel;
+const profileModel = mongoose.model("Profile", profileSchema);
+module.exports = profileModel;
