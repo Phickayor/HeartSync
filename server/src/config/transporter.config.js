@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 var transporter = nodemailer.createTransport({
   service: "SMTP",
@@ -7,7 +8,7 @@ var transporter = nodemailer.createTransport({
   port: 587, // port for secure SMTP
   auth: {
     user: "jetawof@gmail.com",
-    pass: "fikayo@microsoft1"
+    pass: process.env.MAIL_PSWD
   },
   tls: {
     ciphers: "SSLv3"

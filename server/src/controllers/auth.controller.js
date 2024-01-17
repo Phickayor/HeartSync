@@ -69,7 +69,7 @@ const sendVerificationMail = async (req, res) => {
     res.status(502).json({ error: error.message });
   }
 };
-const checkAuth = (req, res, next) => {
+const checkAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (token) {
@@ -77,7 +77,9 @@ const checkAuth = (req, res, next) => {
       var tokenArray = token.split("");
       var justTokenArray = tokenArray.splice(7);
       var justToken = justTokenArray.join("");
-      var userAuth = accessPayload(justToken);
+      var { _id } = accessPayload(justToken);
+      var userAuth = await authModel.findOne({ _id });
+      console.log(userAuth);
       //Proceed on success
       userAuth
         ? ((req.body.auth = { ...userAuth }), next())
