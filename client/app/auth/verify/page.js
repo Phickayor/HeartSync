@@ -1,4 +1,4 @@
-import Verify from "@/components/Verify";
+import Verify from "@/components/Auth/Verify";
 import { Urbanist } from "next/font/google";
 import React from "react";
 const urbanist = Urbanist({

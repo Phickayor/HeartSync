@@ -1,4 +1,4 @@
-import { ForgotPassword } from "@/components/Verify";
+import { ForgotPassword } from "@/components/Auth/Verify";
 import { Urbanist } from "next/font/google";
 import React from "react";
 const urbanist = Urbanist({

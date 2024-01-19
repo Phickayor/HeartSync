@@ -4,7 +4,7 @@ const urbanist = Urbanist({
   weight: ["300", "400", "500"],
   subsets: ["latin"]
 });
-import Login from "../../components/Login";
+import Login from "../../components/Auth/Login";
 
 function page() {
   return (

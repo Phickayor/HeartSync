@@ -4,7 +4,7 @@ function Login() {
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
       <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
-        <h1 className="text-2xl md:text-3xl text-center">Login to your account</h1>
+        <h1 className="auth-header">Login to your account</h1>
         <form className="flex flex-col gap-3  md:gap-5 pt-5 ">
           <div className="flex flex-col gap-2">
             <label>Email</label>

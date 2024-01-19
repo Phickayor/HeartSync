@@ -1,4 +1,4 @@
-import Register from "@/components/Register";
+import Register from "@/components/Auth/Register";
 import { Urbanist } from "next/font/google";
 import React from "react";
 const urbanist = Urbanist({

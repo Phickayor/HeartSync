@@ -5,8 +5,8 @@ export default function Verify() {
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
       <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
         <div className="flex flex-col gap-5 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold">Verify Mail</h1>
-          <p className="font-light leading-2 mx-auto w-4/5">
+          <h1 className="auth-header">Verify Mail</h1>
+          <p className="font-thin leading-2 mx-auto w-4/5">
             A 6 digit code was sent to{" "}
             <b className="font-semibold">tapeyjunior@gmail.com</b> kindly input
             code
@@ -33,10 +33,8 @@ export function ForgotPassword() {
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
       <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
         <div className="flex flex-col gap-5 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold">
-            Forgotten Password
-          </h1>
-          <p className="font-light leading-2 mx-auto w-4/5">
+          <h1 className="auth-header">Forgotten Password</h1>
+          <p className="font-thin  leading-2 mx-auto w-4/5">
             A reset link would be sent to your mail
           </p>
         </div>
@@ -62,7 +60,7 @@ export function ResetPassword() {
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
       <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
         <div className="flex flex-col gap-5 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold">Reset Password</h1>
+          <h1 className="auth-header">Reset Password</h1>
         </div>
         <form className="flex flex-col gap-3  md:gap-5 p-5 ">
           <div className="flex flex-col gap-2">
