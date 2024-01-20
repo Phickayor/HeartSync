@@ -49,7 +49,7 @@ function About(props) {
           </div>
           <button
             type="submit"
-            className="col-span-2 bg-[#584296] text-white mx-auto w-fit md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center mt-4"
+            className="col-span-2 bg-btnColor text-white mx-auto w-fit md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center mt-4"
           >
             Save
           </button>
