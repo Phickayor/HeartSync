@@ -20,7 +20,7 @@ function About(props) {
             <input
               type="text"
               required
-              className="bg-inputBg md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -28,7 +28,7 @@ function About(props) {
             <input
               type="date"
               required
-              className="bg-inputBg md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -36,7 +36,7 @@ function About(props) {
             <input
               type="text"
               required
-              className="bg-inputBg md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -44,12 +44,12 @@ function About(props) {
             <input
               type="email"
               required
-              className="bg-inputBg md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <button
             type="submit"
-            className="col-span-2 bg-btnColor text-white mx-auto w-fit md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center mt-4"
+            className="col-span-2 bg-btnColor text-white mx-auto w-fit px-12 md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center mt-4"
           >
             Save
           </button>

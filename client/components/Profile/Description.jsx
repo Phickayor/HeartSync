@@ -35,7 +35,7 @@ function Description(props) {
           </div>
           <button
             type="submit"
-            className="bg-[#584296] text-white mx-auto w-fit md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center"
+            className="bg-[#584296] text-white mx-auto w-fit px-12 md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center"
           >
             Save
           </button>

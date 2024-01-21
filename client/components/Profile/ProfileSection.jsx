@@ -13,7 +13,7 @@ function ProfileSection(props) {
             All details here would show on your public feed
           </p>
         </div>
-        <div className="flex mx-auto w-fit gap-5">
+        <div className="flex mx-auto w-fit gap-2 md:gap-5 md:[&>*]:w-fit [&>*]:w-28">
           <img src="/images/profile-1.png" />
           <img src="/images/profile-2.png" />
           <img src="/images/profile-3.png" />
@@ -27,7 +27,7 @@ function ProfileSection(props) {
           {/* <button type="submit" className="bg-[#584296] text-white mx-auto w-fit md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center"> */}
           <Link
             href="/profile/match-making"
-            className="bg-[#584296] text-white mx-auto w-fit md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center"
+            className="bg-[#584296] text-white mx-auto w-fit px-12 md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center"
           >
             Save
           </Link>
