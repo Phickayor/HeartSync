@@ -7,10 +7,9 @@ const generateOtp = require("../utilities/generateOtp");
 
 const registerAUser = async (req, res) => {
   try {
-    let { email, password, firstName } = req.body;
+    let { email, password } = req.body;
     const hashedPassword = await handleEncryption(password);
     const createAccount = await authModel.create({
-      firstName,
       email,
       password: hashedPassword
     });
@@ -38,6 +37,8 @@ const logInUser = async (req, res) => {
           message: `Successful Login`,
           data: token
         });
+      } else {
+        res.status(403).json({ mesage: "incorrect password" });
       }
     } else {
       res.status(403).json({ mesage: "This Account does not exist" });
@@ -60,9 +61,9 @@ const sendVerificationMail = async (req, res) => {
       if (err) {
         res.status(502).json({ error: err.message });
       } else {
-        console.log(info.response);
+        console.log(info.response + "\n" + otp);
 
-        res.status(200).json({ success: true, otp, status: info.response });
+        res.status(200).json({ success: true, status: info.response });
       }
     });
   } catch (error) {
@@ -79,7 +80,6 @@ const checkAuth = async (req, res, next) => {
       var justToken = justTokenArray.join("");
       var { _id } = accessPayload(justToken);
       var userAuth = await authModel.findOne({ _id });
-      console.log(userAuth);
       //Proceed on success
       userAuth
         ? ((req.body.auth = { ...userAuth }), next())
@@ -90,13 +90,30 @@ const checkAuth = async (req, res, next) => {
       res.status(403).json({ message: "No Authorization Header" });
     }
   } catch (error) {
-    res.status(403).json({ message: error });
+    res.status(403).json({ message: error.message });
   }
 };
-
+const deleteAccount = async (req, res) => {
+  try {
+    var deleteProfile = await profileModel.deleteOne({
+      auth: req.body.auth._id
+    });
+    var deleteAuth = await authModel.deleteOne({ _id: req.body.auth._id });
+    if (deleteProfile && deleteAuth) {
+      req.body = "";
+      req.headers.authorization = "";
+      res
+        .status(200)
+        .json({ message: "Account Successfully deleted", data: req.headers });
+    }
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
+};
 module.exports = {
   registerAUser,
   logInUser,
   sendVerificationMail,
-  checkAuth
+  checkAuth,
+  deleteAccount
 };

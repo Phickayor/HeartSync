@@ -13,6 +13,5 @@ router.post("/create", checkAuth, createProfile);
 router.patch("/edit", checkAuth, editProfile);
 router.post("/reportUser");
 router.get("/blockUser");
-router.delete("/delete", checkAuth, deleteAccount);
 
 module.exports = router;

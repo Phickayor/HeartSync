@@ -102,12 +102,10 @@ const profileSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  preference: [
-    {
-      ref: "preference",
-      type: mongoose.Schema.Types.ObjectId
-    }
-  ],
+  preference: {
+    ref: "preference",
+    type: mongoose.Schema.Types.ObjectId
+  },
   mutualMatches: [
     {
       ref: "mutualMatches",

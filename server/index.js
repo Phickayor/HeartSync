@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", auth_route);
 app.use("/profile", profile_route);
-app.use("/preferences", preference_route);
+app.use("/preference", preference_route);
 app.use("/matches", matches_route);
 app.use("/feedbacks", feedbacks_route);
 app.use("/chat", chat_route);

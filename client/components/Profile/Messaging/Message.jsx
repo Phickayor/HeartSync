@@ -40,7 +40,7 @@ function Message() {
         <input
           type="text"
           className="self-center bg-white/0 text-white w-full text-lg px-2 focus:outline-none"
-          placeholder="Search here..."
+          placeholder="Message"
         />
         <div className="flex self-center gap-3 text-white text-2xl">
           <AiOutlinePicture />

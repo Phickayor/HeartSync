@@ -10,10 +10,6 @@ const authSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"]
   },
-  firstName: {
-    type: String,
-    required: [true, "User name is required"]
-  },
   isEmailVerified: {
     type: Boolean,
     default: false
