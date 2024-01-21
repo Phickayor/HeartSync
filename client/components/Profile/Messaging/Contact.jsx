@@ -16,12 +16,12 @@ function Contact() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-6 py-8">
+      <div className="flex flex-col gap-4 py-8">
         {names.map((name, index) => (
-          <div key={index} className="bg-[#131313] rounded-2xl flex p-4 cursor-pointer gap-5">
-            <img src={`/images/profile-${index+1}.png`} className="w-16 h-16  self-center"/>
+          <div key={index} className="bg-[#131313] rounded-2xl flex py-2 px-4 cursor-pointer gap-5">
+            <img src={`/images/profile-${index+1}.png`} className="w-16 h-16 self-center"/>
             <div className="self-center gap-3">
-              <h3 className="text-2xl">{name}</h3>
+              <h3 className="text-xl">{name}</h3>
               <span className="font-light text-[#B7B7B7]">Active 2hrs ago</span>
             </div>
           </div>
