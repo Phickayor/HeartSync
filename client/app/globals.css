@@ -5,15 +5,19 @@
 label {
   @apply font-thin;
 }
-.auth-header{
-    @apply text-2xl md:text-3xl font-medium text-center
+.auth-header {
+  @apply text-2xl md:text-3xl font-medium text-center;
 }
-.description-items div{
-  @apply bg-inputBg text-center font-medium py-5 rounded-full cursor-pointer
+.description-items div {
+  @apply bg-inputBg text-center font-medium py-5 rounded-full cursor-pointer;
 }
-.preference-items div{
-  @apply bg-white text-center font-medium py-5 rounded-full cursor-pointer
+.preference-items div {
+  @apply bg-white text-center font-medium py-5 rounded-full cursor-pointer;
 }
-.description-items div:hover,  .preference-items div:hover{
-  @apply bg-purple-500 text-white 
+.description-items div:hover,
+.preference-items div:hover {
+  @apply bg-purple-500 text-white;
+}
+.activityBar {
+  @apply self-center hover:bg-btnColor px-6 py-4 rounded-xl duration-300;
 }

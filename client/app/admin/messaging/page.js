@@ -6,7 +6,7 @@ import React from "react";
 function page() {
   return (
     <div className="fixed flex h-screen w-full">
-      <ActivityBar />
+      <ActivityBar activeBar={"message"}/>
       <Contact />
       <Message/>
     </div>
