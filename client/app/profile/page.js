@@ -1,7 +1,8 @@
 "use client";
-import About from "@/components/Profile/About";
-import Description from "@/components/Profile/Description";
-import ProfileSection from "@/components/Profile/ProfileSection";
+
+import About from "@/components/Setup/About";
+import Description from "@/components/Setup/Description";
+import ProfileSection from "@/components/Setup/ProfileSection";
 import React, { useState } from "react";
 
 function page() {

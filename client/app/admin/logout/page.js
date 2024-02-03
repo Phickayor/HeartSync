@@ -1,5 +1,5 @@
-import ActivityBar from "@/components/Profile/ActivityBar";
-import Logout from "@/components/Profile/Logout";
+import ActivityBar from "@/components/Admin/ActivityBar";
+import Logout from "@/components/Admin/Logout";
 import React from "react";
 
 function page() {

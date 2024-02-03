@@ -1,5 +1,5 @@
 "use client";
-import ActivityBar from "@/components/Profile/ActivityBar";
+import ActivityBar from "@/components/Admin/ActivityBar";
 import baseUrl from "@/config/server";
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";

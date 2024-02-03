@@ -1,14 +1,12 @@
 import ActivityBar from "@/components/Admin/ActivityBar";
-import Contact from "@/components/Admin/Messaging/Contact";
-import Message from "@/components/Admin/Messaging/Message";
+import Profile from "@/components/Admin/Profile";
 import React from "react";
 
 function page() {
   return (
     <div className="fixed flex h-screen w-full">
-      <ActivityBar activeBar={"message"}/>
-      <Contact />
-      <Message/>
+      <ActivityBar activeBar={"profile"} />
+      <Profile/>
     </div>
   );
 }

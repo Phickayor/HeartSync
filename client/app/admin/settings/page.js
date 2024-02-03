@@ -1,7 +1,7 @@
 "use client";
-import ActivityBar from "@/components/Profile/ActivityBar";
-import AllSetings from "@/components/Profile/Settings/AllSetings";
-import EditProfile from "@/components/Profile/Settings/EditProfile";
+import ActivityBar from "@/components/Admin/ActivityBar";
+import AllSetings from "@/components/Admin/Settings/AllSetings";
+import EditProfile from "@/components/Admin/Settings/EditProfile";
 import React, { useState } from "react";
 
 function page() {
