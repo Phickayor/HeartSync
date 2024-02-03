@@ -1,6 +1,9 @@
+"use client";
 import React from "react";
-
-function AllSetings() {
+function AllSetings(props) {
+  const handleEdit = (name) => {
+    props.editHandler(name);
+  };
   return (
     <div className="bg-[#171717] w-full py-10 text-white flex">
       <div className="mx-auto w-10/12 self-center relative rounded-2xl bg-[#1E1D1D] pb-12 h-[85vh] overflow-y-auto">
@@ -26,7 +29,10 @@ function AllSetings() {
                 www.hibuddy/sanjo.tech
               </span>
             </div>
-            <span className="text-sm font-semibold underline cursor-pointer cursor-pointer">
+            <span
+              onClick={() => handleEdit("Username")}
+              className="text-sm font-semibold underline cursor-pointer"
+            >
               Edit
             </span>
           </div>
@@ -37,7 +43,10 @@ function AllSetings() {
                 tapeyjunior@gmail.com
               </span>
             </div>
-            <span className="text-sm font-semibold underline cursor-pointer cursor-pointer">
+            <span
+              onClick={() => handleEdit("Email")}
+              className="text-sm font-semibold underline cursor-pointer"
+            >
               Edit
             </span>
           </div>
@@ -48,7 +57,10 @@ function AllSetings() {
                 +234 (70) 2304 - 5392
               </span>
             </div>
-            <span className="text-sm font-semibold underline cursor-pointer cursor-pointer">
+            <span
+              onClick={() => handleEdit("Phone Number")}
+              className="text-sm font-semibold underline cursor-pointer"
+            >
               Edit
             </span>
           </div>
@@ -57,7 +69,10 @@ function AllSetings() {
               <h3>Password</h3>
               <span className="text-sm text-[#717171]">*****************</span>
             </div>
-            <span className="text-sm font-semibold underline cursor-pointer cursor-pointer">
+            <span
+              onClick={() => handleEdit("Password")}
+              className="text-sm font-semibold underline cursor-pointer"
+            >
               Edit
             </span>
           </div>

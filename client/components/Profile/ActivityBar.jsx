@@ -33,9 +33,14 @@ function ActivityBar({ activeBar }) {
       >
         <AiOutlineSetting className="text-2xl" />
       </Link>
-      <div className="self-center hover:bg-btnColor px-6 py-4 rounded-xl duration-300">
+      <Link
+        href="/admin/logout"
+        className={
+          activeBar == "logout" ? "activityBar bg-btnColor" : "activityBar"
+        }
+      >
         <AiOutlineLogout className="text-2xl" />
-      </div>
+      </Link>
     </div>
   );
 }

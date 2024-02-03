@@ -9,18 +9,26 @@ const registerAUser = async (req, res) => {
   try {
     let { email, password } = req.body;
     const hashedPassword = await handleEncryption(password);
-    const createAccount = await authModel.create({
-      email,
-      password: hashedPassword
-    });
-    if (createAccount) {
-      res.status(200).json({
-        message: "Account created Sucessfully",
-        success: true
+    const findUser = await authModel.findOne({ email });
+    if (findUser) {
+      res.status(403).json({
+        message: "Account already exist",
+        success: false
       });
+    } else {
+      const createAccount = await authModel.create({
+        email,
+        password: hashedPassword
+      });
+      if (createAccount) {
+        res.status(200).json({
+          message: "Account created Sucessfully",
+          success: true
+        });
+      }
     }
   } catch (error) {
-    res.status(502).json({ error: error.message, success: false });
+    res.status(502).json({ message: error.message, success: false });
   }
 };
 
@@ -35,26 +43,81 @@ const logInUser = async (req, res) => {
         var token = signPayload({ ...userAuth._doc });
         res.status(200).json({
           message: `Successful Login`,
-          data: token
+          token
         });
       } else {
-        res.status(403).json({ mesage: "incorrect password" });
+        res.status(403).json({ message: "Incorrect password" });
       }
     } else {
-      res.status(403).json({ mesage: "This Account does not exist" });
+      res.status(403).json({ message: "This Account does not exist" });
     }
   } catch (error) {
-    res.status(502).json({ error: error.message });
+    res.status(502).json({ message: error.message });
   }
 };
 const sendVerificationMail = async (req, res) => {
   try {
     var otp = generateOtp(6);
+    const verificationMail = `<!DOCTYPE html>
+      <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Account Verification - OTP</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                }
+
+                h2 {
+                    color: #333;
+                }
+
+                p {
+                    color: #555;
+                }
+
+                .otp-code {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #007BFF;
+                }
+
+                .note {
+                    color: #777;
+                }
+            </style>
+        </head>
+
+        <body>
+            <h2>Account Verification - One-Time Password (OTP)</h2>
+
+            <p>Dear Olufikayomi,</p>
+
+            <p>We hope this email finds you well. Thank you for choosing HiBuddy and creating an account with us. To ensure the security of your account, we require you to verify your email address.</p>
+
+            <p>Please use the following One-Time Password (OTP) to complete the verification process: <span class="otp-code">${otp}</span></p>
+
+            <p class="note"><strong>IMPORTANT:</strong> Do not share this OTP with anyone, including HiBuddy support. We will never ask for your OTP or any sensitive information. Keep your account secure by keeping this code confidential.</p>
+
+            <p>If you did not attempt to create an account with HiBuddy, please ignore this email. It's possible that someone entered your email address by mistake.</p>
+
+            <p>Thank you for choosing HiBuddy. We appreciate your trust and look forward to providing you with a seamless and secure experience.</p>
+
+            <p>Best regards,</p>
+            <p>HiBuddy</p>
+            <p>helpdesk@hibuddy.com</p>
+        </body>
+
+      </html>
+`;
     const mailOptions = {
       from: "jetawof@gmail.com",
       to: req.query.mailAddress,
-      subject: "Email Verification",
-      html: `Hello there,</b> <br/><br/> This is your OTP to Verify your email on <b>Baby BOo</b>: ${otp} .<br/><br/> <i>PS: OTP expires in 5 minutes time.</i> <br/><br/><b> Thanks, from Baby Boo Team</b>`
+      subject: "Verify your new HiBuddy Account",
+      html: verificationMail
     };
 
     transporter.sendMail(mailOptions, (err, info) => {
@@ -67,7 +130,7 @@ const sendVerificationMail = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(502).json({ error: error.message });
+    res.status(502).json({ message: error.message });
   }
 };
 const checkAuth = async (req, res, next) => {

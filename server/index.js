@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const auth_route = require("./src/routes/auth.route");
 const profile_route = require("./src/routes/profile.route");
@@ -11,7 +12,7 @@ const bodyParser = require("body-parser");
 connectToDb();
 
 app.use(bodyParser.json());
-
+app.use(cors());
 app.get("/", (req, res) => {
   res.send("Welcome to the backend of BabyBoo");
 });
