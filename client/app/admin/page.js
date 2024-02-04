@@ -1,5 +1,6 @@
 "use client";
 import ActivityBar from "@/components/Admin/ActivityBar";
+import Home from "@/components/Admin/Home";
 import baseUrl from "@/config/server";
 import Cookies from "js-cookie";
 import React, { useEffect } from "react";
@@ -22,6 +23,7 @@ function page() {
   return (
     <div className="fixed flex h-screen w-full">
       <ActivityBar activeBar={"home"} />
+      <Home />
     </div>
   );
 }

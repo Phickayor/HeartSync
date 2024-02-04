@@ -31,8 +31,8 @@ function Profile() {
             <span>10 rejected</span>
           </div>
           <p className="font-light w-[24rem]">
-            I believe in express my designs as art i design to pass emotions not
-            just to pass message
+            I believe in expressing my designs as art, I design to pass emotions not
+            just to pass messages.
           </p>
         </div>
       </div>
