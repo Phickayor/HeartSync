@@ -10,7 +10,7 @@ function Profile() {
     "Techie"
   ];
   return (
-    <div className="bg-[#171717] w-full p-28 text-white">
+    <div className="bg-[#171717] w-full p-20 text-white">
       <div className="flex gap-14">
         <img src="/images/profile-3.png" className="self-center" />
         <div className="flex flex-col gap-4">
@@ -31,8 +31,8 @@ function Profile() {
             <span>10 rejected</span>
           </div>
           <p className="font-light w-[24rem]">
-            I believe in expressing my designs as art, I design to pass emotions not
-            just to pass messages.
+            I believe in expressing my designs as art, I design to pass emotions
+            not just to pass messages.
           </p>
         </div>
       </div>
