@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 function AllSetings(props) {
-  const handleEdit = (name) => {
-    props.editHandler(name);
+  const handleEdit = (name, key) => {
+    props.editHandler(name, key);
   };
   return (
     <div className="bg-[#171717] w-full py-10 text-white flex">
@@ -26,11 +26,11 @@ function AllSetings(props) {
             <div className="self-center">
               <h3>Username</h3>
               <span className="text-sm text-[#717171]">
-                www.hibuddy/sanjo.tech
+                www.hibuddy/{props?.profileInfo?.profile?.userName}
               </span>
             </div>
             <span
-              onClick={() => handleEdit("Username")}
+              onClick={() => handleEdit("Username", "userName")}
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -40,11 +40,11 @@ function AllSetings(props) {
             <div className=" self-center">
               <h3>Email address</h3>
               <span className="text-sm text-[#717171]">
-                tapeyjunior@gmail.com
+                {props?.authInfo?.userAuth?.email}
               </span>
             </div>
             <span
-              onClick={() => handleEdit("Email")}
+              onClick={() => handleEdit("Email", "email")}
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -54,11 +54,11 @@ function AllSetings(props) {
             <div className=" self-center">
               <h3>Phone number(s)</h3>
               <span className="text-sm text-[#717171]">
-                +234 (70) 2304 - 5392
+                +234 (0) {props?.profileInfo?.profile?.phoneNumber}
               </span>
             </div>
             <span
-              onClick={() => handleEdit("Phone Number")}
+              onClick={() => handleEdit("Phone Number", "phoneNumber")}
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -70,7 +70,7 @@ function AllSetings(props) {
               <span className="text-sm text-[#717171]">*****************</span>
             </div>
             <span
-              onClick={() => handleEdit("Password")}
+              onClick={() => handleEdit("Password", "password")}
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -81,7 +81,7 @@ function AllSetings(props) {
               <h3>Change preferences</h3>
               <span className="text-sm text-[#717171]">Not provided</span>
             </div>
-            <span className="text-sm font-semibold underline cursor-pointer cursor-pointer">
+            <span className="text-sm font-semibold underline cursor-pointer">
               Edit
             </span>
           </div>

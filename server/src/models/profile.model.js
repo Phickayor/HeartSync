@@ -1,6 +1,11 @@
 const { mongoose } = require("mongoose");
 
 const profileSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    required: [true, "Users name is required"],
+    unique: true
+  },
   firstName: {
     type: String,
     required: [true, "Users name is required"]

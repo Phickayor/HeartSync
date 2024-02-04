@@ -1,23 +1,22 @@
 "use client";
 import ActivityBar from "@/components/Admin/ActivityBar";
 import Profile from "@/components/Admin/Profile";
-import { CheckAuth } from "@/components/Controllers/CheckAuth";
-import Cookies from "js-cookie";
+import { GetProfile } from "@/components/Controllers/ProfileController";
 import React, { useEffect, useState } from "react";
 
-function page() {
+function page({ params }) {
   const [profileInfo, setProfileInfo] = useState({});
-  const token = Cookies.get("token");
   useEffect(() => {
     const fetchDetails = async () => {
-      var profile = await CheckAuth(token);
-      setProfileInfo(profile);
+      var user = await GetProfile(params.username);
+      setProfileInfo(user);
+      console.log(user);
     };
     fetchDetails();
   }, []);
   return (
     <div className="fixed flex h-screen w-full">
-      <ActivityBar activeBar={"profile"} />
+      <ActivityBar activeBar={"home"} />
       <Profile profileInfo={profileInfo} />
     </div>
   );

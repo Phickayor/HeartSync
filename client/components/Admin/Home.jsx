@@ -20,8 +20,11 @@ function Home() {
         />
       </div>
       <div className=" mx-auto w-11/12 pt-10 flex gap-8 flex-1 overflow-x-auto">
-        {arr.map(() => (
-          <div className="relative group bg-[#242424] flex flex-col h-full rounded-3xl">
+        {arr.map((ar, index) => (
+          <div
+            key={index}
+            className="relative group bg-[#242424] flex flex-col h-full rounded-3xl"
+          >
             {/* <div className="grid grid-cols-3 p-8 gap-4">
             <div className="py-1 rounded-full bg-white"></div>
             <div className="py-1 rounded-full bg-white"></div>

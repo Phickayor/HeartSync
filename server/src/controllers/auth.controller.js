@@ -156,6 +156,33 @@ const checkAuth = async (req, res, next) => {
     res.status(403).json({ message: error.message });
   }
 };
+const getAuth = async (req, res) => {
+  try {
+    var userAuth = await authModel.findOne({ _id: req.params.authId });
+    userAuth
+      ? res.status(200).json({ userAuth })
+      : res.status(404).json({ message: error.message });
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+};
+const editAuth = async (req, res) => {
+  try {
+    var updateAuth = await authModel.findByIdAndUpdate(
+      req.body.auth._doc._id,
+      req.body
+    );
+    updateAuth
+      ? res.status(200).json({ message: "Profile updated successfully" })
+      : res
+          .status(501)
+          .json({ message: "An error occured while updating profile " });
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+  res.end();
+};
+
 const deleteAccount = async (req, res) => {
   try {
     var deleteProfile = await profileModel.deleteOne({
@@ -170,7 +197,7 @@ const deleteAccount = async (req, res) => {
         .json({ message: "Account Successfully deleted", data: req.headers });
     }
   } catch (error) {
-    res.status(501).json({ error: error.message });
+    res.status(501).json({ message: error.message });
   }
 };
 module.exports = {
@@ -178,5 +205,7 @@ module.exports = {
   logInUser,
   sendVerificationMail,
   checkAuth,
+  getAuth,
+  editAuth,
   deleteAccount
 };

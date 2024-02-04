@@ -1,5 +1,5 @@
 import React from "react";
-function Profile() {
+function Profile({ profileInfo }) {
   const preferences = [
     "Introvert",
     "Tall",
@@ -15,7 +15,9 @@ function Profile() {
         <img src="/images/profile-3.png" className="self-center" />
         <div className="flex flex-col gap-4">
           <div className="flex w-fit gap-8 h-fit">
-            <h1 className="text-2xl self-center">Liger_325</h1>
+            <h1 className="text-2xl self-center">
+              {profileInfo?.profile?.userName}
+            </h1>
             <div className="space-x-3 text-sm">
               <button className="bg-[#4c4c4c] px-6 py-2 rounded-xl ">
                 Chat with
@@ -30,9 +32,8 @@ function Profile() {
             <span>40 friends</span>
             <span>10 rejected</span>
           </div>
-          <p className="font-light w-[24rem]">
-            I believe in expressing my designs as art, I design to pass emotions
-            not just to pass messages.
+          <p className="font-light leadng-[2rem] w-[32rem]">
+            {profileInfo?.profile?.longBio}
           </p>
         </div>
       </div>

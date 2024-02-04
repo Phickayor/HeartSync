@@ -1,11 +1,44 @@
 "use client";
+import { AuthEdit } from "@/components/Controllers/CheckAuth";
+import { ProfileEdit } from "@/components/Controllers/ProfileController";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { AiFillCloseCircle, AiFillInfoCircle } from "react-icons/ai";
 
 function EditProfile(props) {
   const [errorMessage, setErrorMessage] = useState(null);
+  const [value, setValue] = useState(null);
+  const token = Cookies.get("token");
+
   const handleClose = () => {
     props.editHandler(null);
+  };
+
+  const handleProfileEdit = async (e) => {
+    e.preventDefault();
+    var payload = {
+      [props.keyName]: value
+    };
+    try {
+      var profileEdit = await ProfileEdit(token, payload);
+      alert(profileEdit.message);
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleAuthEdit = async (e) => {
+    e.preventDefault();
+    var payload = {
+      [props.keyName]: value
+    };
+    try {
+      var authEdit = await AuthEdit(token, payload);
+      alert(authEdit.message)
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className={`fixed h-screen z-20 w-full flex flex-col justify-center`}>
@@ -19,10 +52,21 @@ function EditProfile(props) {
             onClick={handleClose}
           />
         </div>
-        <div className="flex flex-col gap-5 pt-10">
+        <form
+          className="flex flex-col gap-5 pt-10"
+          onSubmit={
+            props.keyName == "email" || "password"
+              ? handleAuthEdit
+              : handleProfileEdit
+          }
+        >
           <input
             type="text"
             placeholder={`New ${props.name}...`}
+            name={props.keyName}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
             className="py-5 px-6 rounded-lg bg-[#1E1D1D] focus:outline-none"
           />
           {errorMessage ? (
@@ -39,7 +83,7 @@ function EditProfile(props) {
           >
             Save
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

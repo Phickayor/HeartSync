@@ -58,9 +58,17 @@ const getProfile = async (req, res) => {
     res.status(501).json({ error: error.message });
   }
 };
-
+const getAProfile = async (req, res) => {
+  try {
+    var profile = await profileModel.findOne({ userName: req.params.username });
+    res.status(200).json({ profile });
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
+};
 module.exports = {
   createProfile,
   editProfile,
-  getProfile
+  getProfile,
+  getAProfile
 };
