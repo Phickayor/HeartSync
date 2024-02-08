@@ -5,27 +5,37 @@ import EditProfile from "@/components/Admin/Settings/EditProfile";
 import { CheckAuth, GetAuth } from "@/components/Controllers/CheckAuth";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-function page() {
+function Page() {
   const [name, setName] = useState(null);
-  const [keyName, setKeyName] = useState("null");
+  const [keyName, setKeyName] = useState(null);
   const [profileInfo, setProfileInfo] = useState({});
   const [authInfo, setAuthInfo] = useState({});
+  const router = useRouter();
   const token = Cookies.get("token");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [authorizationChecked, setAuthorizationChecked] = useState(false);
   const handleEdit = (name, key) => {
     setName(name);
     setKeyName(key);
   };
+  const CheckAuthorization = async () => {
+    var user = await CheckAuth(token);
+    setIsAuthorized(user.success);
+    setAuthorizationChecked(true);
+    var profile = await CheckAuth(token);
+    setProfileInfo(profile);
+    var auth = await GetAuth(token, profile.profile.auth);
+    setAuthInfo(auth);
+  };
   useEffect(() => {
-    const fetchDetails = async () => {
-      var profile = await CheckAuth(token);
-      setProfileInfo(profile);
-      var auth = await GetAuth(token, profile.profile.auth);
-      setAuthInfo(auth);
-    };
-    fetchDetails();
+    CheckAuthorization();
   }, []);
-  return (
+  if (!authorizationChecked) {
+    return null;
+  }
+  return isAuthorized ? (
     <div className="fixed flex h-screen w-full">
       <ActivityBar activeBar={"settings"} />
       <AllSetings
@@ -39,6 +49,9 @@ function page() {
         <></>
       )}
     </div>
+  ) : (
+    router.push("/auth")
   );
 }
-export default page;
+
+export default Page;

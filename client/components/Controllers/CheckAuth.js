@@ -2,21 +2,25 @@ const baseUrl = require("@/config/server");
 
 const CheckAuth = async (token) => {
   try {
-    const res = await fetch(`${baseUrl}/profile/`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${JSON.parse(token)}`
-      }
-    });
-    const data = await res.json();
-    return res.ok ? data : alert(data.message);
+    if (token) {
+      const res = await fetch(`${baseUrl}/profile/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${JSON.parse(token)}`
+        }
+      });
+      const data = await res.json();
+      return data;
+    } else {
+      return { success: false, message: "No token was provided" };
+    }
   } catch (error) {
     console.log(error);
   }
 };
 
 const GetAuth = async (token, authId) => {
-  try {   
+  try {
     const res = await fetch(`${baseUrl}/auth/${authId}`, {
       method: "GET",
       headers: {
@@ -24,7 +28,7 @@ const GetAuth = async (token, authId) => {
       }
     });
     const data = await res.json();
-    return res.ok ? data : alert(data.message);
+    return data;
   } catch (error) {
     console.log(error);
   }
@@ -46,4 +50,4 @@ const AuthEdit = async (token, payload) => {
     console.log(error);
   }
 };
-module.exports = { CheckAuth, GetAuth,AuthEdit };
+module.exports = { CheckAuth, GetAuth, AuthEdit };

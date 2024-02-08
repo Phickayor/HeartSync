@@ -53,9 +53,9 @@ const getProfile = async (req, res) => {
     var profile = await profileModel.findOne({ auth: req.body.auth._doc._id });
     profile
       ? res.status(200).json({ success: true, profile })
-      : res.status(404).json({ message: "No profile found" });
+      : res.status(404).json({success:false, message: "No profile found" });
   } catch (error) {
-    res.status(501).json({ error: error.message });
+    res.status(501).json({ success: false, error: error.message });
   }
 };
 const getAProfile = async (req, res) => {
