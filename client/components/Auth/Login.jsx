@@ -6,11 +6,13 @@ import baseUrl from "@/config/server";
 import ButtonLoader from "../Loaders/ButtonLoader";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+
 function Login() {
   const [email, SetEmail] = useState();
   const [password, SetPassword] = useState();
   const [loader, SetLoader] = useState(false);
   const router = useRouter();
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     SetLoader(true);          

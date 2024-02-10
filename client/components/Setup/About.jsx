@@ -1,9 +1,22 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { CreateProfile } from "../Controllers/ProfileController";
+import Cookies from "js-cookie";
 
 function About(props) {
-  const HandleSubmit = (e) => {
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [userName, setUserName] = useState();
+  const [dob, setDob] = useState();
+  const token = Cookies.get("token");
+  const HandleSubmit = async (e) => {
     e.preventDefault();
-    props.contentHandler("description");
+    const payload = { firstName, lastName, userName, dob };
+    const submission = await CreateProfile(token, payload);
+    console.log(token);
+    submission.success
+      ? props.contentHandler("description")
+      : alert(submission.message);
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5">
@@ -16,18 +29,22 @@ function About(props) {
           onSubmit={HandleSubmit}
         >
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Full name</label>
+            <label className="font-normal">First name</label>
             <input
               type="text"
               required
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
               className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Date of birth</label>
+            <label className="font-normal">Last name</label>
             <input
-              type="date"
+              type="text"
               required
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
@@ -36,14 +53,18 @@ function About(props) {
             <input
               type="text"
               required
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Email Address</label>
+            <label className="font-normal">Date of birth</label>
             <input
-              type="email"
+              type="date"
               required
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
               className="bg-inputBg py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>

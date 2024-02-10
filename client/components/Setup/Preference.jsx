@@ -1,14 +1,23 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 function Preference() {
+  const [notificationState, setNotificationState] = useState("block");
   return (
     <div className="py-8">
-      <div className="bg-notification text-white mx-auto w-10/12 py-5 px-16 flex justify-between rounded-2xl">
+      <div
+        className={`self-center ${notificationState} bg-notification text-white mx-auto w-10/12 py-5 px-16 flex justify-between rounded-2xl duration-300`}
+      >
         <span className="self-center">
           🙂🙂 You can select more than one button , what you select would
           decide people you see on your profile
         </span>
-        <FaTimesCircle className="text-2xl self-center" />
+        <FaTimesCircle
+          className="text-2xl self-center"
+          onClick={() => {
+            setNotificationState("hidden");
+          }}
+        />
       </div>
       <div className="mx-auto w-10/12 space-y-8 py-8">
         <div className="flex flex-col gap-6 ">

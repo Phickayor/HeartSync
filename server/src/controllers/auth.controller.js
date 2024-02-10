@@ -21,9 +21,12 @@ const registerAUser = async (req, res) => {
         password: hashedPassword
       });
       if (createAccount) {
+        const userAuth = await authModel.findOne({ email });
+        var token = signPayload({ ...userAuth._doc });
         res.status(200).json({
           message: "Account created Sucessfully",
-          success: true
+          success: true,
+          token
         });
       }
     }

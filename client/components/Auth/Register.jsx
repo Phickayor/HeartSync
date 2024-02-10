@@ -1,17 +1,16 @@
 "use client";
 import baseUrl from "@/config/server";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import ButtonLoader from "../Loaders/ButtonLoader";
-function Register() {
+import Cookies from "js-cookie";
+function Register(props) {
   const [email, setEmail] = useState("");
   const [pswd1, setPswd1] = useState("");
   const [pswd2, setPswd2] = useState("");
   const [loader, SetLoader] = useState(false);
   const [pswdError, setPswdError] = useState("");
   var password;
-  const router = useRouter();
   const handleMatchingPassword = () => {
     // e.preventDefault();
     try {
@@ -36,20 +35,21 @@ function Register() {
           body: JSON.stringify({ email, password })
         });
         const data = await res.json();
-        console.log(data);
+
         res.ok
-          ? (Swal.fire({
+          ? (Cookies.set("token", JSON.stringify(data?.token)),
+            Swal.fire({
               title: "Success!",
               text: "Account Created Successfully",
               icon: "success"
             }),
-            router.push("/auth/verify"))
+            props.contentHandler("about"))
           : Swal.fire({
               icon: "error",
               title: data.message
             });
       } else {
-        setPswdError("* Password should be the same as above *");
+        setPswdError("*Password should be the same as above *");
       }
     } catch (error) {
       console.error(error.message);

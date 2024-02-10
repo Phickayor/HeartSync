@@ -33,7 +33,11 @@ function Page() {
     CheckAuthorization();
   }, []);
   if (!authorizationChecked) {
-    return null;
+    return (
+      <div className="fixed flex h-screen w-full">
+        <ActivityBar activeBar={"settings"} />
+      </div>
+    );
   }
   return isAuthorized ? (
     <div className="fixed flex h-screen w-full">

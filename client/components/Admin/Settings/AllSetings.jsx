@@ -8,18 +8,18 @@ function AllSetings(props) {
     <div className="bg-[#171717] w-full py-10 text-white flex">
       <div className="mx-auto w-10/12 self-center relative rounded-2xl bg-[#1E1D1D] pb-12 h-[85vh] overflow-y-auto">
         <div className="rounded-2xl sticky top-0 bg-[#232222] py-4 flex justify-center gap-5 text-sm text-center ">
-          <div className="flex flex-col gap-2">
-            <img src="/images/profile-1.png" alt="" className="w-20 h-20" />
-            <span>Edit Profile</span>
-          </div>
-          <div className="flex flex-col gap-2">
-            <img src="/images/profile-2.png" alt="" className="w-20 h-20" />
-            <span>Edit Profile</span>
-          </div>
-          <div className="flex flex-col gap-2">
-            <img src="/images/profile-3.png" alt="" className="w-20 h-20" />
-            <span>Edit Profile</span>
-          </div>
+          {props?.profileInfo?.profile?.pictures.map((pic, index) => (
+            <div className="flex flex-col gap-2" key={index}>
+              <img
+                src={pic}
+                alt=""
+                className="w-20 h-20 self-center object-cover rounded-full border-2 border-btnColor"
+              />
+              <a href="" className="underline">
+                Edit Profile
+              </a>
+            </div>
+          ))}
         </div>
         <div className="flex flex-col gap-2 px-10 py-5 overflow-y-hidden ">
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
@@ -52,9 +52,11 @@ function AllSetings(props) {
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
             <div className=" self-center">
-              <h3>Phone number(s)</h3>
+              <h3>Phone number</h3>
               <span className="text-sm text-[#717171]">
-                +234 (0) {props?.profileInfo?.profile?.phoneNumber}
+                {props?.profileInfo?.profile?.phoneNumber
+                  ? "+234 (0) " + props.profileInfo.profile.phoneNumber
+                  : "Not Provided"}
               </span>
             </div>
             <span

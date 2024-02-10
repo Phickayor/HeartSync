@@ -1,18 +1,17 @@
 import React from "react";
 function Profile({ profileInfo }) {
   const preferences = [
-    "Introvert",
-    "Tall",
-    "Loves to cook",
-    "Christian",
-    "Male",
-    "Creative",
-    "Techie"
+    profileInfo?.profile?.gender,
+    profileInfo?.profile?.height,
+    profileInfo?.profile?.weight
   ];
   return (
     <div className="bg-[#171717] w-full p-20 text-white">
       <div className="flex gap-14">
-        <img src="/images/profile-3.png" className="self-center" />
+        <img
+          src={profileInfo?.profile?.pictures[0]}
+          className="w-32 h-32 object-cover rounded-full border-2 border-btnColor self-center"
+        />
         <div className="flex flex-col gap-4">
           <div className="flex w-fit gap-8 h-fit">
             <h1 className="text-2xl self-center">
