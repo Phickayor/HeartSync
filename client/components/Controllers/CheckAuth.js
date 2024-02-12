@@ -12,7 +12,7 @@ const CheckAuth = async (token) => {
       const data = await res.json();
       return data;
     } else {
-      return { success: false, message: "No token was provided" };
+      return { success: false, message: "You are not signed in" };
     }
   } catch (error) {
     console.log(error);

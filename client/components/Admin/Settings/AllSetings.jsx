@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 function AllSetings(props) {
   const handleEdit = (name, key) => {
@@ -9,7 +10,7 @@ function AllSetings(props) {
       <div className="mx-auto w-10/12 self-center relative rounded-2xl bg-[#1E1D1D] pb-12 h-[85vh] overflow-y-auto">
         <div className="rounded-2xl sticky top-0 bg-[#232222] py-4 flex justify-center gap-5 text-sm text-center ">
           {props?.profileInfo?.profile?.pictures.map((pic, index) => (
-            <div className="flex flex-col gap-2" key={index}>
+            <div className="fle x flex-col gap-2" key={index}>
               <img
                 src={pic}
                 alt=""
@@ -81,11 +82,18 @@ function AllSetings(props) {
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
             <div className=" self-center">
               <h3>Change preferences</h3>
-              <span className="text-sm text-[#717171]">Not provided</span>
+              <span className="text-sm text-[#717171]">
+                {props?.profileInfo?.profile?.preferences
+                  ? props.profileInfo.profile.preferences.join(", ")
+                  : "Not Provided"}
+              </span>
             </div>
-            <span className="text-sm font-semibold underline cursor-pointer">
+            <Link
+              href="/profile/preferences"
+              className="text-sm font-semibold underline cursor-pointer"
+            >
               Edit
-            </span>
+            </Link>
           </div>
         </div>
       </div>

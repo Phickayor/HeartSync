@@ -16,7 +16,7 @@ function page({ params }) {
   }, []);
   return (
     <div className="fixed flex h-screen w-full">
-      <ActivityBar activeBar={"home"} />
+      <ActivityBar activeBar={"home"}  />
       <Profile profileInfo={profileInfo} />
     </div>
   );

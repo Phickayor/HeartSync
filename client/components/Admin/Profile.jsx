@@ -36,8 +36,19 @@ function Profile({ profileInfo }) {
           </p>
         </div>
       </div>
+
       <div className="py-10 grid grid-cols-4 gap-8">
         {preferences.map((preference, index) => (
+          <div
+            key={index}
+            className="py-4 bg-[#B093FF] text-black text-center rounded-full text-lg"
+          >
+            {preference}
+          </div>
+        ))}
+      </div>
+      <div className="py-10 grid grid-cols-4 gap-8">
+        {profileInfo?.profile?.preferences.map((preference, index) => (
           <div
             key={index}
             className="py-4 bg-[#B093FF] text-black text-center rounded-full text-lg"

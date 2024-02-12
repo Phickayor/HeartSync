@@ -7,17 +7,19 @@ const profileSchema = new mongoose.Schema({
     unique: true
   },
   firstName: {
-    type: String
+    type: String,
+    required: [true, "Firstname is required"]
   },
   lastName: {
-    type: String
+    type: String,
+    required: [true, "Lastname is required"]
   },
   dob: {
-    type: Date
+    type: Date,
+    required: [true, "Date Of Birth is required"]
   },
   gender: {
-    type: String,
-    enum: ["Male", "Female", "Non-binary"]
+    type: String
   },
   age: {
     type: Number
@@ -43,10 +45,12 @@ const profileSchema = new mongoose.Schema({
   },
   pictures: {
     type: [String],
+    default: [
+      "/images/profile-1.png",
+      "/images/profile-2.png",
+      "/images/profile-3.png"
+    ],
     data: Buffer
-  },
-  displayPicture: {
-    type: String
   },
   auth: {
     type: mongoose.Schema.Types.ObjectId,
@@ -54,9 +58,8 @@ const profileSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  preference: {
-    ref: "preference",
-    type: mongoose.Schema.Types.ObjectId
+  preferences: {
+    type: [String]
   },
   mutualMatches: [
     {

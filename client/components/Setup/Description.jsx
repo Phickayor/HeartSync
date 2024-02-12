@@ -21,7 +21,8 @@ function Description(props) {
     } else if (weight == null) {
       setErrorMessage("What category best fits your weight?");
     } else {
-      const profile = await ProfileEdit(token, { height, gender, weight });
+      const payload = { height, gender, weight };
+      const profile = await ProfileEdit(token, payload);
       profile.success
         ? props.contentHandler("profile")
         : Swal.fire({

@@ -11,11 +11,14 @@ label {
 .description-item {
   @apply duration-300 text-center font-medium py-5 rounded-full cursor-pointer;
 }
-.preference-items div {
+.preference-item {
   @apply bg-white text-center font-medium py-5 rounded-full cursor-pointer;
 }
+.active-preference-item {
+  @apply bg-purple-500 text-white text-center font-medium py-5 rounded-full cursor-pointer;
+}
 .description-item:hover,
-.preference-items div:hover {
+.preference-item:hover {
   @apply bg-purple-500 text-white;
 }
 .activityBar {

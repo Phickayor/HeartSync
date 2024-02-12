@@ -4,16 +4,15 @@ import { CreateProfile } from "../Controllers/ProfileController";
 import Cookies from "js-cookie";
 
 function About(props) {
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [userName, setUserName] = useState();
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [userName, setUserName] = useState(null);
   const [dob, setDob] = useState();
   const token = Cookies.get("token");
   const HandleSubmit = async (e) => {
     e.preventDefault();
     const payload = { firstName, lastName, userName, dob };
     const submission = await CreateProfile(token, payload);
-    console.log(token);
     submission.success
       ? props.contentHandler("description")
       : alert(submission.message);

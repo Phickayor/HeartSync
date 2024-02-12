@@ -12,6 +12,7 @@ const GetProfile = async (username) => {
 const ProfileEdit = async (token, payload) => {
   try {
     if (token) {
+      console.log(token);
       const res = await fetch(`${baseUrl}/profile/edit`, {
         method: "PATCH",
         headers: {
@@ -25,29 +26,7 @@ const ProfileEdit = async (token, payload) => {
     } else {
       return {
         success: false,
-        message: "No token was provided"
-      };
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};const uploadMultipleImages = async (token, payload) => {
-  try {
-    if (token) {
-      const res = await fetch(`${baseUrl}/profile/images-upload`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(token)}`
-        },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      return data;
-    } else {
-      return {
-        success: false,
-        message: "No token was provided"
+        message: "You are not signed in"
       };
     }
   } catch (error) {
@@ -68,7 +47,7 @@ const CreateProfile = async (token, payload) => {
       const data = await res.json();
       return data;
     } else {
-      return { success: false, message: "No token was provided" };
+      return { success: false, message: "You are not logged in" };
     }
   } catch (error) {
     console.log(error);

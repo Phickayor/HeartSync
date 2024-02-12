@@ -24,7 +24,6 @@ function EditProfile(props) {
     };
     if (props.keyName == "phoneNumber") {
       payload.phoneNumber = parseInt(value);
-      console.log(payload);
     }
     try {
       var profileEdit = await ProfileEdit(token, payload);
@@ -36,8 +35,8 @@ function EditProfile(props) {
     setLoader(false);
   };
   const handleAuthEdit = async (e) => {
-    setLoader(true);
     e.preventDefault();
+    setLoader(true);
     console.log(props.keyName);
     var payload = {
       [props.keyName]: value

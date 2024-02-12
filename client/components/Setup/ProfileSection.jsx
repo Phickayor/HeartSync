@@ -1,20 +1,21 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Link from "next/link";
 import { ProfileEdit } from "../Controllers/ProfileController";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import ButtonLoader from "../Loaders/ButtonLoader";
-import { AiOutlineCamera } from "react-icons/ai";
+import { AiFillInfoCircle, AiOutlineCamera } from "react-icons/ai";
 function ProfileSection(props) {
   const pic1 = useRef(null);
   const pic2 = useRef(null);
   const pic3 = useRef(null);
-  const [image1, setImage1] = useState("/images/profile-1.png");
-  const [image2, setImage2] = useState("/images/profile-2.png");
-  const [image3, setImage3] = useState("/images/profile-3.png");
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
   const [longBio, setLongBio] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
   const token = Cookies.get("token");
   // const [currentPicNumber, setCurrentPicNumber] = useState();
@@ -62,16 +63,27 @@ function ProfileSection(props) {
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
+    setErrorMessage(null);
     try {
-      var pictures = [image1, image2, image3];
-      var values = { pictures, longBio };
-      var profile = await ProfileEdit(token, values);
-      profile.success
-        ? router.push("/profile/match-making")
-        : Swal.fire({
-            icon: "error",
-            title: profile.message
-          });
+      var allPictures = [image1, image2, image3];
+      var pictures = [];
+      allPictures.map((value) => {
+        if (value != null) {
+          pictures.push(value);
+        }
+      });
+      if (pictures.length < 2) {
+        setErrorMessage("Add at least 2 pictures");
+      } else {
+        var values = { pictures, longBio };
+        var profile = await ProfileEdit(token, values);
+        profile.success
+          ? router.push("/profile/preferences")
+          : Swal.fire({
+              icon: "error",
+              title: profile.message
+            });
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -86,10 +98,18 @@ function ProfileSection(props) {
             All details here would show on your public feed
           </p>
         </div>
+        {errorMessage ? (
+          <div className="flex justify-center gap-2 py-5 [&>*]:self-center">
+            <AiFillInfoCircle />
+            <span className="text-center text-red-500">{errorMessage}</span>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="flex mx-auto w-fit gap-2 md:gap-5 [&>*]:self-center [&>*]:cursor-pointer">
           <div className="cursor-pointer group relative">
             <img
-              src={image1}
+              src={image1 ? image1 : "/images/profile-1.png"}
               className="border-2 border-purple-500 rounded-full w-32 h-32 self-center object-cover group-hover:opacity-60"
             />
             <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
@@ -110,7 +130,7 @@ function ProfileSection(props) {
           </div>
           <div className="cursor-pointer group relative">
             <img
-              src={image2}
+              src={image2 ? image2 : "/images/profile-2.png"}
               className="border-2 border-purple-500 rounded-full w-32 h-32 self-center object-cover group-hover:opacity-60"
             />
             <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
@@ -131,7 +151,7 @@ function ProfileSection(props) {
           </div>
           <div className="cursor-pointer group relative">
             <img
-              src={image3}
+              src={image3 ? image3 : "/images/profile-3.png"}
               className="border-2 border-purple-500 rounded-full w-32 h-32 self-center object-cover group-hover:opacity-60"
             />
             <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
@@ -162,6 +182,7 @@ function ProfileSection(props) {
             onChange={(e) => {
               setLongBio(e.target.value);
             }}
+            required
             className="focus:outline-none focus:border border-[#584296] rounded-xl p-5 bg-inputBg h-32"
           />
           <button

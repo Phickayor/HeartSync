@@ -3,10 +3,20 @@ const profileModel = require("../models/profile.model");
 const createProfile = async (req, res) => {
   try {
     var findProfile = await profileModel.findOne({ auth: req.body.auth._id });
+    var createProfile = await profileModel.create({
+      ...req.body
+    });
     if (!findProfile) {
-      res
-        .status(200)
-        .json({ message: "Profile Created Successfully", success: true });
+      if (createProfile) {
+        res
+          .status(200)
+          .json({ message: "Profile Created Successfully", success: true });
+      } else {
+        res.status(501).json({
+          message: "An error occured,please try again",
+          success: false
+        });
+      }
     } else {
       res
         .status(403)
@@ -22,12 +32,13 @@ const createProfile = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
-    var findProfiles = await profileModel.findOne({
+    console.log(req.body);
+    var findProfile = await profileModel.findOne({
       auth: req.body.auth._doc._id
     });
-    if (findProfiles) {
+    if (findProfile) {
       var updateProfile = await profileModel.findByIdAndUpdate(
-        findProfiles._id,
+        findProfile._id,
         req.body
       );
       updateProfile
