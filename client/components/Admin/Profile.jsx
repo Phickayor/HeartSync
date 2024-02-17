@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { GetAPic } from "../Controllers/PicturesController";
+import Cookies from "js-cookie";
 function Profile({ profileInfo }) {
+  const token = Cookies.get("token");
+  const [dp, setDp] = useState(null);
+  const GetDp = async () => {
+    var { picture } = await GetAPic(token, profileInfo.pictures, 1);
+    setDp(picture);
+  };
+  useEffect(() => {
+    GetDp();
+  }, []);
+
   return (
     <div className="bg-[#171717] w-full p-20 text-white">
       <div className="flex gap-14">
         <img
-          src={profileInfo?.profile?.pictures[0]}
+          src={dp}
           className="w-32 h-32 object-cover rounded-full border-2 border-btnColor self-center"
         />
         <div className="flex flex-col gap-4">
           <div className="flex w-fit gap-8 h-fit">
-            <h1 className="text-2xl self-center">
-              {profileInfo?.profile?.userName}
-            </h1>
+            <h1 className="text-2xl self-center">{profileInfo?.userName}</h1>
             <div className="space-x-3 text-sm">
               <button className="bg-[#4c4c4c] px-6 py-2 rounded-xl ">
                 Chat with
@@ -27,13 +37,13 @@ function Profile({ profileInfo }) {
             <span>10 rejected</span>
           </div>
           <p className="font-light leadng-[2rem] w-[32rem]">
-            {profileInfo?.profile?.longBio}
+            {profileInfo.longBio}
           </p>
         </div>
       </div>
 
       <div className="py-10 grid grid-cols-4 gap-8">
-        {profileInfo?.profile?.preferences?.map((preference, index) => (
+        {profileInfo?.preferences?.map((preference, index) => (
           <div
             key={index}
             className="py-4 bg-[#B093FF] text-black text-center rounded-full text-lg"

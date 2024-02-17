@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import {
   AiFillHeart,
   AiOutlineCheck,
@@ -7,29 +9,35 @@ import {
 } from "react-icons/ai";
 
 function Home() {
+  const router = useRouter();
   const arr = ["", "", "", ""];
-
+  const [searchTerm, setSearchTerm] = useState(null);
+  const handleSearch = () => {
+    router.push(`/profile/${searchTerm}`);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
-    <div className="bg-[#171717] flex flex-col  py-10 text-white text-center ">
-      <div className="bg-white/10 py-3 rounded-md flex mx-20 w-96 px-5">
+    <div className="bg-[#171717] flex flex-col w-full  py-10 text-white text-center ">
+      <div className="bg-white/10 py-3 rounded-md flex mx-auto w-10/12 px-5">
         <AiOutlineSearch className="self-center text-xl text-slate-200" />
         <input
           type="search"
           className="self-center bg-white/0 w-full px-2 focus:outline-none"
           placeholder="Search here..."
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleKeyPress}
         />
       </div>
-      <div className=" mx-auto w-11/12 pt-10 flex gap-8 flex-1 overflow-x-auto scrollbar-w-2 scrollbar-thumb-purple-500 scrollbar-track-gray-200 ">
+      <div className=" mx-auto w-11/12 pt-10 flex gap-8 flex-1 overflow-x-auto ">
         {arr.map((ar, index) => (
           <div
             key={index}
             className="relative group bg-[#242424] flex flex-col h-full rounded-3xl"
           >
-            {/* <div className="grid grid-cols-3 p-8 gap-4">
-            <div className="py-1 rounded-full bg-white"></div>
-            <div className="py-1 rounded-full bg-white"></div>
-            <div className="py-1 rounded-full bg-white"></div>
-          </div> */}
             <img
               src="/images/displayPic.png"
               alt="Display Picture"

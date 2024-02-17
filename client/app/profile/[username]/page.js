@@ -9,14 +9,13 @@ function page({ params }) {
   useEffect(() => {
     const fetchDetails = async () => {
       var user = await GetProfile(params.username);
-      setProfileInfo(user);
-      console.log(user);
+      setProfileInfo(user.profile);
     };
     fetchDetails();
   }, []);
   return (
     <div className="fixed flex h-screen w-full">
-      <ActivityBar activeBar={"home"}  />
+      <ActivityBar activeBar={"home"} />
       <Profile profileInfo={profileInfo} />
     </div>
   );

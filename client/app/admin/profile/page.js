@@ -15,7 +15,7 @@ function Page() {
   const CheckAuthorization = async () => {
     var user = await CheckAuth(token);
     setIsAuthorized(user.success);
-    setProfileInfo(user);
+    setProfileInfo(user.profile);
     setAuthorizationChecked(true);
   };
   useEffect(() => {
