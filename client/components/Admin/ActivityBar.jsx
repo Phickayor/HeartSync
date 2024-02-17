@@ -8,14 +8,16 @@ import {
 import Link from "next/link";
 import { CheckAuth } from "../Controllers/CheckAuth";
 import Cookies from "js-cookie";
+import { GetAPic } from "../Controllers/PicturesController";
 function ActivityBar({ activeBar }) {
   const token = Cookies.get("token");
-  const [profileInfo, setProfileInfo] = useState({});
+  const [profileImage, setProfileImage] = useState({});
   useEffect(() => {
     const fetchDetails = async () => {
       var user = await CheckAuth(token);
-      setProfileInfo(user);
-      console.log(user);
+      const pictureId = user.profile.pictures;
+      var profilePic = await GetAPic(token, pictureId, 1);
+      setProfileImage(profilePic);
     };
     fetchDetails();
   }, []);
@@ -58,7 +60,7 @@ function ActivityBar({ activeBar }) {
 
       <Link href="/admin/profile">
         <img
-          src={profileInfo?.profile?.pictures[0]}
+          src={profileImage.picture}
           className="w-12 h-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
         />
       </Link>

@@ -1,3 +1,4 @@
+const pictureModel = require("../models/pictures.model");
 const profileModel = require("../models/profile.model");
 
 const createProfile = async (req, res) => {
@@ -78,7 +79,6 @@ const getAProfile = async (req, res) => {
     res.status(501).json({ error: error.message });
   }
 };
-
 module.exports = {
   createProfile,
   editProfile,

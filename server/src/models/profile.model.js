@@ -44,13 +44,8 @@ const profileSchema = new mongoose.Schema({
     default: true
   },
   pictures: {
-    type: [String],
-    default: [
-      "/images/profile-1.png",
-      "/images/profile-2.png",
-      "/images/profile-3.png"
-    ],
-    data: Buffer
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "pictures"
   },
   auth: {
     type: mongoose.Schema.Types.ObjectId,

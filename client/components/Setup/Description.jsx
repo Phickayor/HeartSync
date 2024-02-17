@@ -33,9 +33,9 @@ function Description(props) {
     SetLoader(false);
   };
   return (
-    <div className="mx-auto w-10/12 lg:w-3/5">
-      <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
-        <div className="text-center py-5 space-y-3">
+    <div className="mx-auto w-10/12 lg:w-4/6">
+      <div className="bg-white p-5 px-10 rounded-xl">
+        <div className="text-center py-5">
           <h1 className="auth-header">We'll like to know more</h1>
           <p className="text-sm font-extralight">
             This information would help us
@@ -50,10 +50,7 @@ function Description(props) {
         ) : (
           <></>
         )}
-        <form
-          className="flex flex-col gap-5 md:gap-8 py-5"
-          onSubmit={HandleSubmit}
-        >
+        <form className="flex flex-col gap-5 md:gap-8" onSubmit={HandleSubmit}>
           <div className="grid grid-cols-3 gap-8 description-items">
             <div
               className={
@@ -86,12 +83,12 @@ function Description(props) {
               Short
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8 description-items ">
+          <div className="flex justify-around gap-8 description-items px-20">
             <div
               className={
                 gender == "Male"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
+                  ? "description-item bg-purple-500 w-1/2 text-white"
+                  : "description-item bg-inputBg w-1/2"
               }
               onClick={() => setGender("Male")}
             >
@@ -100,8 +97,8 @@ function Description(props) {
             <div
               className={
                 gender == "Female"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
+                  ? "description-item bg-purple-500 w-1/2 text-white"
+                  : "description-item bg-inputBg w-1/2 "
               }
               onClick={() => setGender("Female")}
             >

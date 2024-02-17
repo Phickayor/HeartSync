@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { ProfileEdit } from "../Controllers/ProfileController";
+import { ProfileEdit, UploadPictures } from "../Controllers/ProfileController";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -18,7 +18,6 @@ function ProfileSection(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
   const token = Cookies.get("token");
-  // const [currentPicNumber, setCurrentPicNumber] = useState();
   const handleImageDisplay = (currentPicNumber) => (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -65,25 +64,19 @@ function ProfileSection(props) {
     setLoader(true);
     setErrorMessage(null);
     try {
-      var allPictures = [image1, image2, image3];
-      var pictures = [];
-      allPictures.map((value) => {
-        if (value != null) {
-          pictures.push(value);
-        }
-      });
-      if (pictures.length < 2) {
-        setErrorMessage("Add at least 2 pictures");
-      } else {
-        var values = { pictures, longBio };
-        var profile = await ProfileEdit(token, values);
-        profile.success
-          ? router.push("/profile/preferences")
-          : Swal.fire({
-              icon: "error",
-              title: profile.message
-            });
-      }
+      var pictures = {
+        pic1: image1,
+        pic2: image2,
+        pic3: image3
+      };
+      var profile = await ProfileEdit(token, { longBio: longBio });
+      var picUpload = await UploadPictures(token, pictures);
+      profile.success && picUpload.success
+        ? router.push("/profile/preferences")
+        : Swal.fire({
+            icon: "error",
+            title: profile.message + " " + picUpload.message
+          });
     } catch (error) {
       console.log(error.message);
     }

@@ -12,10 +12,10 @@ label {
   @apply duration-300 text-center font-medium py-5 rounded-full cursor-pointer;
 }
 .preference-item {
-  @apply bg-white text-center font-medium py-5 rounded-full cursor-pointer;
+  @apply px-14 xl:px-20 bg-white text-center font-semibold py-5 rounded-full cursor-pointer;
 }
 .active-preference-item {
-  @apply bg-purple-500 text-white text-center font-medium py-5 rounded-full cursor-pointer;
+  @apply px-14 xl:px-20 bg-purple-500 text-white text-center font-semibold py-5 rounded-full cursor-pointer;
 }
 .description-item:hover,
 .preference-item:hover {

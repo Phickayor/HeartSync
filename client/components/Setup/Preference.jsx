@@ -61,16 +61,16 @@ function Preference() {
           }}
         />
       </div>
-      <form onSubmit={handleSubmit} className="mx-auto w-10/12 space-y-8 py-8">
+      <form onSubmit={handleSubmit} className="mx-auto w-10/12 xl:w-4/5 space-y-8 py-8">
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-white text-xl">
             Choose your interests
           </h3>
-          <div className="grid grid-cols-6 gap-5">
+          <div className="flex flex-wrap gap-6 xl:gap-10  ">
             <div onClick={setActive} className="preference-item">
               Sports
             </div>
-            <div onClick={setActive} className="col-span-2 preference-item">
+            <div onClick={setActive} className="preference-item">
               Fashion
             </div>
             <div onClick={setActive} className="preference-item">
@@ -78,6 +78,10 @@ function Preference() {
             </div>
             <div onClick={setActive} className="preference-item">
               Female
+            </div>
+
+            <div onClick={setActive} className="preference-item">
+              Male and female
             </div>
             <div onClick={setActive} className="preference-item">
               Music
@@ -92,7 +96,7 @@ function Preference() {
         </div>
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-white text-xl">Personality Traits</h3>
-          <div className="grid grid-cols-6 gap-5">
+          <div className="flex flex-wrap gap-6 xl:gap-10 ">
             <div onClick={setActive} className="preference-item">
               Introvert
             </div>
@@ -105,10 +109,10 @@ function Preference() {
             <div onClick={setActive} className="preference-item">
               Short
             </div>
-            <div onClick={setActive} className="col-span-2 preference-item">
+            <div onClick={setActive} className="preference-item">
               Loves to cook
             </div>
-            <div onClick={setActive} className="col-span-2 preference-item">
+            <div onClick={setActive} className="preference-item">
               Creative
             </div>
             <div onClick={setActive} className="preference-item">
@@ -117,30 +121,13 @@ function Preference() {
             <div onClick={setActive} className="preference-item">
               Muslim
             </div>
-            <div onClick={setActive} className="preference-item">
-              Atheist
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-6 ">
-          <h3 className="font-medium text-white text-xl">Health Information</h3>
-          <div className="grid grid-cols-3 gap-5 ">
-            <div onClick={setActive} className="preference-item">
-              Disabilities
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Allergies
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Asthmatic
-            </div>
           </div>
         </div>
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-white text-xl">
             Why did you join us
           </h3>
-          <div className="grid grid-cols-3 gap-5">
+          <div className="flex flex-wrap gap-6 xl:gap-10 ">
             <div onClick={setActive} className="preference-item">
               Make new friends
             </div>

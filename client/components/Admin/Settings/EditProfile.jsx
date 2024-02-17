@@ -50,6 +50,7 @@ function EditProfile(props) {
     }
     setLoader(false);
   };
+
   return (
     <div className={`fixed h-screen z-20 w-full flex flex-col justify-center`}>
       <div className="p-6 py-8 rounded-xl bg-[#262626] border border-white text-white mx-auto w-2/5">

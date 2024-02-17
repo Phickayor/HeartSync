@@ -1,10 +1,5 @@
 import React from "react";
 function Profile({ profileInfo }) {
-  const preferences = [
-    profileInfo?.profile?.gender,
-    profileInfo?.profile?.height,
-    profileInfo?.profile?.weight
-  ];
   return (
     <div className="bg-[#171717] w-full p-20 text-white">
       <div className="flex gap-14">
@@ -38,17 +33,7 @@ function Profile({ profileInfo }) {
       </div>
 
       <div className="py-10 grid grid-cols-4 gap-8">
-        {preferences.map((preference, index) => (
-          <div
-            key={index}
-            className="py-4 bg-[#B093FF] text-black text-center rounded-full text-lg"
-          >
-            {preference}
-          </div>
-        ))}
-      </div>
-      <div className="py-10 grid grid-cols-4 gap-8">
-        {profileInfo?.profile?.preferences.map((preference, index) => (
+        {profileInfo?.profile?.preferences?.map((preference, index) => (
           <div
             key={index}
             className="py-4 bg-[#B093FF] text-black text-center rounded-full text-lg"

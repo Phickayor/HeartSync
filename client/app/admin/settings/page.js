@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 function Page() {
   const [name, setName] = useState(null);
   const [keyName, setKeyName] = useState(null);
-  const [profileInfo, setProfileInfo] = useState({});
+  const [userName, setUserName] = useState("");
   const [authInfo, setAuthInfo] = useState({});
   const router = useRouter();
   const token = Cookies.get("token");
@@ -24,9 +24,8 @@ function Page() {
     var user = await CheckAuth(token);
     setIsAuthorized(user.success);
     setAuthorizationChecked(true);
-    var profile = await CheckAuth(token);
-    setProfileInfo(profile);
-    var auth = await GetAuth(token, profile.profile.auth);
+    setUserName(user.profile.userName);
+    var auth = await GetAuth(token, user.profile.auth);
     setAuthInfo(auth);
   };
   useEffect(() => {
@@ -44,7 +43,7 @@ function Page() {
       <ActivityBar activeBar={"settings"} />
       <AllSetings
         editHandler={handleEdit}
-        profileInfo={profileInfo}
+        userName={userName}
         authInfo={authInfo}
       />
       {name ? (

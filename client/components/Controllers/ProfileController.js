@@ -4,7 +4,7 @@ const GetProfile = async (username) => {
   try {
     const res = await fetch(`${baseUrl}/profile/${username}`);
     const data = await res.json();
-    return res.ok ? data : alert(data.message);
+    return data;
   } catch (error) {
     console.log(error);
   }
@@ -53,4 +53,8 @@ const CreateProfile = async (token, payload) => {
     console.log(error);
   }
 };
-module.exports = { GetProfile, ProfileEdit, CreateProfile };
+module.exports = {
+  GetProfile,
+  ProfileEdit,
+  CreateProfile
+};

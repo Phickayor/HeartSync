@@ -14,7 +14,7 @@ function About(props) {
     const payload = { firstName, lastName, userName, dob };
     const submission = await CreateProfile(token, payload);
     submission.success
-      ? props.contentHandler("description")
+      ? props.contentHandler("profile")
       : alert(submission.message);
   };
   return (

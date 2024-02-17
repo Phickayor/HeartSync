@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 const auth_route = require("./src/routes/auth.route");
 const profile_route = require("./src/routes/profile.route");
+const pictures_route = require("./src/routes/pictures.route");
 const preference_route = require("./src/routes/preference.route");
 const matches_route = require("./src/routes/preference.route");
 const feedbacks_route = require("./src/routes/preference.route");
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", auth_route);
 app.use("/profile", profile_route);
+app.use("/pictures", pictures_route);
 app.use("/preference", preference_route);
 app.use("/matches", matches_route);
 app.use("/feedbacks", feedbacks_route);

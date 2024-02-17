@@ -19,7 +19,7 @@ function Home() {
           placeholder="Search here..."
         />
       </div>
-      <div className=" mx-auto w-11/12 pt-10 flex gap-8 flex-1 overflow-x-auto">
+      <div className=" mx-auto w-11/12 pt-10 flex gap-8 flex-1 overflow-x-auto scrollbar-w-2 scrollbar-thumb-purple-500 scrollbar-track-gray-200 ">
         {arr.map((ar, index) => (
           <div
             key={index}

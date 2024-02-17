@@ -19,8 +19,6 @@ function page() {
         <ProfileSection contentHandler={handleContentChange} />
       ) : currentContent == "about" ? (
         <About contentHandler={handleContentChange} />
-      ) : currentContent == "description" ? (
-        <Description contentHandler={handleContentChange} />
       ) : (
         <Register contentHandler={handleContentChange} />
       )}
