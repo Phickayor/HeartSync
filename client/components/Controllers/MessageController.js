@@ -40,7 +40,7 @@ const getAMessage = async (messageId) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${JSON.parse(token)}`
-      }
+      } 
     });
     const data = await res.json();
     return data;
@@ -48,7 +48,7 @@ const getAMessage = async (messageId) => {
     console.error(error.message);
   }
 };
-const getChats = async (user_id) => {
+const   getChats = async (user_id) => {
   try {
     const res = await fetch(`${baseUrl}/chat/all/${user_id}`, {
       method: "GET",

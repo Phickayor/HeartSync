@@ -28,6 +28,7 @@ function Page() {
     <div className="fixed flex h-screen w-full">
       <ActivityBar activeBar={"message"} />
       <Contact profile={profile} />
+      
     </div>
   ) : (
     router.push("/auth")

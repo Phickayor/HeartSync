@@ -29,7 +29,7 @@ function Page({ params }) {
     <div className="fixed flex h-screen w-full">
       <ActivityBar activeBar={"message"} />
       <Contact profile={profile} />
-      <Message chatId={params.chatId} />
+      <Message receiverId={params.receiverId} />
     </div>
   ) : (
     router.push("/auth")

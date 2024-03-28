@@ -6,28 +6,32 @@ import {
 } from "@/components/Controllers/MessageController";
 import { GetAPic } from "@/components/Controllers/PicturesController";
 import { GetProfile } from "@/components/Controllers/ProfileController";
+import baseUrl from "@/config/server";
+import io from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlinePicture } from "react-icons/ai";
 
-function Message({ chatId }) {
+function Message({ receiverId }) {
+   const socket = io(baseUrl);
+
   const [msgs, setMsgs] = useState([]);
   const [receipient, setRecepient] = useState();
   const [receipientDp, setRecepientDp] = useState();
 
   useEffect(() => {
     const setUpChat = async () => {
-      const { chat } = await getAChat(chatId);
-      const { profile } = await GetProfile(chat.receiver);
+      const { profile } = await GetProfile(receiverId);
       const { picture } = await GetAPic(profile.pictures, 1);
       setRecepient(profile);
       setRecepientDp(picture);
       const { messages } = await getMessages(chatId);
+
       messages.map(async (msg) => {
         var { message } = await getAMessage(msg);
         setMsgs([...msgs, message]);
       });
     };
-    setUpChat();
+    setUpChat(); 
   }, []);
   return (
     <div className="bg-[#161616] px-10 py-6 flex flex-col gap-5 justify-between w-full">

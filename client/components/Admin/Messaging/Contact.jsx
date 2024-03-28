@@ -12,6 +12,7 @@ function Contact({ profile }) {
   const [contacts, setContacts] = useState([]);
   const GetContacts = (chats) => {
     try {
+      console.log(chats);
       var contactDetails;
       chats.map(async (chat) => {
         const { profile } = await GetProfile(chat.receiver);
@@ -27,7 +28,13 @@ function Contact({ profile }) {
   useEffect(() => {
     const fetchChats = async () => {
       const { allChats } = await getChats(profile._id);
-      GetContacts(allChats);
+      if (allChats[0] == null) {
+        setContacts(null);
+        console.log("1");
+      } else {
+        GetContacts(allChats);
+        console.log("2");
+      }
     };
     fetchChats();
   }, []);
@@ -44,31 +51,50 @@ function Contact({ profile }) {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-5 py-8">
-        {contacts?.map((contact, index) => (
+      {contacts ? (
+        <div className="flex flex-col gap-5 py-8">
+          {contacts?.map((contact, index) => (
+            <Link
+              href={`/admin/messaging/${contact.chatId}`}
+              key={index}
+              className="bg-[#131313] rounded-2xl flex justify-between py-2 px-4 cursor-pointer gap-5"
+            >
+              <div className="flex gap-4">
+                <img
+                  src={contact.picture}
+                  className="w-12 h-12 rounded-full self-center"
+                />
+                <div className="self-center gap-3">
+                  <h3 className="text-lg">{contact.userName}</h3>
+                  <span className="font-light text-sm text-[#B7B7B7]">
+                    Active 2hrs ago
+                  </span>
+                </div>
+              </div>
+              <span className="bg-btnColor self-center px-3 py-1.5 rounded-full ">
+                {contact.unread.length}
+              </span>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-5 py-4">
           <Link
-            href={`/admin/messaging/${contact.chatId}`}
-            key={index}
-            className="bg-[#131313] rounded-2xl flex justify-between py-2 px-4 cursor-pointer gap-5"
+            href="/amin/messsaging"
+            className="bg-[#131313] rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
           >
-            <div className="flex gap-4">
+            <div className="flex gap-4 py-4">
               <img
-                src={contact.picture}
+                src="/images/profile-1.png"
                 className="w-12 h-12 rounded-full self-center"
               />
               <div className="self-center gap-3">
-                <h3 className="text-lg">{contact.userName}</h3>
-                <span className="font-light text-sm text-[#B7B7B7]">
-                  Active 2hrs ago
-                </span>
+                <h3 className="text-lg">Hibuddy</h3>
               </div>
             </div>
-            <span className="bg-btnColor self-center px-3 py-1.5 rounded-full ">
-              {contact.unread.length}
-            </span>
           </Link>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

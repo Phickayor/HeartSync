@@ -1,0 +1,62 @@
+const { mongoose } = require("mongoose");
+
+const profileSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"]
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false
+    },
+    userName: {
+      type: String,
+      required: [true, "Username is required"],
+      unique: true
+    },
+    fullName: {
+      type: String,
+      required: [true, "Fullname is required"]
+    },
+    dob: {
+      type: Date,
+      required: [true, "Date Of Birth is required"]
+    },
+    gender: {
+      type: String
+    },
+    height: {
+      type: String
+    },
+    weight: {
+      type: String
+    },
+    shortBio: {
+      type: String
+    },
+    longBio: {
+      type: String
+    },
+    phoneNumber: {
+      type: Number
+    },
+    profilePicture: {
+      type: String
+    },
+    cardPicture: {
+      type: String
+    },
+    preferences: {
+      type: [String]
+    }
+  },
+  { timestamps: true }
+);
+const User = mongoose.model("User", profileSchema);
+module.exports = User;

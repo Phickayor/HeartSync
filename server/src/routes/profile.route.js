@@ -5,7 +5,7 @@ const {
   getProfile,
   getAProfile,
   deleteAccount
-} = require("../controllers/profile.controller");
+} = require("../controllers/user.controller");
 const { checkAuth } = require("../controllers/auth.controller");
 const router = express();
 
