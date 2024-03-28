@@ -15,8 +15,8 @@ function ActivityBar({ activeBar }) {
   useEffect(() => {
     const fetchDetails = async () => {
       var user = await CheckAuth(token);
-      const pictureId = user.profile.pictures;
-      var profilePic = await GetAPic(token, pictureId, 1);
+      const pictureId = user?.profile?.pictures;
+      var profilePic = await GetAPic(pictureId, 1);
       setProfileImage(profilePic);
     };
     fetchDetails();

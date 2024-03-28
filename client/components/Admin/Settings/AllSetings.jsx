@@ -14,7 +14,6 @@ function AllSetings(props) {
   const token = Cookies.get("token");
   const [pictures, setPictures] = useState([]);
   const [profile, SetProfile] = useState(null);
-  const [pictureId, setPictureId] = useState();
 
   const handleEdit = async (name, key) => {
     props.editHandler(name, key);
@@ -30,13 +29,13 @@ function AllSetings(props) {
         };
         switch (currentPicNumber) {
           case "pic1":
-            await UpdateSinglePicture(token, pictureId, 1, payload);
+            await UpdateSinglePicture(profile.pictures, 1, payload);
             break;
           case "pic2":
-            await UpdateSinglePicture(token, pictureId, 2, payload);
+            await UpdateSinglePicture(profile.pictures, 2, payload);
             break;
           case "pic3":
-            await UpdateSinglePicture(token, pictureId, 3, payload);
+            await UpdateSinglePicture(profile.pictures, 3, payload);
             break;
           default:
             console.log("No case found");
@@ -66,12 +65,13 @@ function AllSetings(props) {
   const handleImageUpdateForPic3 = handleImageUpdate("pic3");
 
   const setupPictures = async (pictureId) => {
-    var { pictures } = await GetAllPics(token, pictureId);
+    var { pictures } = await GetAllPics(pictureId);
     setPictures([pictures?.pic1, pictures?.pic2, pictures?.pic3]);
   };
+
   const getDetails = async () => {
-    var details = await GetProfile(props.userName);
-    setPictureId(details?.profile?.pictures);
+    var details = await GetProfile(props.userId);
+    console.log(details);
     SetProfile(details.profile);
     setupPictures(details?.profile?.pictures);
   };

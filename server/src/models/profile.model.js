@@ -56,6 +56,10 @@ const profileSchema = new mongoose.Schema({
   preferences: {
     type: [String]
   },
+  chats: {
+    ref: "chat",
+    type: [mongoose.Schema.Types.ObjectId]
+  },
   mutualMatches: [
     {
       ref: "mutualMatches",

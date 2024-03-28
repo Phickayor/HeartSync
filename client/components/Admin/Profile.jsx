@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { GetAPic } from "../Controllers/PicturesController";
-import Cookies from "js-cookie";
+
 function Profile({ profileInfo }) {
-  const token = Cookies.get("token");
   const [dp, setDp] = useState(null);
   const GetDp = async () => {
-    var { picture } = await GetAPic(token, profileInfo.pictures, 1);
+    var { picture } = await GetAPic(profileInfo.pictures, 1);
     setDp(picture);
   };
   useEffect(() => {
@@ -37,7 +36,7 @@ function Profile({ profileInfo }) {
             <span>10 rejected</span>
           </div>
           <p className="font-light leadng-[2rem] w-[32rem]">
-            {profileInfo.longBio}
+            {profileInfo?.longBio}
           </p>
         </div>
       </div>

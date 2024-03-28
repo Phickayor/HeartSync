@@ -5,8 +5,9 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Contact from "@/components/Admin/Messaging/Contact";
+import Message from "@/components/Admin/Messaging/Message";
 
-function Page() {
+function Page({ params }) {
   const router = useRouter();
   const token = Cookies.get("token");
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -28,6 +29,7 @@ function Page() {
     <div className="fixed flex h-screen w-full">
       <ActivityBar activeBar={"message"} />
       <Contact profile={profile} />
+      <Message chatId={params.chatId} />
     </div>
   ) : (
     router.push("/auth")

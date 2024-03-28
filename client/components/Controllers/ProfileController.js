@@ -1,8 +1,8 @@
 const baseUrl = require("@/config/server");
 
-const GetProfile = async (username) => {
+const GetProfile = async (usernameOrId) => {
   try {
-    const res = await fetch(`${baseUrl}/profile/${username}`);
+    const res = await fetch(`${baseUrl}/profile/${usernameOrId}`);
     const data = await res.json();
     return data;
   } catch (error) {

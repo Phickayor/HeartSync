@@ -1,6 +1,7 @@
 const baseUrl = require("@/config/server");
-
-const GetAPic = async (token, id, pictureNumber) => {
+const Cookies = require("js-cookie");
+const token = Cookies.get("token");
+const GetAPic = async (id, pictureNumber) => {
   try {
     if (token) {
       const res = await fetch(`${baseUrl}/pictures/${id}/${pictureNumber}`, {
@@ -19,7 +20,7 @@ const GetAPic = async (token, id, pictureNumber) => {
     console.log(error.message);
   }
 };
-const GetAllPics = async (token, id) => {
+const GetAllPics = async (id) => {
   try {
     if (token) {
       const res = await fetch(`${baseUrl}/pictures/${id}`, {
@@ -39,7 +40,7 @@ const GetAllPics = async (token, id) => {
   }
 };
 
-const UploadPictures = async (token, payload) => {
+const UploadPictures = async (payload) => {
   try {
     if (token) {
       const res = await fetch(`${baseUrl}/pictures/upload`, {
@@ -59,7 +60,7 @@ const UploadPictures = async (token, payload) => {
     console.log(error.message);
   }
 };
-const UpdateSinglePicture = async (token, id, pictureNumber, payload) => {
+const UpdateSinglePicture = async (id, pictureNumber, payload) => {
   try {
     if (token) {
       const res = await fetch(`${baseUrl}/pictures/${id}/${pictureNumber}`, {

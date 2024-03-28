@@ -10,6 +10,7 @@ function page({ params }) {
     const fetchDetails = async () => {
       var user = await GetProfile(params.username);
       setProfileInfo(user.profile);
+      console.log(user.profile)
     };
     fetchDetails();
   }, []);

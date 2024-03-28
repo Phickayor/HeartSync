@@ -73,8 +73,21 @@ const getProfile = async (req, res) => {
 };
 const getAProfile = async (req, res) => {
   try {
-    var profile = await profileModel.findOne({ userName: req.params.username });
-    res.status(200).json({ profile });
+    if (typeof userNameOrId == String) {
+      var profile = await profileModel.findOne({
+        userName: req.params.userNameOrId
+      });
+      res.status(200).json({ success: true, profile });
+    } else {
+      if (profile) {
+        var profile = await profileModel.findById(req.params.userNameOrId);
+        res.status(200).json({ success: true, profile });
+      } else {
+        res
+          .status(404)
+          .json({ success: false, message: "profile doesn't exist." });
+      }
+    }
   } catch (error) {
     res.status(501).json({ error: error.message });
   }

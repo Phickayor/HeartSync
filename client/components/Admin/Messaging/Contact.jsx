@@ -1,8 +1,36 @@
-import React from "react";
+"use client";
+import {
+  getChats,
+  getUnreadChats
+} from "@/components/Controllers/MessageController";
+import { GetAPic } from "@/components/Controllers/PicturesController";
+import { GetProfile } from "@/components/Controllers/ProfileController";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-
-function Contact() {
-  var names = ["Fikayo", "Emma", "Ola"];
+import Link from "next/link";
+function Contact({ profile }) {
+  const [contacts, setContacts] = useState([]);
+  const GetContacts = (chats) => {
+    try {
+      var contactDetails;
+      chats.map(async (chat) => {
+        const { profile } = await GetProfile(chat.receiver);
+        const { picture } = await GetAPic(profile.pictures, 1);
+        const { unread } = await getUnreadChats(chat._id);
+        contactDetails = { ...profile, picture, unread, chatId: chat._id };
+        setContacts([...contacts, contactDetails]);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+  useEffect(() => {
+    const fetchChats = async () => {
+      const { allChats } = await getChats(profile._id);
+      GetContacts(allChats);
+    };
+    fetchChats();
+  }, []);
   return (
     <div className="bg-[#171717] text-white w-[600px] px-5 py-12 h-screen">
       <div className="space-y-4">
@@ -17,27 +45,28 @@ function Contact() {
         </div>
       </div>
       <div className="flex flex-col gap-5 py-8">
-        {names.map((name, index) => (
-          <div
+        {contacts?.map((contact, index) => (
+          <Link
+            href={`/admin/messaging/${contact.chatId}`}
             key={index}
             className="bg-[#131313] rounded-2xl flex justify-between py-2 px-4 cursor-pointer gap-5"
           >
             <div className="flex gap-4">
               <img
-                src={`/images/profile-${index + 1}.png`}
-                className="w-12 h-12 self-center"
+                src={contact.picture}
+                className="w-12 h-12 rounded-full self-center"
               />
               <div className="self-center gap-3">
-                <h3 className="text-lg">{name}</h3>
+                <h3 className="text-lg">{contact.userName}</h3>
                 <span className="font-light text-sm text-[#B7B7B7]">
                   Active 2hrs ago
                 </span>
               </div>
             </div>
             <span className="bg-btnColor self-center px-3 py-1.5 rounded-full ">
-              2
+              {contact.unread.length}
             </span>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

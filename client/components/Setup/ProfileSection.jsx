@@ -10,7 +10,7 @@ function ProfileSection(props) {
   const pic1 = useRef(null);
   const pic2 = useRef(null);
   const pic3 = useRef(null);
-  const [image1, setImage1] = useState(null);
+  const [image1, setImage1] = useState(null) ;
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [longBio, setLongBio] = useState(null);
@@ -70,7 +70,7 @@ function ProfileSection(props) {
         pic3: image3
       };
       var profile = await ProfileEdit(token, { longBio: longBio });
-      var picUpload = await UploadPictures(token, pictures);
+      var picUpload = await UploadPictures(pictures);
       profile.success && picUpload.success
         ? router.push("/profile/preferences")
         : Swal.fire({
