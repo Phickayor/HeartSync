@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
-import { ProfileEdit } from "../Controllers/ProfileController";
+import { ProfileEdit } from "../Controllers/UserController";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import ButtonLoader from "../Loaders/ButtonLoader";

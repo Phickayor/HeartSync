@@ -1,7 +1,7 @@
 "use client";
 import ActivityBar from "@/components/Admin/ActivityBar";
 import Profile from "@/components/Admin/Profile";
-import { GetProfile } from "@/components/Controllers/ProfileController";
+import { GetProfile } from "@/components/Controllers/UserController";
 import React, { useEffect, useState } from "react";
 
 function page({ params }) {
@@ -10,7 +10,7 @@ function page({ params }) {
     const fetchDetails = async () => {
       var user = await GetProfile(params.username);
       setProfileInfo(user.profile);
-      console.log(user.profile)
+      console.log(user.profile);
     };
     fetchDetails();
   }, []);

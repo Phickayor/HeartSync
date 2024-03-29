@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { CreateProfile } from "../Controllers/ProfileController";
+import { CreateProfile } from "../Controllers/UserController";
 import Cookies from "js-cookie";
 
 function About(props) {

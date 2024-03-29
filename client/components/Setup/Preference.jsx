@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import ButtonLoader from "../Loaders/ButtonLoader";
-import { ProfileEdit } from "../Controllers/ProfileController";
+import { ProfileEdit } from "../Controllers/UserController";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -61,7 +61,10 @@ function Preference() {
           }}
         />
       </div>
-      <form onSubmit={handleSubmit} className="mx-auto w-10/12 xl:w-4/5 space-y-8 py-8">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto w-10/12 xl:w-4/5 space-y-8 py-8"
+      >
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-white text-xl">
             Choose your interests

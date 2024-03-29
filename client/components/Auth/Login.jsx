@@ -15,7 +15,7 @@ function Login() {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    SetLoader(true);          
+    SetLoader(true);
 
     try {
       const res = await fetch(`${baseUrl}/auth/login`, {

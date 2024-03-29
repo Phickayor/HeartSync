@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { ProfileEdit, UploadPictures } from "../Controllers/ProfileController";
+import { ProfileEdit, UploadPictures } from "../Controllers/UserController";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ function ProfileSection(props) {
   const pic1 = useRef(null);
   const pic2 = useRef(null);
   const pic3 = useRef(null);
-  const [image1, setImage1] = useState(null) ;
+  const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
   const [longBio, setLongBio] = useState(null);

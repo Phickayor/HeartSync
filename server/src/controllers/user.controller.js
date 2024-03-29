@@ -10,7 +10,7 @@ const editUser = async (req, res) => {
         ? res
             .status(200)
             .json({ success: true, message: "Profile updated successfully" })
-        : res.status(501).json({
+        : res.status(501).json({ 
             success: false,
             message: "An error occured while updating profile "
           });

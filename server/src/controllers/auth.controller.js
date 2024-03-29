@@ -134,13 +134,14 @@ const checkAuth = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {
-      res.status(401).json({ error: error.message });
+      res.status(401).json({ unauthorized: true, message: error.message });
     }
   }
 
   if (!token) {
-    res.status(401);
-    throw new Error("Not authorized, no token");
+    res
+      .status(401)
+      .json({ unauthorized: true, message: "Not authorized, no token" });
   }
 };
 module.exports = {

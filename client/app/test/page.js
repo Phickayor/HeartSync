@@ -1,36 +1,45 @@
 "use client";
-import baseUrl from "@/config/server";
-import React, { useEffect, useState } from "react";
-import io from "socket.io-client";
-function page() {
-  var socket;
-  const [newMessage, setNewMessage] = useState("");
-  const [socketConnected, setSocketConnected] = useState(false);
-  const sendMessage = (e) => {
-    e.preventDefault();
-    console.log("yayy");
-    socket.emit("chat message", newMessage);
-  };
-  useEffect(() => {
-    //Creating Connection
-    socket = io(baseUrl);
-    // socket.emit("setup",userId)
-    socket.on("connected", () => {
-      setSocketConnected(true);
-    });
-  }, []);
+import React, { useState } from "react";
+
+// Component to render above the page
+const AbovePageComponent = ({ onClose, name }) => {
   return (
-    <div>
-      <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          onChange={(e) => setNewMessage(e.target.value)}
-          required
-        />
-        <button type="submit">send</button>
-      </form>
+    <div
+      style={{
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        background: "white",
+        padding: "20px",
+        border: "1px solid black"
+      }}
+    >
+      <h2>This is the component above the page</h2>
+      <button onClick={onClose}>Close</button>
     </div>
   );
-}
+};
 
-export default page;
+// Component to trigger rendering above the page
+const TriggerComponent = () => {
+  const [showAbovePageComponent, setShowAbovePageComponent] = useState(false);
+
+  const handleClick = () => {
+    setShowAbovePageComponent(true);
+  };
+
+  const handleClose = () => {
+    setShowAbovePageComponent(false);
+  };
+
+  return (
+    <div>
+      <h1>This is the current page</h1>
+      <button onClick={handleClick}>Render Component Above</button>
+      {showAbovePageComponent && <AbovePageComponent onClose={handleClose} />}
+    </div>
+  );
+};
+
+export default TriggerComponent;

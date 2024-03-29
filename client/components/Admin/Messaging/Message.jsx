@@ -1,18 +1,17 @@
 "use client";
 import {
-  getAChat,
   getAMessage,
   getMessages
 } from "@/components/Controllers/MessageController";
 import { GetAPic } from "@/components/Controllers/PicturesController";
-import { GetProfile } from "@/components/Controllers/ProfileController";
+import { GetProfile } from "@/components/Controllers/UserController";
 import baseUrl from "@/config/server";
 import io from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlinePicture } from "react-icons/ai";
 
 function Message({ receiverId }) {
-   const socket = io(baseUrl);
+  const socket = io(baseUrl);
 
   const [msgs, setMsgs] = useState([]);
   const [receipient, setRecepient] = useState();
@@ -31,10 +30,10 @@ function Message({ receiverId }) {
         setMsgs([...msgs, message]);
       });
     };
-    setUpChat(); 
+    setUpChat();
   }, []);
   return (
-    <div className="bg-[#161616] px-10 py-6 flex flex-col gap-5 justify-between w-full">
+    <div className="bg-[#161616] px-10 py-6 flex flex-col gap-5 justify-between">
       <div className="bg-[#1E1D1D] rounded-2xl flex p-3 px-6 cursor-pointer gap-4">
         <img
           src={receipientDp}
