@@ -4,7 +4,7 @@ import AdminComp from "@/components/Admin/AdminComp";
 
 function Page() {
   return (
-    <AdminComp>
+    <AdminComp navName={"settings"}>
       <AllSetings />
     </AdminComp>
   );

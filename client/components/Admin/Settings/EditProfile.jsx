@@ -20,7 +20,13 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
           onSubmit={(e) => onSubmit(e, keyName, value)}
         >
           <input
-            type={keyName == "phoneNumber" ? "number" : "text"}
+            type={
+              keyName == "phoneNumber"
+                ? "number"
+                : keyName == "password"
+                ? "password"
+                : "text"
+            }
             placeholder={`New ${name}...`}
             name={keyName}
             onChange={(e) => {

@@ -2,15 +2,13 @@
 import React, { useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import ButtonLoader from "../Loaders/ButtonLoader";
-import { ProfileEdit } from "../Controllers/UserController";
+import { EditUser } from "../Controllers/UserController";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 function Preference() {
   const [notificationState, setNotificationState] = useState("block");
   const [loader, setLoader] = useState(false);
   let chosenPreference = [];
-  const token = Cookies.get("token");
 
   const setActive = (e) => {
     e.preventDefault();
@@ -31,11 +29,9 @@ function Preference() {
       const values = {
         preferences: chosenPreference
       };
-      console.log(token);
-
-      var profile = await ProfileEdit(token, values);
+      var profile = await EditUser(values);
       profile.success
-        ? router.push("/admin")
+        ? router.push("/admin/settings")
         : Swal.fire({
             icon: "error",
             title: profile.message

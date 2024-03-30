@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Link from "next/link";
-import baseUrl from "@/config/server";
+import baseUrl from "../../config/server";
 import ButtonLoader from "../Loaders/ButtonLoader";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -50,8 +50,8 @@ function Login() {
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
-      <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
-        <h1 className="auth-header">Login to your account</h1>
+      <div className=" md:px-10 md:py-8 p-5 rounded-xl">
+        <h1 className="auth-header ">Login to your account</h1>
         <form
           className="flex flex-col gap-3  md:gap-5 pt-5"
           onSubmit={HandleSubmit}
@@ -62,7 +62,7 @@ function Login() {
               type="email"
               required
               onChange={(e) => SetEmail(e.target.value)}
-              className="bg-inputBg md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -71,7 +71,7 @@ function Login() {
               type="password"
               required
               onChange={(e) => SetPassword(e.target.value)}
-              className="bg-inputBg md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
           <button
@@ -82,7 +82,7 @@ function Login() {
           </button>
         </form>
       </div>
-      <div className="hidden md:flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 text-white p-4 text-lg">
+      <div className="flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-lg">
         <Link href="/auth/register">Create an account</Link>
         <Link href="/auth/forgot-password">Forgotten Password</Link>
       </div>

@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
 
-function AdminComp({ children }) {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+function AdminComp({ navName, children }) {
+  const [isAuthorized, setIsAuthorized] = useState();
   const user = {};
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
   const router = useRouter();
@@ -24,7 +24,6 @@ function AdminComp({ children }) {
   }, []);
 
   const reducer = (state, action) => {
-    console.log(action);
     switch (action.type) {
       case "signIn":
         return { ...state, user: action.payload };
@@ -40,16 +39,20 @@ function AdminComp({ children }) {
     return null;
   }
 
-  return isAuthorized ? (
-    <UserContext.Provider value={{ userState: state, userDispatch: dispatch }}>
-      <div className="fixed flex h-screen w-full">
-        <ActivityBar activeBar={"home"} />
-        {children}
-      </div>
-    </UserContext.Provider>
-  ) : (
-    router.push("/auth")
-  );
+  if (isAuthorized) {
+    return (
+      <UserContext.Provider
+        value={{ userState: state, userDispatch: dispatch }}
+      >
+        <div className="fixed flex h-screen w-full">
+          <ActivityBar activeBar={navName} />
+          <div className="overflow-y-scroll w-full">{children} </div>
+        </div>
+      </UserContext.Provider>
+    );
+  } else {
+    router.push("/auth");
+  }
 }
 
 export default AdminComp;

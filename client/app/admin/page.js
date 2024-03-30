@@ -5,7 +5,7 @@ import React from "react";
 
 function Page() {
   return (
-    <AdminComp>
+    <AdminComp navName={"home"}>
       <Home />
     </AdminComp>
   );

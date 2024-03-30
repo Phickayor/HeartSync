@@ -3,7 +3,7 @@ import React from "react";
 
 function page() {
   return (
-    <div className='min-h-screen w-full bg-[#121212] bg-cover bg-[url("/images/auth-bg.png")]'>
+    <div className="min-h-screen w-full bg-[#121212] pattern-background">
       <Preference />
     </div>
   );

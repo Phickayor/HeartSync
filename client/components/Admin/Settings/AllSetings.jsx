@@ -31,7 +31,7 @@ function AllSetings() {
   };
 
   return (
-    <div className="bg-[#171717] w-full py-10 text-white flex">
+    <div className="bg-[#171717] w-full h-full py-10 text-white flex">
       <div className="mx-auto w-10/12 self-center relative rounded-2xl bg-[#1E1D1D] pb-12 h-[85vh] overflow-y-auto">
         <div className="rounded-2xl sticky top-0 bg-[#232222] py-4 flex justify-center gap-5 text-sm text-center ">
           <div className="flex flex-col gap-2">
@@ -58,16 +58,24 @@ function AllSetings() {
             </span>
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
-            <div className=" self-center">
-              <h3>Email address</h3>
-              <span className="text-sm text-[#717171]">{profile.email}</span>
+            <div className="self-center">
+              <h3>Fullname</h3>
+              <span className="text-sm text-[#717171]">
+                {profile?.fullName}
+              </span>
             </div>
             <span
-              onClick={() => handleEdit("Email", "email")}
+              onClick={() => handleEdit("Username", "userName")}
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
             </span>
+          </div>
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+            <div className=" self-center">
+              <h3>Email address</h3>
+              <span className="text-sm text-[#717171]">{profile.email}</span>
+            </div>
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
             <div className=" self-center">
@@ -87,6 +95,22 @@ function AllSetings() {
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
             <div className=" self-center">
+              <h3>Change preferences</h3>
+              <span className="text-sm text-[#717171]">
+                {profile.preferences
+                  ? profile.preferences.join(", ")
+                  : "Not Provided"}
+              </span>
+            </div>
+            <Link
+              href="/admin/settings/edit-preference"
+              className="text-sm font-semibold underline cursor-pointer"
+            >
+              Edit
+            </Link>
+          </div>
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+            <div className=" self-center">
               <h3>Password</h3>
               <span className="text-sm text-[#717171]">*****************</span>
             </div>
@@ -96,22 +120,6 @@ function AllSetings() {
             >
               Edit
             </span>
-          </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
-            <div className=" self-center">
-              <h3>Change preferences</h3>
-              <span className="text-sm text-[#717171]">
-                {profile.preferences
-                  ? profile.preferences.join(", ")
-                  : "Not Provided"}
-              </span>
-            </div>
-            <Link
-              href="/profile/preferences"
-              className="text-sm font-semibold underline cursor-pointer"
-            >
-              Edit
-            </Link>
           </div>
         </div>
         {showAbovePageComponent && (

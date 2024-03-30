@@ -5,6 +5,9 @@
 label {
   @apply font-thin;
 }
+.pattern-background {
+  @apply bg-[url('/images/auth-bg.png')] bg-cover;
+}
 .auth-header {
   @apply text-2xl md:text-3xl font-medium text-center;
 }

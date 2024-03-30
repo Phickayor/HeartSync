@@ -85,7 +85,7 @@ function Register(props) {
               onChange={(e) => {
                 setPswd1(e.target.value);
               }}
-              className="bg-inputBg md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">

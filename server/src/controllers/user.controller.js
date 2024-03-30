@@ -1,16 +1,21 @@
 // const pictureModel = require("../models/pictures.model");
 const User = require("../models/user.model");
+const { handleEncryption } = require("../utilities/encrypt");
 
 const editUser = async (req, res) => {
   try {
     var findUser = await User.findById(req.user._id);
     if (findUser) {
+      if (req.body.password) {
+        var encryptedPassword = await handleEncryption(req.body.password);
+        req.body.password = encryptedPassword;
+      }
       var updateUser = await User.findByIdAndUpdate(req.user._id, req.body);
       updateUser
         ? res
             .status(200)
             .json({ success: true, message: "Profile updated successfully" })
-        : res.status(501).json({ 
+        : res.status(501).json({
             success: false,
             message: "An error occured while updating profile "
           });

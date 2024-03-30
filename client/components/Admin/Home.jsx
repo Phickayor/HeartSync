@@ -21,7 +21,7 @@ function Home() {
     }
   };
   return (
-    <div className="bg-[#171717] flex flex-col w-full  py-10 text-white text-center ">
+    <div className="bg-[#171717] flex flex-col w-full h-full py-10 text-white text-center ">
       <div className="bg-white/10 py-3 rounded-md flex mx-auto w-10/12 px-5">
         <AiOutlineSearch className="self-center text-xl text-slate-200" />
         <input

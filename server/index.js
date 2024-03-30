@@ -11,6 +11,6 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
-app.listen(8080, () => {
+app.listen(8081, () => {
   console.log("Server is listening");
 });

@@ -3,15 +3,22 @@ const Cookies = require("js-cookie");
 const token = Cookies.get("token");
 const GetUser = async () => {
   try {
-    const res = await fetch(`${baseUrl}/user`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${JSON.parse(token)}`
-      }
-    });
-    const data = await res.json();
-    return data;
+    if (token) {
+      const res = await fetch(`${baseUrl}/user`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${JSON.parse(token)}`
+        }
+      });
+      const data = await res.json();
+      return data;
+    } else {
+      return {
+        unauthorized: true,
+        message: "No token"
+      };
+    }
   } catch (error) {
     console.log(error);
   }

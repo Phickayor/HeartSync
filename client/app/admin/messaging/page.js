@@ -5,7 +5,7 @@ import Message from "@/components/Admin/Messaging/Message";
 
 function Page() {
   return (
-    <AdminComp>
+    <AdminComp navName={"message"}>
       <div className="grid grid-cols-3 w-full text-white">
         <div className="bg-[#171717]">
           <Contact />

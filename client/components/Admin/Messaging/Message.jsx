@@ -11,37 +11,35 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlinePicture } from "react-icons/ai";
 
 function Message({ receiverId }) {
-  const socket = io(baseUrl);
+  // const socket = io(baseUrl);
 
-  const [msgs, setMsgs] = useState([]);
-  const [receipient, setRecepient] = useState();
-  const [receipientDp, setRecepientDp] = useState();
+  // const [msgs, setMsgs] = useState([]);
+  // const [receipient, setRecepient] = useState();
+  // const [receipientDp, setRecepientDp] = useState();
 
-  useEffect(() => {
-    const setUpChat = async () => {
-      const { profile } = await GetProfile(receiverId);
-      const { picture } = await GetAPic(profile.pictures, 1);
-      setRecepient(profile);
-      setRecepientDp(picture);
-      const { messages } = await getMessages(chatId);
+  // useEffect(() => {
+  //   const setUpChat = async () => {
+  //     const { profile } = await GetProfile(receiverId);
+  //     const { picture } = await GetAPic(profile.pictures, 1);
+  //     setRecepient(profile);
+  //     setRecepientDp(picture);
+  //     const { messages } = await getMessages(chatId);
 
-      messages.map(async (msg) => {
-        var { message } = await getAMessage(msg);
-        setMsgs([...msgs, message]);
-      });
-    };
-    setUpChat();
-  }, []);
+  //     messages.map(async (msg) => {
+  //       var { message } = await getAMessage(msg);
+  //       setMsgs([...msgs, message]);
+  //     });
+  //   };
+  //   setUpChat();
+  // }, []);
   return (
     <div className="bg-[#161616] px-10 py-6 flex flex-col gap-5 justify-between">
       <div className="bg-[#1E1D1D] rounded-2xl flex p-3 px-6 cursor-pointer gap-4">
         <img
-          src={receipientDp}
+          src={"receipientDp"}
           className="w-12 h-12 rounded-full self-center"
         />
-        <h3 className="self-center text-xl text-white">
-          {receipient?.userName}
-        </h3>
+        <h3 className="self-center text-xl text-white">HiBuddy</h3>
       </div>
 
       <div className="flex flex-col gap-5 flex-1 py-3 overflow-y-auto">
