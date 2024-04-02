@@ -1,18 +1,18 @@
 "use client";
-import baseUrl from "@/config/server";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Swal from "sweetalert2";
-import ButtonLoader from "../Loaders/ButtonLoader";
-import Cookies from "js-cookie";
-function Register(props) {
+import ButtonLoader from "../../Loaders/ButtonLoader";
+import { checkExistingUser } from "@/components/Controllers/AuthController";
+import { RegContext } from "@/contexts/RegContext";
+function Register({ onNext }) {
   const [email, setEmail] = useState("");
   const [pswd1, setPswd1] = useState("");
   const [pswd2, setPswd2] = useState("");
   const [loader, SetLoader] = useState(false);
   const [pswdError, setPswdError] = useState("");
   var password;
+  const regContext = useContext(RegContext);
   const handleMatchingPassword = () => {
-    // e.preventDefault();
     try {
       return pswd1 === pswd2 ? true : false;
     } catch (error) {
@@ -27,27 +27,26 @@ function Register(props) {
       if (comparePassword) {
         setPswdError("");
         password = pswd1;
-        const res = await fetch(`${baseUrl}/auth/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
-
-        res.ok
-          ? (Cookies.set("token", JSON.stringify(data?.token)),
-            Swal.fire({
-              title: "Success!",
-              text: "Account Created Successfully",
-              icon: "success"
-            }),
-            props.contentHandler("about"))
-          : Swal.fire({
-              icon: "error",
-              title: data.message
-            });
+        const response = await checkExistingUser(email);
+        if (response.existingUser) {
+          Swal.fire({
+            title: "Existing User",
+            text: response.message,
+            icon: "error",
+            timer: 5000
+          });
+        } else if (response.existingUser == null) {
+          Swal.fire({
+            title: "Oops",
+            text: response.message,
+            icon: "error",
+            timer: 5000
+          });
+        } else {
+          const payload = { email, password };
+          regContext.RegDispatch({ type: "update", payload });
+          onNext();
+        }
       } else {
         setPswdError("*Password should be the same as above *");
       }
@@ -57,13 +56,10 @@ function Register(props) {
     SetLoader(false);
   };
   return (
-    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
-      <div className="bg-white md:px-10 md:py-8 p-5 rounded-xl">
+    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
+      <div className="md:px-10 md:py-8 p-5 rounded-xl">
         <h1 className="auth-header">Create an account</h1>
-        <form
-          className="flex flex-col gap-3  md:gap-5 pt-5 "
-          onSubmit={HandleSubmit}
-        >
+        <form className="flex flex-col gap-3 pt-5 " onSubmit={HandleSubmit}>
           <div className="flex flex-col gap-2">
             <label>Email</label>
             <input
@@ -73,7 +69,7 @@ function Register(props) {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
-              className="bg-inputBg md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -85,7 +81,7 @@ function Register(props) {
               onChange={(e) => {
                 setPswd1(e.target.value);
               }}
-              className="bg-inherit md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -97,15 +93,15 @@ function Register(props) {
               onChange={(e) => {
                 setPswd2(e.target.value);
               }}
-              className="bg-inputBg md:py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
             <span className="text-red-500">{pswdError}</span>
           </div>
           <button
             type="submit"
-            className="bg-[#584296] text-white md:px-12 rounded-lg py-3 md:text-xl md:self-center mt-4"
+            className="bg-[#584296] text-white px-12 rounded-lg py-3 text-xl self-center"
           >
-            {loader ? <ButtonLoader /> : "Sign up"}
+            {loader ? <ButtonLoader /> : "Next"}
           </button>
         </form>
       </div>

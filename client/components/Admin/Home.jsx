@@ -36,15 +36,15 @@ function Home() {
         {arr.map((ar, index) => (
           <div
             key={index}
-            className="relative group bg-[#242424] flex flex-col h-full rounded-3xl"
+            className="group rounded-3xl mx-auto w-[22rem] h-[36rem] bg-[#1E1D1D] relative p-2"
           >
             <img
               src="/images/displayPic.png"
-              alt="Display Picture"
-              className="min-w-[22rem] flex-1 rounded-3xl object-cover"
+              className="self-center rounded-3xl top-0 left-0 absolute object-cover w-full h-full"
+              alt="Display picture"
             />
-            <div className="absolute rounded-3xl -bottom-1 w-full bg-[#1E1D1D] text-center py-5 space-y-3">
-              <div className="absolute hidden w-full duration-300 -top-8 group-hover:flex justify-center gap-5 text-2xl">
+            <div className="absolute text-white space-y-3 left-0 mx-auto w-full bottom-0">
+              <div className="hidden group-hover:flex justify-center gap-5">
                 <div className="cursor-pointer border border-dashed bg-btnColor hover:bg-red-700 rounded-full p-5">
                   <AiOutlineClose className="self-center" />
                 </div>
@@ -55,14 +55,16 @@ function Home() {
                   <AiOutlineCheck className="self-center" />
                 </div>
               </div>
-              <h2 className="text-2xl font-semibold">Sanjo</h2>
-              <p>Life is a mission, we run it!</p>
-              <button className="bg-btnColor w-10/12 rounded-2xl py-2.5">
-                Let's chat
-              </button>
-              <span className="block cursor-pointer underline">
-                Vew profile
-              </span>
+              <div className="bg-[#1E1D1D] font-light text-center rounded-3xl py-4 flex flex-col justify-between gap-5">
+                <h2 className="text-2xl">Sanjo</h2>
+                <p>Life is a mission, we run it!</p>
+                <button className="bg-btnColor px-14 rounded-xl py-2.5 mx-auto">
+                  Let's chat
+                </button>
+                <span className="block cursor-pointer underline">
+                  Vew profile
+                </span>
+              </div>
             </div>
           </div>
         ))}

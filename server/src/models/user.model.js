@@ -1,5 +1,16 @@
 const { mongoose } = require("mongoose");
 
+const maxDate = () => {
+  const today = new Date();
+  const maxDate = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate()
+  );
+  const formattedMaxDate = maxDate.toISOString().split("T")[0];
+  return formattedMaxDate;
+};
+
 const profileSchema = new mongoose.Schema(
   {
     email: {
@@ -18,7 +29,9 @@ const profileSchema = new mongoose.Schema(
     userName: {
       type: String,
       required: [true, "Username is required"],
-      unique: true
+      minlength: 3,
+      maxlength: 10
+      // unique: true
     },
     fullName: {
       type: String,
@@ -26,7 +39,8 @@ const profileSchema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: [true, "Date Of Birth is required"]
+      required: [true, "Date Of Birth is required"],
+      max: new Date(maxDate())
     },
     gender: {
       type: String

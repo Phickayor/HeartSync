@@ -26,12 +26,14 @@ function ActivityBar({ activeBar }) {
     fetchDetails();
   }, []);
   return (
-    <div className="bg-black w-fit h-full flex flex-col justify-between py-24 px-2 text-white">
-      <div className="flex flex-col gap-6 ">
+    <div className="bg-white text-[#131725] md:h-full md:flex flex-col justify-between md:py-24 p-3 md:px-3">
+      <div className="flex md:flex-col justify-around gap-6 ">
         <Link
           href="/admin/"
           className={
-            activeBar == "home" ? "activityBar bg-btnColor" : "activityBar"
+            activeBar == "home"
+              ? "activityBar text-white bg-btnColor"
+              : "activityBar"
           }
         >
           <AiOutlineHome className="text-2xl" />
@@ -39,7 +41,9 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/messaging"
           className={
-            activeBar == "message" ? "activityBar bg-btnColor" : "activityBar"
+            activeBar == "message"
+              ? "activityBar md:text-white text-btnColor md:bg-btnColor"
+              : "activityBar"
           }
         >
           <AiOutlineMessage className="text-2xl" />
@@ -47,7 +51,9 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/settings"
           className={
-            activeBar == "settings" ? "activityBar bg-btnColor" : "activityBar"
+            activeBar == "settings"
+              ? "activityBar text-white bg-btnColor"
+              : "activityBar"
           }
         >
           <AiOutlineSetting className="text-2xl" />
@@ -55,7 +61,9 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/logout"
           className={
-            activeBar == "logout" ? "activityBar bg-btnColor" : "activityBar"
+            activeBar == "logout"
+              ? "activityBar text-white bg-btnColor"
+              : "activityBar"
           }
         >
           <AiOutlineLogout className="text-2xl" />
@@ -65,7 +73,7 @@ function ActivityBar({ activeBar }) {
       <Link href="/admin/profile">
         <img
           src={userContext.userState.user.profilePicture}
-          className="w-12 h-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
+          className="hidden md:block w-12 h-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
         />
       </Link>
     </div>

@@ -7,11 +7,25 @@ const getMail = require("../utilities/mail");
 const verificationMail = require("../utilities/mail");
 
 const CheckExistingUser = async (req, res) => {
-  const findUser = await User.findOne({ email: req.body.email });
-  if (findUser) {
-    res.status(403).json({ message: "Account already exists" });
-  } else {
-    res.status(200).json({ message: "Account exists" });
+  try {
+    const findUser = await User.findOne({ email: req.params.email });
+    if (findUser) {
+      res.status(403).json({
+        existingUser: true,
+        message: "An account already exists with this email address"
+      });
+    } else {
+      res
+        .status(200)
+        .json({ existingUser: false, message: "Account does not exist" });
+    }
+  } catch (error) {
+    res
+      .status(501)
+      .json({
+        existingUser: null,
+        message: "Check your internet connection and try again"
+      });
   }
 };
 const registerAUser = async (req, res) => {
@@ -58,6 +72,10 @@ const registerAUser = async (req, res) => {
       if (createAccount) {
         res.status(200).json({
           message: "Account created Sucessfully"
+        });
+      } else {
+        res.status(503).json({
+          message: "An error occured please try again"
         });
       }
     }
@@ -148,5 +166,6 @@ module.exports = {
   registerAUser,
   logInUser,
   sendVerificationMail,
-  checkAuth
+  checkAuth,
+  CheckExistingUser
 };

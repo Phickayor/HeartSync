@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
-import { ProfileEdit } from "../Controllers/UserController";
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-import ButtonLoader from "../Loaders/ButtonLoader";
-function Description(props) {
+import ButtonLoader from "../../Loaders/ButtonLoader";
+import { RegContext } from "@/contexts/RegContext";
+function Description({ onNext }) {
   const [height, setHeight] = useState(null);
   const [gender, setGender] = useState(null);
   const [weight, setWeight] = useState(null);
   const [loader, SetLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const token = Cookies.get("token");
+  const regContext = useContext(RegContext);
   const HandleSubmit = async (e) => {
     e.preventDefault();
     SetLoader(true);
@@ -22,19 +20,14 @@ function Description(props) {
       setErrorMessage("What category best fits your weight?");
     } else {
       const payload = { height, gender, weight };
-      const profile = await ProfileEdit(token, payload);
-      profile.success
-        ? props.contentHandler("profile")
-        : Swal.fire({
-            icon: "error",
-            title: profile.message
-          });
+      regContext.RegDispatch({ type: "update", payload });
+      onNext();
     }
     SetLoader(false);
   };
   return (
-    <div className="mx-auto w-10/12 lg:w-4/6">
-      <div className="bg-white p-5 px-10 rounded-xl">
+    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-4/6">
+      <div className="p-5 px-10 rounded-xl">
         <div className="text-center py-5">
           <h1 className="auth-header">We'll like to know more</h1>
           <p className="text-sm font-extralight">
@@ -43,7 +36,7 @@ function Description(props) {
           </p>
         </div>
         {errorMessage ? (
-          <div className="flex justify-center gap-2 [&>*]:self-center">
+          <div className="flex justify-center pb-4 gap-2 [&>*]:self-center">
             <AiFillInfoCircle />
             <span className="text-center text-red-500">{errorMessage}</span>
           </div>

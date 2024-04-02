@@ -1,29 +1,30 @@
 "use client";
 
-import Register from "@/components/Auth/Register";
-import About from "@/components/Setup/About";
-import Description from "@/components/Setup/Description";
-import ProfileSection from "@/components/Setup/ProfileSection";
+import Register from "@/components/Auth/Registration/Register";
+import About from "@/components/Auth/Registration/About";
+import Description from "@/components/Auth/Registration/Description";
+import ProfileSection from "@/components/Auth/Registration/ProfileSection";
 import React, { useState } from "react";
+import RegistrationComp from "@/components/Auth/Registration/RegistrationComp";
+import Preference from "@/components/Auth/Registration/Preference";
+import CardPreview from "@/components/Auth/Registration/CardPreview";
 
 function page() {
-  const [currentContent, setCurrentContent] = useState("register");
+  var [counter, setCounter] = useState(0);
 
-  const handleContentChange = (content) => {
-    setCurrentContent(content);
+  const handleNext = () => {
+    setCounter(counter++);
   };
+  const components = [
+    <Register onNext={handleNext} />,
+    <About onNext={handleNext} />,
+    <Description onNext={handleNext} />,
+    <ProfileSection onNext={handleNext} />,
+    <CardPreview onNext={handleNext} />,
+    <Preference action={"creation"} />
+  ];
 
-  return (
-    <div className='flex flex-col justify-center h-screen fixed w-full bg-[#121212] bg-cover bg-[url("/images/auth-bg.png")]'>
-      {currentContent == "profile" ? (
-        <ProfileSection contentHandler={handleContentChange} />
-      ) : currentContent == "about" ? (
-        <About contentHandler={handleContentChange} />
-      ) : (
-        <Register contentHandler={handleContentChange} />
-      )}
-    </div>
-  );
+  return <RegistrationComp>{components[counter]}</RegistrationComp>;
 }
 
 export default page;

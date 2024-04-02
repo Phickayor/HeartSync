@@ -1,4 +1,4 @@
-import Preference from "@/components/Setup/Preference";
+import Preference from "@/components/Auth/Registration/Preference";
 import React from "react";
 
 function page() {

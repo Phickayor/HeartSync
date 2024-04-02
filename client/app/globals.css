@@ -6,7 +6,7 @@ label {
   @apply font-thin;
 }
 .pattern-background {
-  @apply bg-[url('/images/auth-bg.png')] bg-cover;
+  @apply bg-[url('/images/auth-bg.png')] bg-cover bg-fixed;
 }
 .auth-header {
   @apply text-2xl md:text-3xl font-medium text-center;
@@ -15,17 +15,17 @@ label {
   @apply duration-300 text-center font-medium py-5 rounded-full cursor-pointer;
 }
 .preference-item {
-  @apply px-14 xl:px-20 bg-white text-center font-semibold py-5 rounded-full cursor-pointer;
+  @apply px-14 xl:px-20 bg-[#131725] text-white text-center font-semibold py-5 rounded-full cursor-pointer;
 }
 .active-preference-item {
-  @apply px-14 xl:px-20 bg-purple-500 text-white text-center font-semibold py-5 rounded-full cursor-pointer;
+  @apply px-14 xl:px-20 bg-purple-500  text-center font-semibold py-5 rounded-full cursor-pointer;
 }
 .description-item:hover,
 .preference-item:hover {
   @apply bg-purple-500 text-white;
 }
 .activityBar {
-  @apply self-center hover:bg-btnColor px-6 py-4 rounded-xl duration-300;
+  @apply self-center hover:text-white hover:bg-btnColor px-6 py-4 rounded-xl duration-300;
 }
 
 /* width */

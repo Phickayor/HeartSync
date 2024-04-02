@@ -44,9 +44,13 @@ function AdminComp({ navName, children }) {
       <UserContext.Provider
         value={{ userState: state, userDispatch: dispatch }}
       >
-        <div className="fixed flex h-screen w-full">
-          <ActivityBar activeBar={navName} />
-          <div className="overflow-y-scroll w-full">{children} </div>
+        <div className="fixed flex flex-col justify-between md:justify-start md:flex-row h-screen w-full">
+          <div className="md:order-1 order-2 md:relative fixed z-20 bottom-0 md:w-fit w-full">
+            <ActivityBar activeBar={navName} />
+          </div>
+          <div className="md:overflow-y-auto w-full order-1 md:order-2">
+            {children}
+          </div>
         </div>
       </UserContext.Provider>
     );
