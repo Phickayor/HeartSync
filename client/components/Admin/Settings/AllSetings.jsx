@@ -1,16 +1,18 @@
 "use client";
 import { UserContext } from "@/contexts/UserContext";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import EditProfile from "./EditProfile";
 import { EditUser } from "@/components/Controllers/UserController";
 import Swal from "sweetalert2";
+import { FaCamera } from "react-icons/fa";
 function AllSetings() {
   const userContext = useContext(UserContext);
   const profile = userContext.userState.user;
   const [showAbovePageComponent, setShowAbovePageComponent] = useState(false);
   const [name, setName] = useState(null);
   const [keyName, setKeyName] = useState(null);
+  const profilePic = useRef(null);
   const handleEdit = (name, keyName) => {
     setShowAbovePageComponent(true);
     setName(name);
@@ -32,19 +34,47 @@ function AllSetings() {
     window.location.reload();
   };
 
+  const handleProfilePicUpdate = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        handleSubmit(e, "profilePicture", e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className="w-full md:h-full h-[calc(100vh-5rem)] overflow-auto max-h-screen flex">
       <div className="mx-auto w-10/12 md:w-8/12 relative rounded-2xl">
-        <div className="flex py-4 flex-col sticky top-0 backdrop-blur gap-2">
+        <div className="group flex py-4 flex-col sticky top-0 backdrop-blur gap-2">
           <img
             src={profile.profilePicture}
             alt="dp"
-            className="w-24 h-24 self-center object-cover rounded-full border-2 border-btnColor"
+            className="group-hover:opacity-40 w-24 h-24 self-center object-cover rounded-full border-2 border-btnColor"
           />
-          <span className="text-sm text-center font-semibold underline cursor-pointer">
-            Edit Profile Picture
-          </span>
+          <div className="absolute top-0 hidden group-hover:flex flex-col w-full h-full justify-center">
+            <div className="w-24 h-24 flex justify-center self-center">
+              <FaCamera
+                className="cursor-pointer self-center text-2xl text-white"
+                onClick={() => profilePic.current.click()}
+              />
+              <input
+                type="file"
+                onChange={handleProfilePicUpdate}
+                className="hidden"
+                ref={profilePic}
+              />
+            </div>
+          </div>
         </div>
+
+        <Link
+          href="/admin/profile"
+          className="md:hidden block text-sm text-center font-semibold underline cursor-pointer"
+        >
+          View Profile
+        </Link>
         <div className="flex flex-col gap-2 md:px-10 py-5 overflow-y-auto ">
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className="self-center">
@@ -81,6 +111,20 @@ function AllSetings() {
                 {profile.email}
               </span>
             </div>
+          </div>
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+            <div className="self-center">
+              <h3 className="md:text-lg">Long Bio</h3>
+              <span className="md:text-md text-sm text-[#717171]">
+                {profile?.longBio}
+              </span>
+            </div>
+            <span
+              onClick={() => handleEdit("Long Bio", "longBio")}
+              className="text-sm font-semibold underline cursor-pointer"
+            >
+              Edit
+            </span>
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className=" self-center">

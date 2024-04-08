@@ -175,7 +175,7 @@ function Message({ userId }) {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col justify-center h-full border-l-2 text-center text-5xl">
+    <div className="flex flex-col justify-center h-full border-l-2 text-center text-4xl">
       <h1>Your Messages appear here</h1>
     </div>
   );
