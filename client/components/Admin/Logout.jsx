@@ -13,12 +13,21 @@ function Logout() {
     router.push("/auth");
   };
   return (
-    <div className="bg-[#171717] w-full h-full flex flex-col justify-center py-10 text-white text-center ">
-      <div className="bg-[#1E1D1D] mx-auto w-1/2 h-3/5 p-20 space-y-6 rounded-lg">
-        <h3 className="text-2xl">Are you sure you want to logout?</h3>
+    <div className="grid grid-rows-5 h-[calc(100vh-5rem)] md:h-screen max-h-screen gap-5 ">
+      <div className="flex justify-center row-span-2 py-5 h-full">
+        <img
+          src="/images/logo.svg"
+          alt=""
+          className="self-center scale-150 h-fit"
+        />
+      </div>
+      <div className="mx-auto row-span-4 py-5 flex flex-col gap-5 w-10/12">
+        <h1 className="text-center text-2xl md:text-4xl">
+          Are you sure you want to logout ?
+        </h1>
         <button
           onClick={handleLogout}
-          className="px-12 py-2 rounded-md bg-[#891919]"
+          className="bg-[#964242] text-white mx-auto self-center w-fit py-2.5 px-10 text-lg rounded-lg "
         >
           Logout
         </button>
