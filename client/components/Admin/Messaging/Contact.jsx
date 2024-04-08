@@ -11,7 +11,6 @@ function Contact() {
     const fetchChats = async () => {
       const { userChats } = await getAllChats();
       setChats(userChats);
-      console.log(userChats);
     };
     fetchChats();
   }, []);

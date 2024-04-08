@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import EditProfile from "./EditProfile";
 import { EditUser } from "@/components/Controllers/UserController";
-
+import Swal from "sweetalert2";
 function AllSetings() {
   const userContext = useContext(UserContext);
   const profile = userContext.userState.user;
@@ -25,28 +25,31 @@ function AllSetings() {
       [keyName]: value
     };
     const data = await EditUser(payload);
-    alert(data.message);
+    Swal.fire({
+      text: data.message
+    });
     handleClose();
     window.location.reload();
   };
 
   return (
-    <div className="bg-[#171717] w-full h-full py-10 text-white flex">
-      <div className="mx-auto w-10/12 self-center relative rounded-2xl bg-[#1E1D1D] pb-12 h-[85vh] overflow-y-auto">
-        <div className="rounded-2xl sticky top-0 bg-[#232222] py-4 flex justify-center gap-5 text-sm text-center ">
-          <div className="flex flex-col gap-2">
-            <img
-              src={profile.profilePicture}
-              alt="dp"
-              className="w-20 h-20 self-center object-cover rounded-full border-2 border-btnColor"
-            />
-          </div>
+    <div className="w-full md:h-full h-[calc(100vh-5rem)] overflow-auto max-h-screen flex">
+      <div className="mx-auto w-10/12 md:w-8/12 relative rounded-2xl">
+        <div className="flex py-4 flex-col sticky top-0 backdrop-blur gap-2">
+          <img
+            src={profile.profilePicture}
+            alt="dp"
+            className="w-24 h-24 self-center object-cover rounded-full border-2 border-btnColor"
+          />
+          <span className="text-sm text-center font-semibold underline cursor-pointer">
+            Edit Profile Picture
+          </span>
         </div>
-        <div className="flex flex-col gap-2 px-10 py-5 overflow-y-hidden ">
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+        <div className="flex flex-col gap-2 md:px-10 py-5 overflow-y-auto ">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className="self-center">
-              <h3>Username</h3>
-              <span className="text-sm text-[#717171]">
+              <h3 className="md:text-lg">Username</h3>
+              <span className="md:text-md text-sm text-[#717171]">
                 www.hibuddy/{profile?.userName}
               </span>
             </div>
@@ -57,10 +60,10 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className="self-center">
-              <h3>Fullname</h3>
-              <span className="text-sm text-[#717171]">
+              <h3 className="md:text-lg">Fullname</h3>
+              <span className="md:text-md text-sm text-[#717171]">
                 {profile?.fullName}
               </span>
             </div>
@@ -71,16 +74,18 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className=" self-center">
-              <h3>Email address</h3>
-              <span className="text-sm text-[#717171]">{profile.email}</span>
+              <h3 className="md:text-lg">Email address</h3>
+              <span className="md:text-md text-sm text-[#717171]">
+                {profile.email}
+              </span>
             </div>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className=" self-center">
-              <h3>Phone number</h3>
-              <span className="text-sm text-[#717171]">
+              <h3 className="md:text-lg">Phone number</h3>
+              <span className="md:text-md text-sm text-[#717171]">
                 {profile?.phoneNumber
                   ? "+234 (0) " + profile.phoneNumber
                   : "Not Provided"}
@@ -93,10 +98,10 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className=" self-center">
-              <h3>Change preferences</h3>
-              <span className="text-sm text-[#717171]">
+              <h3 className="md:text-lg">Change preferences</h3>
+              <span className="md:text-md text-sm text-[#717171]">
                 {profile.preferences
                   ? profile.preferences.join(", ")
                   : "Not Provided"}
@@ -109,10 +114,12 @@ function AllSetings() {
               Edit
             </Link>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-4">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
             <div className=" self-center">
-              <h3>Password</h3>
-              <span className="text-sm text-[#717171]">*****************</span>
+              <h3 className="md:text-lg">Password</h3>
+              <span className="md:text-md text-sm text-[#717171]">
+                *****************
+              </span>
             </div>
             <span
               onClick={() => handleEdit("Password", "password")}

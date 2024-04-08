@@ -93,7 +93,7 @@ function Message({ userId }) {
           setMessages([...messages, data.newMessage]);
           setNewMessage("");
         } else {
-          alert(data.message);
+          console.log(data.message);
         }
       }
     } catch (error) {
@@ -150,19 +150,19 @@ function Message({ userId }) {
             );
           }
         })}
-        {/* {istyping ? (
+        {istyping ? (
           <OtherUserText
             image={otherUser.profilePicture}
             content={"typing..."}
           />
         ) : (
           <></>
-        )} */}
+        )}
       </div>
-      <div className="md:h-20 bg-[#1E1D1D] border border-white rounded-2xl flex py-5 px-8 cursor-pointer gap-5">
+      <div className=" bg-[#1E1D1D] border border-white rounded-2xl flex py-5 px-8 cursor-pointer gap-5">
         <input
           type="text"
-          className="self-center bg-white/0 text-white w-full focus:outline-none"
+          className="self-center bg-inherit text-white w-full focus:outline-none"
           placeholder="Message"
           value={newMessageClient}
           onChange={typingHandler}

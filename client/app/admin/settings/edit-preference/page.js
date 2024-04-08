@@ -6,7 +6,7 @@ function page() {
   return (
     <AdminComp navName={"settings"}>
       <div className="pattern-background text-[#131725]">
-        <Preference action={"edit "} />
+        <Preference action={"edit"} />
       </div>
     </AdminComp>
   );
