@@ -6,8 +6,8 @@ import AdminComp from "@/components/Admin/AdminComp";
 function Page({ params }) {
   return (
     <AdminComp navName={"message"}>
-      <div className="hidden md:grid md:grid-cols-3 w-full">
-        <div className="relative">
+      <div className="grid md:grid-cols-3 w-full">
+        <div className="hidden md:block relative">
           <Contact />
         </div>
         <div className="col-span-2 ">
