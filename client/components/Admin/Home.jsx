@@ -44,7 +44,7 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col justify-center fixed h-[calc(100%-5rem)] max-h-[calc(100%-5rem)] md:max-h-full overflow-auto  w-full md:h-full md:py-10 text-white text-center ">
+    <div className="flex pattern-background flex-col justify-center fixed h-[calc(100%-5rem)] max-h-[calc(100%-5rem)] md:max-h-full overflow-auto  w-full md:h-full md:py-10 text-white text-center ">
       <div className="hidden bg-[#1E1D1D] py-3 rounded-md md:flex mx-auto w-10/12 px-5">
         <AiOutlineSearch className="self-center text-xl text-slate-200" />
         <input

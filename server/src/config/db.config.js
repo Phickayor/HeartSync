@@ -8,7 +8,7 @@ const connectToDb = async () => {
     );
     console.log("Connected to db successfully at " + db.connection.host);
   } catch (error) {
-    console.log("Error connecting to db " + error + process.env.DB_PSWD);
+    console.log("Error connecting to db " + error.message);
   }
 };
 

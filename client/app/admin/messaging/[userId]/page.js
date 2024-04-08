@@ -6,9 +6,16 @@ import AdminComp from "@/components/Admin/AdminComp";
 function Page({ params }) {
   return (
     <AdminComp navName={"message"}>
-      <Contact/>
-      <Message receiverId={params.receiverId} />
+      <div className="hidden md:grid md:grid-cols-3 w-full">
+        <div className="relative">
+          <Contact />
+        </div>
+        <div className="col-span-2 ">
+          <Message userId={params.userId} />
+        </div>
+      </div>
     </AdminComp>
-  ); }
+  );
+}
 
 export default Page;

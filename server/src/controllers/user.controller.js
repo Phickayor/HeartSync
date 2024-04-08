@@ -49,8 +49,34 @@ const getSpecificUser = async (req, res) => {
     res.status(501).json({ message: error.message });
   }
 };
+
+const getMatches = async (req, res) => {
+  try {
+    const userDetails = await User.findById(req.user._id);
+    const userPreferences = userDetails.preferences;
+    const allUsers = await User.find();
+    const matches = [];
+    for (var i = 0; i < allUsers.length; i++) {
+      if (allUsers[i]._id == req.user._id) {
+        continue;
+      }
+      let rating;
+      allUsers[i].preferences.map((preference) => {
+        if (userPreferences.includes(preference)) {
+          rating++;
+        }
+      });
+      const matchWithRating = allUsers[i] + { rating };
+      matches.push(matchWithRating);
+    }
+    res.status(200).json({ matches });
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+};
 module.exports = {
   getUser,
   editUser,
-  getSpecificUser
+  getSpecificUser,
+  getMatches
 };

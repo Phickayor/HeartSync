@@ -83,7 +83,7 @@ function Preference({ action }) {
     setLoader(false);
   };
   return (
-    <div className="py-8">
+    <div className="pt-5 pb-20 h-screen overflow-auto">
       <div
         className={`self-center ${notificationState} bg-notification text-white mx-auto w-10/12 py-5 px-16 flex justify-between rounded-2xl duration-300`}
       >

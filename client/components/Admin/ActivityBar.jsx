@@ -26,7 +26,7 @@ function ActivityBar({ activeBar }) {
     fetchDetails();
   }, []);
   return (
-    <div className="bg-white text-[#131725] h-20 md:h-full md:flex flex-col justify-between md:py-24 p-3 md:px-3">
+    <div className="bg-white text-[#131725] md:h-full md:flex flex-col justify-between md:py-24 py-1 px-3">
       <div className="flex md:flex-col justify-around gap-6 ">
         <Link
           href="/admin/"

@@ -5,7 +5,7 @@ import React from "react";
 function page() {
   return (
     <AdminComp navName={"settings"}>
-      <div className="pattern-background bg-[#171717]">
+      <div className="pattern-background text-[#131725]">
         <Preference action={"edit "} />
       </div>
     </AdminComp>

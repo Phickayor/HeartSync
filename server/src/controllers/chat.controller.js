@@ -1,73 +1,49 @@
-// const chatModel = require("../models/chat.model");
-// const profileModel = require("../models/profile.model");
+const Chat = require("../models/chat.model");
+const User = require("../models/user.model");
 
-// const accessChat = async (req, res) => {
-//   const { userId } = req.body;
+const accessChat = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ message: "User id missing in request body" });
+    }
+    const verifyUserId = await User.findById(userId);
+    var userIds = [req.user._id, userId];
+    if (!verifyUserId) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const chat = await Chat.findOne({ users: { $all: userIds } });
+    if (!chat) {
+      const createChat = await Chat.create({ users: userIds });
+      res.status(200).json({ chat: createChat });
+    } else {
+      res.status(200).json({ chat });
+    }
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+};
 
-//   if (!userId) {
-//     console.log("UserId param not sent with request");
-//     return res.sendStatus(400);
-//   }
+const fetchChats = async (req, res) => {
+  try {
+    const userChats = await Chat.find({
+      users: { $in: [req.user._id] }
+    })
+      .populate("users", "userName profilePicture")
+      .populate("latestMessage", "content");
+    if (userChats) {
+      res.status(200).json({ userChats });
+    } else {
+      res.status(404).json({ userChats });
+    }
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+};
 
-//   var isChat = await chatModel.find({
-//     isGroupChat: false,
-//     $and: [
-//       { users: { $elemMatch: { $eq: req.user._id } } },
-//       { users: { $elemMatch: { $eq: userId } } }
-//     ]
-//   })
-//     .populate("users", "-password")
-//     .populate("latestMessage");
-
-//   isChat = await profileModel.populate(isChat, {
-//     path: "latestMessage.sender",
-//     select: "name pic email"
-//   });
-
-//   if (isChat.length > 0) {
-//     res.send(isChat[0]);
-//   } else {
-//     var chatData = {
-//       chatName: "sender",
-//       isGroupChat: false,
-//       users: [req.user._id, userId]
-//     };
-
-//     try {
-//       const createdChat = await chatModel.create(chatData);
-//       const FullChat = await chatModel.findOne({ _id: createdChat._id }).populate(
-//         "users",
-//         "-password"
-//       );
-//       res.status(200).json(FullChat);
-//     } catch (error) {
-//       res.status(400);
-//       throw new Error(error.message);
-//     }
-//   }
-// };
-
-// const fetchChats = async (req, res) => {
-//   try {
-//     chatModel.find({ users: { $elemMatch: { $eq: req.user._id } } })
-//       .populate("users", "-password")
-//       .populate("groupAdmin", "-password")
-//       .populate("latestMessage")
-//       .sort({ updatedAt: -1 })
-//       .then(async (results) => {
-//         results = await User.populate(results, {
-//           path: "latestMessage.sender",
-//           select: "name pic email"
-//         });
-//         res.status(200).send(results);
-//       });
-//   } catch (error) {
-//     res.status(400);
-//     throw new Error(error.message);
-//   }
-// };
-
-// module.exports = {
-//   accessChat,
-//   fetchChats
-// };
+module.exports = {
+  accessChat,
+  fetchChats
+};

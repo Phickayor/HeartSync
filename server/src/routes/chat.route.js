@@ -1,8 +1,8 @@
 const express = require("express");
 const { checkAuth } = require("../controllers/auth.controller");
-const { fetchChats, accessChat } = require("../controllers/chat.controller");
-const router = express();
+const { accessChat, fetchChats } = require("../controllers/chat.controller");
+const chatRouter = express();
 
-router.get("/", checkAuth, fetchChats);
-router.post("/", checkAuth, accessChat);
-module.exports = router;
+chatRouter.get("/", checkAuth, fetchChats);
+chatRouter.get("/:userId", checkAuth, accessChat);
+module.exports = chatRouter;

@@ -5,44 +5,34 @@ function Profile() {
   const userContext = useContext(UserContext);
   const profile = userContext.userState.user;
   return (
-    <div className="bg-[#171717] w-full h-full p-20 text-white">
-      <div className="flex gap-14">
+    <div className="md:py-16 p-5 h-screen ">
+      <div className="flex gap-5 md:w-fit">
         <img
           src={profile.profilePicture}
-          className="w-32 h-32 object-cover rounded-full border-2 border-btnColor self-center"
+          className="w-24 h-24 md:w-32 md:h-32 rounded-full"
         />
-        <div className="flex flex-col gap-4">
-          <div className="flex w-fit gap-8 h-fit">
-            <h1 className="text-2xl self-center">{profile?.userName}</h1>
-            <div className="space-x-3 text-sm">
-              <button className="bg-[#4c4c4c] px-6 py-2 rounded-xl ">
-                Chat with
-              </button>
-              <button className="bg-[#4c4c4c] px-6 py-2 rounded-xl ">
-                Share profile
-              </button>
-            </div>
+        <div className="flex flex-col gap-2 md:gap-4 w-9/12">
+          <div className="flex gap-5">
+            <h1 className="text-lg md:text-2xl">{profile.userName}</h1>
+            <button className="bg-[#131725] text-white rounded-full px-4 py-2 md:text-md text-xs">
+              Chat with
+            </button>
+            <button className="bg-[#131725] text-white rounded-full px-4 py-2 md:text-md text-xs">
+              Share profile
+            </button>
           </div>
-          <div className="grid grid-cols-3 text-lg">
+          <div className="flex justify-between md:text-lg font-medium">
             <span>10 Likes</span>
-            <span>40 friends</span>
-            <span>10 rejected</span>
+            <span>20 Friends</span>
+            <span>40 Rejected</span>
           </div>
-          <p className="font-light leadng-[2rem] w-[32rem]">
-            {profile?.longBio}
-          </p>
+          <span>{profile.longBio}</span>
         </div>
       </div>
-
-      <div className="py-10 grid grid-cols-4 gap-8">
-        {profile?.preferences?.map((preference, index) => (
-          <div
-            key={index}
-            className="py-4 bg-[#B093FF] text-black text-center rounded-full text-lg"
-          >
-            {preference}
-          </div>
-        ))}
+      <div>
+        {profile?.preferences?.map((preference)=>{
+          <span>{preference}</span>
+        })}
       </div>
     </div>
   );
