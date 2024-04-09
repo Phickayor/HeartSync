@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { EditUser } from "../../Controllers/UserController";
@@ -9,6 +9,7 @@ import { RegContext } from "@/contexts/RegContext";
 import { createUser } from "@/components/Controllers/AuthController";
 function Preference({ action }) {
   const [notificationState, setNotificationState] = useState("block");
+  const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
   let chosenPreference = [];
   const regContext = useContext(RegContext);
@@ -71,10 +72,10 @@ function Preference({ action }) {
           regContext.RegDispatch({
             type: "update",
             payload: {
-              preferences: [...chosenPreference]
+              preferences: chosenPreference
             }
           });
-          handleRegistration();
+          setCreateAccount(true);
         }
       }
     } catch (error) {
@@ -82,6 +83,14 @@ function Preference({ action }) {
     }
     setLoader(false);
   };
+
+  useEffect(() => {
+    if (createAccount) {
+      handleRegistration();
+      setCreateAccount(false);
+    }
+  }, [createAccount]);
+
   return (
     <div className="pt-5 pb-20 h-screen overflow-auto">
       <div

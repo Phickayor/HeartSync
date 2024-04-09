@@ -10,6 +10,9 @@ const editUser = async (req, res) => {
         var encryptedPassword = await handleEncryption(req.body.password);
         req.body.password = encryptedPassword;
       }
+      if (req.body.userName) {
+        req.body.userName = req.body.userName.toLowerCase();
+      }
       var updateUser = await User.findByIdAndUpdate(req.user._id, req.body);
       updateUser
         ? res
@@ -49,7 +52,18 @@ const getSpecificUser = async (req, res) => {
     res.status(501).json({ message: error.message });
   }
 };
-
+const getSpecificUserByUserName = async (req, res) => {
+  try {
+    var user = await User.findOne({
+      userName: req.params.userName.toLowerCase()
+    }).select("-password -isEmailVerified -phoneNumber");
+    user
+      ? res.status(200).json({ user })
+      : res.status(404).json({ message: "No User with that user name" });
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+};
 const getMatches = async (req, res) => {
   try {
     const userDetails = await User.findById(req.user._id);
@@ -78,5 +92,6 @@ module.exports = {
   getUser,
   editUser,
   getSpecificUser,
+  getSpecificUserByUserName,
   getMatches
 };

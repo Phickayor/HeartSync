@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { checkExistingUser } from "@/components/Controllers/AuthController";
 import { RegContext } from "@/contexts/RegContext";
+import Link from "next/link";
 function Register({ onNext }) {
   const [email, setEmail] = useState("");
   const [pswd1, setPswd1] = useState("");
@@ -104,6 +105,9 @@ function Register({ onNext }) {
             {loader ? <ButtonLoader /> : "Next"}
           </button>
         </form>
+      </div>
+      <div className="flex justify-center [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-lg">
+        <Link href="/auth/">Already have an account?</Link>
       </div>
     </div>
   );

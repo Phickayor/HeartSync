@@ -6,7 +6,7 @@ function Page() {
   return (
     <div className="fixed flex h-screen w-full">
       <AdminComp navName={"profile"}>
-        <Profile/>
+        <Profile userId={null} />
       </AdminComp>
     </div>
   );

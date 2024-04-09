@@ -4,12 +4,14 @@ import io from "socket.io-client";
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlinePicture } from "react-icons/ai";
 import { GetSpecificUser } from "@/components/Controllers/UserController";
+import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
 import { AccessChat } from "@/components/Controllers/ChatController";
 import {
   getAllMessages,
   sendMessage
 } from "@/components/Controllers/MessageController";
+import { capitalize } from "@/utilities/firstLetterCaps";
 
 const UserText = ({ image, content }) => {
   return (
@@ -120,36 +122,45 @@ function Message({ userId }) {
       }
     }, timerLength);
   };
-  return messages.length > 0 ? (
-    <div className="px-10 md:py-4 flex flex-col md:gap-5 justify-between md:h-screen h-[calc(100vh-5rem)]">
-      <div className="md:h-20 rounded-2xl flex p-3 cursor-pointer gap-4">
+  return (
+    <div className="px-5 md:px-10 md:py-4 flex flex-col md:gap-5 justify-between md:h-screen h-[calc(100vh-5rem)]">
+      <Link
+        href={`/profile/${userId}`}
+        className="md:h-20 rounded-2xl flex p-3 cursor-pointer gap-4"
+      >
         <img
           src={otherUser?.profilePicture}
           className="w-12 h-12 rounded-full self-center"
         />
         <h3 className="self-center text-xl text-[#131725]">
-          {otherUser?.userName}
+          {otherUser && capitalize(otherUser?.userName)}
         </h3>
-      </div>
+      </Link>
 
       <div className="flex flex-col justify-end flex-1  overflow-y-auto gap-5 py-3">
-        {messages.map((message) => {
-          if (message.sender._id == userContext.userState.user._id) {
-            return (
-              <UserText
-                image={userContext.userState.user.profilePicture}
-                content={message.content}
-              />
-            );
-          } else if (message.sender._id == otherUser._id) {
-            return (
-              <OtherUserText
-                image={otherUser.profilePicture}
-                content={message.content}
-              />
-            );
-          }
-        })}
+        {messages.length > 0 ? (
+          messages.map((message) => {
+            if (message.sender._id == userContext.userState.user._id) {
+              return (
+                <UserText
+                  image={userContext.userState.user.profilePicture}
+                  content={message.content}
+                />
+              );
+            } else if (message.sender._id == otherUser._id) {
+              return (
+                <OtherUserText
+                  image={otherUser.profilePicture}
+                  content={message.content}
+                />
+              );
+            }
+          })
+        ) : (
+          <div className="flex flex-col justify-center md:h-screen h-[calc(100vh-5rem)] text-center text-2xl md:text-3xl">
+            <h1>Your Messages would appear here</h1>
+          </div>
+        )}
         {istyping ? (
           <OtherUserText
             image={otherUser.profilePicture}
@@ -173,10 +184,6 @@ function Message({ userId }) {
           <AiOutlineHeart />
         </div>
       </div>
-    </div>
-  ) : (
-    <div className="flex flex-col justify-center h-full border-l-2 text-center text-4xl">
-      <h1>Your Messages appear here</h1>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import {
   AiOutlineHome,
   AiOutlineLogout,
   AiOutlineMessage,
+  AiOutlineSearch,
   AiOutlineSetting
 } from "react-icons/ai";
 import Link from "next/link";
@@ -37,6 +38,16 @@ function ActivityBar({ activeBar }) {
           }
         >
           <AiOutlineHome className="text-2xl" />
+        </Link>
+        <Link
+          href="/admin/search"
+          className={
+            activeBar == "search"
+              ? "activityBar text-white bg-btnColor"
+              : "activityBar"
+          }
+        >
+          <AiOutlineSearch className="text-2xl" />
         </Link>
         <Link
           href="/admin/messaging"

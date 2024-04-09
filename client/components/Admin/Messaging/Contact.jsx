@@ -19,7 +19,7 @@ function Contact() {
     <div className="px-5 w-full md:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
         <h1 className="text-xl ">Messages</h1>
-        <div className="bg-[#131725] py-4 rounded-xl flex px-5">
+        <div className="bg-[#131725] text-white py-4 rounded-xl flex px-5">
           <AiOutlineSearch className="self-center text-2xl text-slate-200" />
           <input
             type="search"

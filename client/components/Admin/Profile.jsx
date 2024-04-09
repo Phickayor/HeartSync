@@ -1,9 +1,33 @@
 "use client";
 import { UserContext } from "@/contexts/UserContext";
-import React, { useContext } from "react";
-function Profile() {
+import { useRouter } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
+import { GetSpecificUser } from "../Controllers/UserController";
+import { capitalize } from "@/utilities/firstLetterCaps";
+function Profile({ userId }) {
   const userContext = useContext(UserContext);
-  const profile = userContext.userState.user;
+  const [profile, setProfile] = useState(null);
+  const router = useRouter();
+  const handleChat = (e) => {
+    e.preventDefault();
+    router.push(`/admin/messaging/${profile._id}`);
+  };
+  useEffect(() => {
+    if (userId) {
+      try {
+        const fetchUserInfo = async () => {
+          const { profile } = await GetSpecificUser(userId);
+          profile ? setProfile(profile) : router.back();
+        };
+        fetchUserInfo();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setProfile(userContext.userState.user);
+    }
+  }, [userContext]);
+
   return (
     <div className="grid md:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 md:h-screen max-h-screen gap-5 overflow-auto">
       <div className="md:hidden flex justify-center row-span-1 h-full">
@@ -15,14 +39,14 @@ function Profile() {
       </div>
       <div className="mx-auto row-span-4 py-2 flex flex-col gap-5 md:w-8/12 w-10/12">
         <img
-          src={profile.profilePicture}
+          src={profile?.profilePicture}
           alt=""
           className="mx-auto w-32 h-32 rounded-full"
         />
         <h1 className="text-center font-semibold text-3xl md:text-4xl">
-          {profile.userName}
+          {capitalize(profile?.userName)}
         </h1>
-        <p className="text-center">{profile.longBio}</p>
+        <p className="text-center">{profile?.longBio}</p>
         <div className="mx-auto w-10/12 flex md:justify-center flex-wrap gap-3">
           {profile?.preferences?.map((preference) => (
             <div
@@ -34,7 +58,10 @@ function Profile() {
           ))}
         </div>
         <div className="flex flex-col gap-2 py-4">
-          <button className="bg-btnColor text-white mx-auto px-20 py-3 rounded-xl text-lg">
+          <button
+            onClick={handleChat}
+            className="bg-btnColor text-white mx-auto px-20 py-3 rounded-xl text-lg"
+          >
             Chat
           </button>
           <span

@@ -33,6 +33,15 @@ const GetSpecificUser = async (userId) => {
     console.log(error);
   }
 };
+const searchUser = async (userName) => {
+  try {
+    const res = await fetch(`${baseUrl}/user/username/${userName}`);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const EditUser = async (payload) => {
   try {
@@ -54,5 +63,6 @@ const EditUser = async (payload) => {
 module.exports = {
   GetUser,
   GetSpecificUser,
-  EditUser
+  EditUser,
+  searchUser
 };

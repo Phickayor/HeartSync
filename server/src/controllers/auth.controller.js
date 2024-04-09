@@ -20,12 +20,10 @@ const CheckExistingUser = async (req, res) => {
         .json({ existingUser: false, message: "Account does not exist" });
     }
   } catch (error) {
-    res
-      .status(501)
-      .json({
-        existingUser: null,
-        message: "Check your internet connection and try again"
-      });
+    res.status(501).json({
+      existingUser: null,
+      message: "Check your internet connection and try again"
+    });
   }
 };
 const registerAUser = async (req, res) => {
@@ -54,11 +52,11 @@ const registerAUser = async (req, res) => {
       });
     } else {
       const createAccount = await User.create({
-        email,
+        email: email.toLowerCase(),
         password: hashedPassword,
         fullName,
         dob,
-        userName,
+        userName: userName.toLowerCase(),
         phoneNumber,
         height,
         weight,
@@ -87,7 +85,7 @@ const registerAUser = async (req, res) => {
 const logInUser = async (req, res) => {
   try {
     let { email, password } = req.body;
-    const userDetails = await User.findOne({ email });
+    const userDetails = await User.findOne({ email: email.toLowerCase() });
     if (userDetails) {
       var verifyPassword = await comparePassword(
         password,
