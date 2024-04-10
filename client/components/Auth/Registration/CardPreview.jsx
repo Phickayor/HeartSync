@@ -1,13 +1,12 @@
 "use client";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useRef, useState } from "react";
-import { AiFillInfoCircle, AiOutlineCamera } from "react-icons/ai";
-
+import { AiOutlineCamera } from "react-icons/ai";
+import Swal from "sweetalert2";
 function CardPreview({ onNext }) {
   const regContext = useContext(RegContext);
   const [userName, setUserName] = useState(regContext.RegState.userName);
   const [shortBio, setShortBio] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
   const pic = useRef(null);
   const [displayPicture, setDisplayPicture] = useState(
     "/images/displayPic.png"
@@ -35,7 +34,7 @@ function CardPreview({ onNext }) {
       regContext.RegDispatch({ type: "update", payload });
       onNext();
     } else {
-      setErrorMessage("Kindly add a Display Picture");
+      Swal.fire({ text: "Kindly add a Display Picture to proceed" });
     }
   };
   return (
@@ -43,14 +42,6 @@ function CardPreview({ onNext }) {
       <h1 className="text-2xl md:text-3xl text-center font-medium">
         Profile Card Preview
       </h1>
-      {errorMessage ? (
-        <div className="flex justify-center gap-2 py-5 [&>*]:self-center">
-          <AiFillInfoCircle />
-          <span className="text-center text-red-500">{errorMessage}</span>
-        </div>
-      ) : (
-        <></>
-      )}
       <div className="group rounded-3xl mx-auto w-[22rem] h-[36rem] bg-[#1E1D1D] relative p-2">
         <img
           src={displayPicture}

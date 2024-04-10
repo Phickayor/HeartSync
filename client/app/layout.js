@@ -6,8 +6,8 @@ const urbanist = Urbanist({
   subsets: ["latin"]
 });
 export const metadata = {
-  title: "HiBuddy",
-  description: "Connect with your soulmate on Hibuddy"
+  title: "Big Circle",
+  description: "Bringing together people who share similar interests ❤😊✨"
 };
 
 export default function RootLayout({ children }) {
