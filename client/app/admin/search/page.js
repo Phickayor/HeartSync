@@ -1,13 +1,13 @@
-import AdminComp from '@/components/Admin/AdminComp'
-import Search from '@/components/Admin/Search'
-import React from 'react'
+import AdminComp from "@/components/Admin/AdminComp";
+import Search from "@/components/Admin/Search";
+import React from "react";
 
 function page() {
   return (
     <AdminComp>
-        <Search/>
+      <Search />
     </AdminComp>
-  )
+  );
 }
 
-export default page
+export default page;
