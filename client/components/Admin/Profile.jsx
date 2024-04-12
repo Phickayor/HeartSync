@@ -10,7 +10,7 @@ function Profile({ userId }) {
   const router = useRouter();
   const handleChat = (e) => {
     e.preventDefault();
-    router.push(`/admin/messaging/${profile._id}`);
+    router.push(`/admin/messaging/?userId=${profile._id}`);
   };
   useEffect(() => {
     if (userId) {
@@ -27,9 +27,9 @@ function Profile({ userId }) {
       setProfile(userContext.userState);
     }
   }, [userContext]);
-if(!profile){
-  return;
-}
+  if (!profile) {
+    return;
+  }
   return (
     <div className="grid md:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 md:h-screen max-h-screen gap-5 overflow-auto">
       <div className="md:hidden flex justify-center row-span-1 h-full">
@@ -49,7 +49,7 @@ if(!profile){
           {capitalize(profile?.userName)}
         </h1>
         <p className="text-center">{profile?.longBio}</p>
-        <div className="mx-auto w-10/12 flex md:justify-center flex-wrap gap-3">
+        <div className="mx-auto md:w-10/12 flex justify-center flex-wrap gap-3">
           {profile?.preferences?.map((preference) => (
             <div
               key={preference}
@@ -60,12 +60,14 @@ if(!profile){
           ))}
         </div>
         <div className="flex flex-col gap-2 py-4">
-          <button
-            onClick={handleChat}
-            className="bg-btnColor text-white mx-auto px-20 py-3 rounded-xl text-lg"
-          >
-            Chat
-          </button>
+          {userId && (
+            <button
+              onClick={handleChat}
+              className="bg-btnColor text-white mx-auto px-20 py-3 rounded-xl text-lg"
+            >
+              Chat
+            </button>
+          )}
           <span
             href="/admin/profile"
             className=" block text-center font-semibold underline cursor-pointer"

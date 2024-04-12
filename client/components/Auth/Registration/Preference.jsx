@@ -94,14 +94,14 @@ function Preference({ action }) {
   return (
     <div className="pt-5 pb-20 h-screen overflow-auto">
       <div
-        className={`self-center ${notificationState} bg-notification text-white mx-auto w-10/12 py-5 px-16 flex justify-between rounded-2xl duration-300`}
+        className={`self-center ${notificationState} py-2 bg-notification text-white mx-auto w-11/12 md:w-10/12 px-5 md:px-16 flex justify-between rounded-2xl duration-300`}
       >
-        <span className="self-center">
+        <span className="self-center py-5 ">
           🙂🙂 You can select more than one button , what you select would
           decide people you see on your profile
         </span>
         <FaTimesCircle
-          className="text-2xl self-center"
+          className="text-3xl"
           onClick={() => {
             setNotificationState("hidden");
           }}
@@ -109,11 +109,11 @@ function Preference({ action }) {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="mx-auto w-10/12 xl:w-4/5 space-y-8 py-8"
+        className="mx-auto w-11/12 xl:w-4/5 space-y-8 py-8"
       >
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Choose your interests</h3>
-          <div className="flex flex-wrap gap-6 xl:gap-10  ">
+          <div className="grid grid-cols-3 md:grid-cols-4 [&>*]:w-full gap-3 md:gap-5">
             <div onClick={setActive} className="preference-item">
               Sports
             </div>
@@ -121,29 +121,45 @@ function Preference({ action }) {
               Fashion
             </div>
             <div onClick={setActive} className="preference-item">
+              Music
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Stoner
+            </div>
+
+            <div onClick={setActive} className="preference-item">
+              Tequila
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Weeb
+            </div>
+            <div className="col-span-3 md:col-span-2 flex gap-5 [&>*]:w-full">
+              <div onClick={setActive} className=" preference-item">
+                I am a Techie
+              </div>
+              <div onClick={setActive} className="preference-item">
+                I am a Gamer
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-6 ">
+          <h3 className="font-medium text-xl">Gender Of Interest</h3>
+          <div className="flex justify-between [&>*]:w-full gap-3 md:gap-5 ">
+            <div onClick={setActive} className="preference-item">
               Male
             </div>
             <div onClick={setActive} className="preference-item">
               Female
             </div>
-
             <div onClick={setActive} className="preference-item">
-              Male and female
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Music
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Techie
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Gamer
+              Male & Female
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-6 ">
+        <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Personality Traits</h3>
-          <div className="flex flex-wrap gap-6 xl:gap-10 ">
+          <div className="grid grid-cols-3 [&>*]:w-full gap-2 md:gap-5">
             <div onClick={setActive} className="preference-item">
               Introvert
             </div>
@@ -151,32 +167,58 @@ function Preference({ action }) {
               Extrovert
             </div>
             <div onClick={setActive} className="preference-item">
-              Tall
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Short
-            </div>
-            <div onClick={setActive} className="preference-item">
-              Loves to cook
-            </div>
-            <div onClick={setActive} className="preference-item">
               Creative
+            </div>
+          </div>
+
+          <div className="grid grid-cols-4 gap-2 md:gap-5 [&>*]:w-full">
+            <div onClick={setActive} className="preference-item">
+              Timid
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Bold
+            </div>
+
+            <div onClick={setActive} className="preference-item">
+              Kind
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Easy going
+            </div>
+          </div>
+          <div className="grid grid-cols-3 [&>*]:w-full gap-2 md:gap-5">
+            <div onClick={setActive} className="preference-item">
+              Independent
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Dependent
             </div>
             <div onClick={setActive} className="preference-item">
               Christian
             </div>
+          </div>
+          <div className="grid grid-cols-4 gap-2 md:gap-5 [&>*]:w-full">
             <div onClick={setActive} className="preference-item">
               Muslim
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Reserved
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Outspoken
+            </div>
+            <div onClick={setActive} className="preference-item">
+              Empathy
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Why did you join us</h3>
-          <div className="flex flex-wrap gap-6 xl:gap-10 ">
+          <div className="grid grid-cols-3 gap-3 md:gap-5 ">
             <div onClick={setActive} className="preference-item">
-              Make new friends
+              Make friends
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div onClick={setActive} className="preference-item em">
               Relationships
             </div>
             <div onClick={setActive} className="preference-item">
@@ -184,6 +226,7 @@ function Preference({ action }) {
             </div>
           </div>
         </div>
+
         <button
           type="submit"
           className="bg-[#584296] text-white px-12 rounded-lg py-3 text-xl self-center"

@@ -4,17 +4,20 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { searchUser } from "../Controllers/UserController";
 import Link from "next/link";
 import { capitalize } from "@/utilities/firstLetterCaps";
+import SearchResultLoader from "@/Loaders/SearchResultLoader";
 function Search() {
   const [userName, SetUserName] = useState("");
   const [result, setResult] = useState();
+  const [searching, setSearching] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const handleSearch = async (event) => {
     if (event.key == "Enter" && userName) {
+      setErrorMessage();
+      setSearching(true);
       const { user, message } = await searchUser(userName);
-      user
-        ? (setResult(user), setErrorMessage())
-        : (setResult(), setErrorMessage(message));
+      user ? setResult(user) : (setResult(), setErrorMessage(message));
     }
+    setSearching(false);
   };
   return (
     <div className="px-5 mx-auto w-full md:w-10/12 md:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
@@ -36,7 +39,7 @@ function Search() {
         {result && (
           <Link
             href={`/profile/${result._id}`}
-            className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5 hover:text-white hover:bg-[#131725]/30"
+            className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5 text-white bg-slate-500 hover:bg-[#131725]"
           >
             <div className="flex gap-4 py-4">
               <img
@@ -50,6 +53,7 @@ function Search() {
             </div>
           </Link>
         )}
+        {searching && <SearchResultLoader />}
         {errorMessage && (
           <h1 className="text-xl md:text-2xl text-center py-5">
             {errorMessage}
