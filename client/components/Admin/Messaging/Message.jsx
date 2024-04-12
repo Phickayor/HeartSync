@@ -58,35 +58,41 @@ function Message({ userId }) {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [loader, setLoader] = useState(false);
   var socket = io(baseUrl);
   useEffect(() => {
     const fetchMessages = async () => {
-      if (chatId) {
-        const { messages } = await getAllMessages(chatId);
-        if (messages) {
-          setMessages([...messages]);
+      try {
+        if (chatId) {
+          const { messages } = await getAllMessages(chatId);
+          if (messages) {
+            setMessages([...messages]);
+          }
         }
+      } catch (error) {
+        console.log(error.message);
       }
     };
     fetchMessages();
   }, [chatId, messages]);
   useEffect(() => {
     const fetchOtherUserDetails = async () => {
-      if (userId) {
-        const { chat, message } = await AccessChat(userId);
-        if (chat) {
-          setChatId(chat._id);
-        } else {
-          console.log(message);
-        }
-        const { profile } = await GetSpecificUser(userId);
-        setOtherUser(profile);
+      setLoader(true);
+      const { chat, message } = await AccessChat(userId);
+      if (chat) {
+        setChatId(chat._id);
+      } else {
+        console.log(message);
       }
+      const { profile } = await GetSpecificUser(userId);
+      setOtherUser(profile);
+      setLoader(false);
     };
+
     fetchOtherUserDetails();
-  }, []);
+  }, [userId]);
   useEffect(() => {
-    if (userContext.userState) {
+    if (userContext.userState && chatId) {
       socket.emit("setup", userContext.userState);
       socket.on("connected", () => setSocketConnected(true));
       socket.emit("join chat", chatId);
@@ -143,7 +149,7 @@ function Message({ userId }) {
       }
     }, timerLength);
   };
-  if (!messages && userId) {
+  if ((!messages && userId) || loader) {
     return <MessageLoader />;
   }
   if (!userId) {

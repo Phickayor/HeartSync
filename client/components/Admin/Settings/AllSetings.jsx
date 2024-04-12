@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { FaCamera } from "react-icons/fa";
 function AllSetings() {
   const userContext = useContext(UserContext);
-  const profile = userContext.userState.user;
+  const profile = userContext.userState;
   const [showAbovePageComponent, setShowAbovePageComponent] = useState(false);
   const [name, setName] = useState(null);
   const [keyName, setKeyName] = useState(null);
@@ -49,7 +49,7 @@ function AllSetings() {
       <div className="mx-auto w-10/12 md:w-8/12 relative rounded-2xl">
         <div className="group flex py-4 flex-col sticky top-0 backdrop-blur gap-2">
           <img
-            src={profile.profilePicture}
+            src={profile?.profilePicture}
             alt="dp"
             className="group-hover:opacity-40 w-24 h-24 self-center object-cover rounded-full border-2 border-btnColor"
           />
@@ -108,7 +108,7 @@ function AllSetings() {
             <div className=" self-center">
               <h3 className="md:text-lg">Email address</h3>
               <span className="md:text-md text-sm text-[#717171]">
-                {profile.email}
+                {profile?.email}
               </span>
             </div>
           </div>
@@ -146,7 +146,7 @@ function AllSetings() {
             <div className=" self-center">
               <h3 className="md:text-lg">Change preferences</h3>
               <span className="md:text-md text-sm text-[#717171]">
-                {profile.preferences
+                {profile?.preferences
                   ? profile.preferences.join(", ")
                   : "Not Provided"}
               </span>

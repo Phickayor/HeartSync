@@ -40,7 +40,7 @@ function Contact() {
                     return (
                       <Link
                         key={index}
-                        href={`/admin/messaging/${chat.users[i]._id}`}
+                        href={`/admin/messaging/?userId=${chat.users[i]._id}`}
                         className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
                       >
                         <div className="flex gap-4 py-4">
