@@ -27,12 +27,12 @@ function Login() {
       });
       const data = await res.json();
       res.ok
-        ? (Swal.fire({
+        ? (Cookies.set("token", JSON.stringify(data.token)),
+          Swal.fire({
             title: "Success!",
             text: "Login Successful",
             icon: "success"
           }),
-          Cookies.set("token", JSON.stringify(data.token)),
           router.push("/admin"))
         : Swal.fire({
             icon: "error",
