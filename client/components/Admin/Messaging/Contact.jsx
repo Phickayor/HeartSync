@@ -4,8 +4,9 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
 import { getAllChats } from "@/components/Controllers/ChatController";
 import { UserContext } from "@/contexts/UserContext";
+import ChatLoader from "@/Loaders/ChatLoader";
 function Contact() {
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState(null);
   const userContext = useContext(UserContext);
   useEffect(() => {
     const fetchChats = async () => {
@@ -28,44 +29,53 @@ function Contact() {
           />
         </div>
       </div>
-      {chats.length > 0 ? (
-        <div className="flex flex-col gap-2 h-full py-4">
-          {chats.map((chat, index) => {
-            try {
-              for (var i = 0; i < chat.users.length; i++) {
-                if (chat.users[i]._id != userContext.userState.user._id) {
-                  return (
-                    <Link
-                      key={index}
-                      href={`/admin/messaging/${chat.users[i]._id}`}
-                      className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
-                    >
-                      <div className="flex gap-4 py-4">
-                        <img
-                          src={chat.users[i].profilePicture}
-                          className="w-12 h-12 rounded-full self-center"
-                        />
-                        <div className="self-center gap-3">
-                          <h3 className="text-lg">{chat.users[i].userName}</h3>
-                          <span>{chat.latestMessage.content}</span>
+
+      {chats ? (
+        chats.length > 0 ? (
+          <div className="flex flex-col gap-2 h-full py-4">
+            {chats.map((chat, index) => {
+              try {
+                for (var i = 0; i < chat.users.length; i++) {
+                  if (chat.users[i]._id != userContext.userState?._id) {
+                    return (
+                      <Link
+                        key={index}
+                        href={`/admin/messaging/${chat.users[i]._id}`}
+                        className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
+                      >
+                        <div className="flex gap-4 py-4">
+                          <img
+                            src={chat.users[i].profilePicture}
+                            className="w-12 h-12 rounded-full self-center"
+                          />
+                          <div className="self-center gap-3">
+                            <h3 className="text-lg">
+                              {chat.users[i].userName}
+                            </h3>
+                            <span>{chat.latestMessage.content}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="bg-btnColor self-center w-8 h-8 text-center text-white rounded-full flex flex-col justify-center">
-                        <span className="">2</span>
-                      </div>
-                    </Link>
-                  );
+                        <div className="bg-btnColor self-center w-8 h-8 text-center text-white rounded-full flex flex-col justify-center">
+                          <span className="">2</span>
+                        </div>
+                      </Link>
+                    );
+                  }
                 }
+              } catch (error) {
+                console.log(error.message);
               }
-            } catch (error) {
-              console.log(error.message);
-            }
-          })}
-        </div>
+            })}
+          </div>
+        ) : (
+          <div className="h-full">
+            <h3 className="py-20 text-2xl text-center">
+              Your Chats appear here
+            </h3>
+          </div>
+        )
       ) : (
-        <div className="h-full">
-          <h3 className="py-20 text-2xl text-center">Your Chats appear here</h3>
-        </div>
+        <ChatLoader />
       )}
     </div>
   );

@@ -27,27 +27,30 @@ label {
 .activityBar {
   @apply self-center hover:text-white hover:bg-btnColor px-6 py-4 rounded-xl duration-300;
 }
-
-/* width */
-::-webkit-scrollbar {
-  width: 1px;
+.card {
+  margin: 0 auto;
+  /* width: 100vw;
+    height: 100vh; */
+  padding: 1rem;
+  text-align: center;
+  border-radius: 0.8rem;
+  background-color: white;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #888;
-  border-radius: 5px;
-  display: none;
+.card-skeleton {
+  background-image: linear-gradient(
+    90deg,
+    #ccc 0px,
+    rgb(229 229 229 / 90%) 40px,
+    #ccc 80px
+  );
+  background-size: 300%;
+  background-position: 100% 0;
+  animation: shimmer 1.5s infinite;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #000;
-  display: none;
-  border-radius: 5px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+@keyframes shimmer {
+  to {
+    background-position: -100% 0;
+  }
 }

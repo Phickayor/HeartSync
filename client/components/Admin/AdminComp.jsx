@@ -4,10 +4,10 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
+import PageLoader from "@/Loaders/PageLoader";
 
 function AdminComp({ navName, children }) {
   const [isAuthorized, setIsAuthorized] = useState();
-  const user = {};
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
   const router = useRouter();
   useEffect(() => {
@@ -26,17 +26,17 @@ function AdminComp({ navName, children }) {
   const reducer = (state, action) => {
     switch (action.type) {
       case "signIn":
-        return { ...state, user: action.payload };
+        return { ...state, ... action.payload };
       case "signOut":
-        return { ...state, user: null };
+        return { ...state, ...null };
       default:
         return state;
     }
   };
-  const [state, dispatch] = useReducer(reducer, { user });
+  const [state, dispatch] = useReducer(reducer, null);
 
   if (!isAuthorizationChecked) {
-    return null;
+    return <PageLoader />;
   }
 
   if (isAuthorized) {

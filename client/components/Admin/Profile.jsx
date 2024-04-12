@@ -24,10 +24,12 @@ function Profile({ userId }) {
         console.log(error);
       }
     } else {
-      setProfile(userContext.userState.user);
+      setProfile(userContext.userState);
     }
   }, [userContext]);
-
+if(!profile){
+  return;
+}
   return (
     <div className="grid md:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 md:h-screen max-h-screen gap-5 overflow-auto">
       <div className="md:hidden flex justify-center row-span-1 h-full">

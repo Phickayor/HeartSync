@@ -11,7 +11,7 @@ function Page() {
           <Contact />
         </div>
         <div className="hidden md:block col-span-2 ">
-          <Message />
+          <Message userId={null} />
         </div>
       </div>
     </AdminComp>

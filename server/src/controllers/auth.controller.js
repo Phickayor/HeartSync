@@ -104,7 +104,11 @@ const logInUser = async (req, res) => {
       res.status(403).json({ message: "This Account does not exist" });
     }
   } catch (error) {
-    res.status(502).json({ message: error.message });
+    res.status(502).json({
+      error: error.message,
+      message:
+        "An error occured, please check your internet connection and try again"
+    });
   }
 };
 

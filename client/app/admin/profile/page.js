@@ -4,11 +4,9 @@ import React from "react";
 
 function Page() {
   return (
-    <div className="fixed flex h-screen w-full">
-      <AdminComp navName={"profile"}>
-        <Profile userId={null} />
-      </AdminComp>
-    </div>
+    <AdminComp navName={"profile"}>
+      <Profile userId={null} />
+    </AdminComp>
   );
 }
 

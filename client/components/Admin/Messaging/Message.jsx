@@ -12,22 +12,37 @@ import {
   sendMessage
 } from "@/components/Controllers/MessageController";
 import { capitalize } from "@/utilities/firstLetterCaps";
+import MessageLoader from "@/Loaders/MessageLoader";
 
-const UserText = ({ image, content }) => {
-  return (
+export const UserText = ({ image, content }) => {
+  return content ? (
     <div className="flex gap-2 justify-end">
       <div className="bg-[#1E1D1D] rounded-l-full rounded-tr-full flex py-4 px-6 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white">{content}</h3>
       </div>
       <img src={image} className="w-12 h-12 rounded-full self-end" />
     </div>
+  ) : (
+    <div className="flex gap-2 justify-end">
+      <div className="bg-slate-400 card-skeleton rounded-l-full rounded-tr-full flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
+        <h3 className="text-white">{content}</h3>
+      </div>
+      <div className="w-12 h-12 bg-slate-400 card-skeleton rounded-full self-end"></div>
+    </div>
   );
 };
-const OtherUserText = ({ image, content }) => {
-  return (
+export const OtherUserText = ({ image, content }) => {
+  return content ? (
     <div className="flex gap-2">
       <img src={image} className="w-12 h-12 self-end rounded-full" />
       <div className="bg-[#1E1D1D] rounded-r-full rounded-tl-full flex py-4 px-6 cursor-pointer gap-5 max-w-96">
+        <h3 className="text-white">{content}</h3>
+      </div>
+    </div>
+  ) : (
+    <div className="flex gap-2">
+      <div className="w-12 h-12 bg-slate-400 card-skeleton rounded-full self-end"></div>
+      <div className="bg-slate-400 card-skeleton rounded-l-full rounded-tr-full flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white">{content}</h3>
       </div>
     </div>
@@ -38,7 +53,7 @@ function Message({ userId }) {
   const userContext = useContext(UserContext);
   const [chatId, setChatId] = useState(null);
   const [newMessageClient, setNewMessage] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(null);
   const [otherUser, setOtherUser] = useState({});
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
@@ -46,32 +61,38 @@ function Message({ userId }) {
   var socket = io(baseUrl);
   useEffect(() => {
     const fetchMessages = async () => {
-      const { messages } = await getAllMessages(chatId);
-      if (messages) {
-        setMessages([...messages]);
+      if (chatId) {
+        const { messages } = await getAllMessages(chatId);
+        if (messages) {
+          setMessages([...messages]);
+        }
       }
     };
     fetchMessages();
   }, [chatId, messages]);
   useEffect(() => {
     const fetchOtherUserDetails = async () => {
-      const { chat, message } = await AccessChat(userId);
-      if (chat) {
-        setChatId(chat._id);
-      } else {
-        console.log(message);
+      if (userId) {
+        const { chat, message } = await AccessChat(userId);
+        if (chat) {
+          setChatId(chat._id);
+        } else {
+          console.log(message);
+        }
+        const { profile } = await GetSpecificUser(userId);
+        setOtherUser(profile);
       }
-      const { profile } = await GetSpecificUser(userId);
-      setOtherUser(profile);
     };
     fetchOtherUserDetails();
   }, []);
   useEffect(() => {
-    socket.emit("setup", userContext.userState.user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.emit("join chat", chatId);
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+    if (userContext.userState) {
+      socket.emit("setup", userContext.userState);
+      socket.on("connected", () => setSocketConnected(true));
+      socket.emit("join chat", chatId);
+      socket.on("typing", () => setIsTyping(true));
+      socket.on("stop typing", () => setIsTyping(false));
+    }
   }, [chatId, userContext]);
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
@@ -122,6 +143,16 @@ function Message({ userId }) {
       }
     }, timerLength);
   };
+  if (!messages && userId) {
+    return <MessageLoader />;
+  }
+  if (!userId) {
+    return (
+      <div className="flex flex-col justify-center md:h-screen h-[calc(100vh-5rem)] text-center text-2xl md:text-3xl">
+        <h1>Your Messages would appear here</h1>
+      </div>
+    );
+  }
   return (
     <div className="px-5 md:px-10 md:py-4 flex flex-col md:gap-5 justify-between md:h-screen h-[calc(100vh-5rem)]">
       <Link
@@ -139,17 +170,19 @@ function Message({ userId }) {
 
       <div className="flex flex-col justify-end flex-1  overflow-y-auto gap-5 py-3">
         {messages.length > 0 ? (
-          messages.map((message) => {
-            if (message.sender._id == userContext.userState.user._id) {
+          messages.map((message, index) => {
+            if (message.sender._id == userContext.userState?._id) {
               return (
                 <UserText
-                  image={userContext.userState.user.profilePicture}
+                  key={index}
+                  image={userContext.userState?.profilePicture}
                   content={message.content}
                 />
               );
             } else if (message.sender._id == otherUser._id) {
               return (
                 <OtherUserText
+                  key={index}
                   image={otherUser.profilePicture}
                   content={message.content}
                 />
@@ -158,7 +191,7 @@ function Message({ userId }) {
           })
         ) : (
           <div className="flex flex-col justify-center md:h-screen h-[calc(100vh-5rem)] text-center text-2xl md:text-3xl">
-            <h1>Your Messages would appear here</h1>
+            <h1>No Messages so far. Your Messages would appear here</h1>
           </div>
         )}
         {istyping ? (

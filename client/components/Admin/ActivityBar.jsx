@@ -83,7 +83,7 @@ function ActivityBar({ activeBar }) {
 
       <Link href="/admin/profile">
         <img
-          src={userContext.userState.user.profilePicture}
+          src={userContext.userState?.profilePicture}
           className="hidden md:block w-12 h-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
         />
       </Link>
