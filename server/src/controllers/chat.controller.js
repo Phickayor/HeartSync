@@ -31,6 +31,7 @@ const fetchChats = async (req, res) => {
     const userChats = await Chat.find({
       users: { $in: [req.user._id] }
     })
+      .sort({ updatedAt: -1 })
       .populate("users", "userName profilePicture")
       .populate("latestMessage", "content");
     if (userChats) {

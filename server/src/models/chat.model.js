@@ -22,6 +22,7 @@ const chatSchema = new mongoose.Schema(
     }
   },
   {
+    timestamps: true,
     // This ensures that the combination of two users is unique
     indexes: [
       {
@@ -34,8 +35,7 @@ const chatSchema = new mongoose.Schema(
         }
       }
     ]
-  },
-  { timestamps: true }
+  }
 );
 
 const Chat = mongoose.model("Chat", chatSchema);
