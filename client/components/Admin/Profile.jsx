@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { GetSpecificUser } from "../Controllers/UserController";
 import { capitalize } from "@/utilities/firstLetterCaps";
+import baseUrl from "@/config/server";
 function Profile({ userId }) {
   const userContext = useContext(UserContext);
   const [profile, setProfile] = useState(null);
@@ -11,6 +12,22 @@ function Profile({ userId }) {
   const handleChat = (e) => {
     e.preventDefault();
     router.push(`/admin/messaging/?userId=${profile._id}`);
+  };
+  const handleShareClick = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `${capitalize(profile.userName)}'s Big Circle Profile`,
+          text: `Get to meet ${profile.userName} on Big Circle `,
+          url: `www.hibuddydev.netlify.app/profile/${profile._id}`
+        });
+        console.log("Successfully shared");
+      } else {
+        // console.log("Web Share API not supported");
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+    }
   };
   useEffect(() => {
     if (userId) {
@@ -69,6 +86,7 @@ function Profile({ userId }) {
             </button>
           )}
           <span
+            onClick={handleShareClick}
             href="/admin/profile"
             className=" block text-center font-semibold underline cursor-pointer"
           >
