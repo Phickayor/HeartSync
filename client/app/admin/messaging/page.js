@@ -1,17 +1,15 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, {useState } from "react";
 import Contact from "@/components/Admin/Messaging/Contact";
 import AdminComp from "@/components/Admin/AdminComp";
 import Message from "@/components/Admin/Messaging/Message";
 import { useSearchParams } from "next/navigation";
-import { getAllChats } from "@/components/Controllers/ChatController";
 
 function Page() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const [notifications, setNotifications] = useState([]);
   const [fetchAgain, setFetchAgain] = useState(false);
-
 
   return (
     <AdminComp navName={"message"}>

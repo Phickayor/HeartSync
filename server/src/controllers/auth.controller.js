@@ -171,6 +171,27 @@ const forgotPassword = async (req, res) => {
     });
   }
 };
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    const payload = accessPayload(token);
+    const encryptedPassword = await handleEncryption(newPassword);
+    const updatePassword = await User.findById(payload._id);
+    if (updatePassword) {
+      res.status(200).json({ message: "Pasword has been reset" });
+      updatePassword.save();
+    } else {
+      res.status(501).json({ message: "An error occured please try again." });
+    }
+  } catch (error) {
+    res.status(502).json({
+      error: error.message,
+      message:
+        "An error occured, please check your internet connection and try again"
+    });
+  }
+};
 const checkAuth = async (req, res, next) => {
   let token;
   if (
@@ -201,5 +222,6 @@ module.exports = {
   sendVerificationMail,
   checkAuth,
   CheckExistingUser,
+  resetPassword,
   forgotPassword
 };

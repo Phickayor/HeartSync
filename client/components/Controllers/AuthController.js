@@ -31,7 +31,24 @@ const createUser = async (payload) => {
     console.error(error.message);
   }
 };
+
+const resetPassword = async (regToken, newPassword) => {
+  try {
+    const res = await fetch(`${baseUrl}/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ regToken, newPassword })
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 module.exports = {
   checkExistingUser,
-  createUser
+  createUser,
+  resetPassword
 };

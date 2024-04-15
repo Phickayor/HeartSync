@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { GetSpecificUser } from "../Controllers/UserController";
 import { capitalize } from "@/utilities/firstLetterCaps";
-import baseUrl from "@/config/server";
 function Profile({ userId }) {
   const userContext = useContext(UserContext);
   const [profile, setProfile] = useState(null);

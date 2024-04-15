@@ -1,10 +1,13 @@
-import { ResetPassword } from "@/components/Auth/Verify";
+"use client";
+import ResetPassword from "@/components/Auth/ResetPassword";
 import React from "react";
-
+import { useSearchParams } from "next/navigation";
 function page() {
+  const searchParams = useSearchParams();
+  const resetToken = searchParams.get("resetToken");
   return (
-    <div className='flex flex-col justify-center h-screen fixed w-full bg-[#121212] bg-cover bg-[url("/images/auth-bg.png")]'>
-      <ResetPassword />
+    <div className="flex flex-col justify-center h-screen fixed w-full bg-white pattern-background">
+      <ResetPassword resetToken={resetToken} />
     </div>
   );
 }
