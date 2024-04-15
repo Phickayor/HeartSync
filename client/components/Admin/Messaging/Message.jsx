@@ -2,7 +2,11 @@
 import baseUrl from "@/config/server";
 import io from "socket.io-client";
 import React, { useContext, useEffect, useState } from "react";
-import { AiOutlineHeart, AiOutlinePicture } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlinePicture,
+  AiOutlineSend
+} from "react-icons/ai";
 import { GetSpecificUser } from "@/components/Controllers/UserController";
 import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
@@ -49,7 +53,13 @@ export const OtherUserText = ({ image, content }) => {
   );
 };
 
-function Message({ userId }) {
+function Message({
+  userId,
+  fetchAgain,
+  setFetchAgain,
+  notifications,
+  setNotifications
+}) {
   const userContext = useContext(UserContext);
   const [chatId, setChatId] = useState(null);
   const [newMessageClient, setNewMessage] = useState("");
@@ -67,6 +77,11 @@ function Message({ userId }) {
           const { messages } = await getAllMessages(chatId);
           if (messages) {
             setMessages([...messages]);
+            notifications.map((notification, index) => {
+              if (notification.chat._id == chatId) {
+                notifications.splice(index, 1);
+              }
+            });
           }
         }
       } catch (error) {
@@ -101,17 +116,27 @@ function Message({ userId }) {
     }
   }, [chatId, userContext]);
   useEffect(() => {
-    socket.on("message recieved", (newMessageRecieved) => {
-      if (chatId !== newMessageRecieved.chat._id) {
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
-        //   setFetchAgain(!fetchAgain);
-        // }
-      } else {
-        setMessages([...messages, newMessageRecieved]);
+    socket.on("message received", (newMessageReceived) => {
+      alert("got here");
+
+      if (newMessageReceived) {
+        console.log(newMessageReceived);
+        if (chatId !== newMessageReceived.chat._id) {
+          if (!notifications.includes(newMessageReceived)) {
+            setNotifications([...notifications, newMessageReceived]);
+            setFetchAgain(!fetchAgain);
+          }
+        } else {
+          if (newMessageReceived) {
+            alert("got here");
+            setMessages([...messages, newMessageReceived]);
+            setFetchAgain(!fetchAgain);
+          }
+        }
       }
     });
   });
+
   const handleSendMessage = async (e) => {
     try {
       if (e.key === "Enter" && newMessageClient) {
@@ -174,7 +199,7 @@ function Message({ userId }) {
         </h3>
       </Link>
 
-      <div className="flex flex-col justify-end flex-1  overflow-y-auto gap-5 py-3">
+      <div className="flex flex-col flex-1  overflow-y-auto gap-5 py-3">
         {messages.length > 0 ? (
           messages.map((message, index) => {
             if (message.sender._id == userContext.userState?._id) {
@@ -219,8 +244,9 @@ function Message({ userId }) {
           onKeyDown={handleSendMessage}
         />
         <div className="flex self-center gap-3 text-white text-2xl">
-          <AiOutlinePicture />
-          <AiOutlineHeart />
+          {/* <AiOutlinePicture />
+          <AiOutlineHeart /> */}
+          <AiOutlineSend />
         </div>
       </div>
     </div>

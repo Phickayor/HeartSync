@@ -1,21 +1,32 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Contact from "@/components/Admin/Messaging/Contact";
 import AdminComp from "@/components/Admin/AdminComp";
 import Message from "@/components/Admin/Messaging/Message";
 import { useSearchParams } from "next/navigation";
+import { getAllChats } from "@/components/Controllers/ChatController";
 
 function Page() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
+  const [notifications, setNotifications] = useState([]);
+  const [fetchAgain, setFetchAgain] = useState(false);
+
+
   return (
     <AdminComp navName={"message"}>
       <div className="grid md:grid-cols-3 w-full">
         <div className={userId && "hidden md:block relative"}>
-          <Contact />
+          <Contact fetchAgain={fetchAgain} notifications={notifications} />
         </div>
         <div className={userId ? "col-span-2" : "hidden md:block col-span-2 "}>
-          <Message userId={userId} />
+          <Message
+            userId={userId}
+            fetchAgain={fetchAgain}
+            setFetchAgain={setFetchAgain}
+            notifications={notifications}
+            setNotifications={setNotifications}
+          />
         </div>
       </div>
     </AdminComp>

@@ -1,9 +1,9 @@
-import { ForgotPassword } from "@/components/Auth/Verify";
+import ForgotPassword from "@/components/Auth/ForgotPassword";
 import React from "react";
 
 function page() {
   return (
-    <div className='flex flex-col justify-center h-screen fixed w-full bg-[#121212] bg-cover bg-[url("/images/auth-bg.png")]'>
+    <div className="flex flex-col justify-center h-screen fixed w-full bg-white pattern-background">
       <ForgotPassword />
     </div>
   );

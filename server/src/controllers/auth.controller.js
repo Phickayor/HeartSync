@@ -92,7 +92,7 @@ const logInUser = async (req, res) => {
         userDetails.password
       );
       if (verifyPassword) {
-        var token = signPayload({ id: userDetails._id });
+        var token = signPayload({ id: userDetails._id }, "2h");
         res.status(200).json({
           message: `Successful Login`,
           token
@@ -115,11 +115,11 @@ const logInUser = async (req, res) => {
 const sendVerificationMail = async (req, res) => {
   try {
     if (!req.user.isEmailVerified) {
-      const verificationMail = await getMail(6);
+      const verificationMail = await getMail.VerificationMail(6);
       const mailOptions = {
         from: "jetawof@gmail.com",
         to: req.user.email,
-        subject: "Verify your new HiBuddy Account",
+        subject: "Verify your Big Circle Account",
         html: verificationMail
       };
 
@@ -139,6 +139,37 @@ const sendVerificationMail = async (req, res) => {
     res.status(502).json({ message: error.message });
   }
   res.end();
+};
+const forgotPassword = async (req, res) => {
+  try {
+    const userDetails = await User.findOne({
+      email: req.body.email.toLowerCase()
+    });
+    const token = signPayload({ userDetails }, "15m");
+    const mailBody = getMail.ResetPasswordMail(userDetails.fullName, token);
+    const mailOptions = {
+      from: "jetawof@gmail.com",
+      to: userDetails.email,
+      subject: "Reset Password on your Big Circle Account",
+      html: mailBody
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        res.status(502).json({ error: err.message });
+      } else {
+        console.log(info.response + "\n" + otp);
+
+        res.status(200).json({ success: true, status: info.response });
+      }
+    });
+  } catch (error) {
+    res.status(502).json({
+      error: error.message,
+      message:
+        "An error occured, please check your internet connection and try again"
+    });
+  }
 };
 const checkAuth = async (req, res, next) => {
   let token;
@@ -169,5 +200,6 @@ module.exports = {
   logInUser,
   sendVerificationMail,
   checkAuth,
-  CheckExistingUser
+  CheckExistingUser,
+  forgotPassword
 };

@@ -2,20 +2,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
-import { getAllChats } from "@/components/Controllers/ChatController";
 import { UserContext } from "@/contexts/UserContext";
 import ChatLoader from "@/Loaders/ChatLoader";
-function Contact() {
-  const [chats, setChats] = useState(null);
+import { getAllChats } from "@/components/Controllers/ChatController";
+function Contact({ fetchAgain, notifications }) {
   const userContext = useContext(UserContext);
+  const [chats, setChats] = useState(null);
+  const fetchChats = async () => {
+    alert("About to fetch chats");
+    const { userChats } = await getAllChats();
+    setChats(userChats);
+  };
   useEffect(() => {
-    const fetchChats = async () => {
-      const { userChats } = await getAllChats();
-      setChats(userChats);
-    };
     fetchChats();
-  }, []);
-
+  }, [fetchAgain]);
   return (
     <div className="px-5 w-full md:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
@@ -37,6 +37,10 @@ function Contact() {
               try {
                 for (var i = 0; i < chat.users.length; i++) {
                   if (chat.users[i]._id != userContext.userState?._id) {
+                    var unread = notifications.filter(
+                      (notification) =>
+                        notification.chat._id === chat.users[i]._id
+                    ).length;
                     return (
                       <Link
                         key={index}
@@ -56,7 +60,7 @@ function Contact() {
                           </div>
                         </div>
                         <div className="bg-btnColor self-center w-8 h-8 text-center text-white rounded-full flex flex-col justify-center">
-                          <span className="">2</span>
+                          <span className="">{unread}</span>
                         </div>
                       </Link>
                     );
