@@ -57,10 +57,11 @@ function Register({ onNext }) {
     SetLoader(false);
   };
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
-      <div className="md:px-10 md:py-8 p-5 rounded-xl">
+    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">
+      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
+      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
         <h1 className="auth-header">Create an account</h1>
-        <form className="flex flex-col gap-3 pt-5 " onSubmit={HandleSubmit}>
+        <form className="flex flex-col gap-3" onSubmit={HandleSubmit}>
           <div className="flex flex-col gap-2">
             <label>Email</label>
             <input
@@ -98,16 +99,14 @@ function Register({ onNext }) {
             />
             <span className="text-red-500">{pswdError}</span>
           </div>
-          <button
-            type="submit"
-            className="bg-[#584296] text-white px-12 rounded-lg py-3 text-xl self-center"
-          >
+          <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Next"}
           </button>
         </form>
-      </div>
-      <div className="flex justify-center [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-lg">
-        <Link href="/auth/">Already have an account?</Link>
+
+        <div className="flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
+          <Link href="/auth/">Already have an account?</Link>
+        </div>
       </div>
     </div>
   );

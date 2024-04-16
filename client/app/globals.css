@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import 'react-toastify/dist/ReactToastify.css';
 label {
   @apply font-thin;
 }
@@ -9,13 +9,16 @@ label {
   @apply bg-[url('/images/auth-bg.png')] bg-cover bg-fixed;
 }
 .auth-header {
-  @apply text-2xl md:text-3xl font-medium text-center;
+  @apply text-2xl md:text-3xl xl:text-4xl font-medium text-center;
+}
+.auth-btn {
+  @apply bg-[#584296] text-white mx-auto w-fit px-16 rounded-lg py-3 md:text-xl md:self-center;
 }
 .description-item {
-  @apply duration-300 text-center font-medium py-5 rounded-full cursor-pointer;
+  @apply duration-300 text-center text-white font-medium py-3 md:py-5 rounded-full cursor-pointer;
 }
 .preference-item {
-  @apply bg-slate-600 rounded-full text-center self-center font-medium py-5 md:py-6 text-white cursor-pointer ;
+  @apply bg-slate-600 rounded-full text-center self-center font-medium py-5 md:py-6 text-white cursor-pointer;
 }
 .active-preference-item {
   @apply bg-[#131725] rounded-full text-center self-center font-medium py-5 md:py-6 text-white cursor-pointer;

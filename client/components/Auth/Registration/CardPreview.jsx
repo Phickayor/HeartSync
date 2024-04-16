@@ -38,11 +38,11 @@ function CardPreview({ onNext }) {
     }
   };
   return (
-    <div className="flex flex-col justify-center h-screen py-6 gap-8">
+    <div className="flex flex-col justify-between h-screen py-6 gap-6 md:gap-8">
       <h1 className="text-2xl md:text-3xl text-center font-medium">
         Profile Card Preview
       </h1>
-      <div className="group rounded-3xl mx-auto w-[22rem] h-[36rem] bg-[#1E1D1D] relative p-2">
+      <div className="group rounded-3xl mx-auto flex-1 md:w-[22rem] w-10/12 md:h-[36rem] bg-[#1E1D1D] relative p-2">
         <img
           src={displayPicture}
           className="self-center rounded-3xl top-0 left-0 absolute object-cover group-hover:opacity-40 w-full h-full"
@@ -97,15 +97,13 @@ function CardPreview({ onNext }) {
             >
               Let's chat
             </button>
-            <span
-              onClick={handleSubmit}
-              className="block cursor-pointer underline"
-            >
-              Save profile card
-            </span>
+            <span className="block cursor-pointer underline">View profile</span>
           </div>
         </div>
       </div>
+      <button onClick={handleSubmit} className="auth-btn">
+        Save
+      </button>
     </div>
   );
 }

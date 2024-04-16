@@ -49,13 +49,11 @@ function Login() {
     SetLoader(false);
   };
   return (
-    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
-      <div className=" md:px-10 md:py-8 p-5 rounded-xl">
+    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">
+      <img src="/images/logo.svg" className="mx-auto " alt="" />
+      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
         <h1 className="auth-header ">Login to your account</h1>
-        <form
-          className="flex flex-col gap-3  md:gap-5 pt-5"
-          onSubmit={HandleSubmit}
-        >
+        <form className="flex flex-col gap-3  md:gap-5" onSubmit={HandleSubmit}>
           <div className="flex flex-col gap-2">
             <label>Email</label>
             <input
@@ -76,15 +74,15 @@ function Login() {
           </div>
           <button
             type="submit"
-            className="bg-[#584296] text-white md:px-12 rounded-lg py-3 md:text-xl md:self-center mt-4"
+            className="auth-btn"
           >
             {loader ? <ButtonLoader /> : "Sign in"}
           </button>
         </form>
-      </div>
-      <div className="flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-lg">
-        <Link href="/auth/register">Create an account</Link>
-        <Link href="/auth/forgot-password">Forgotten Password</Link>
+        <div className="flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
+          <Link href="/auth/register">Create an account</Link>
+          <Link href="/auth/forgot-password">Forgotten Password</Link>
+        </div>
       </div>
     </div>
   );

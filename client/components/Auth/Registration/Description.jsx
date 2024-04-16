@@ -26,7 +26,8 @@ function Description({ onNext }) {
     SetLoader(false);
   };
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-4/6">
+    <div className="flex flex-col justify-center h-screen mx-auto w-11/12 md:w-10/12 lg:w-4/6">
+      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
       <div className="p-5 px-10 rounded-xl">
         <div className="text-center py-5">
           <h1 className="auth-header">We'll like to know more</h1>
@@ -43,13 +44,13 @@ function Description({ onNext }) {
         ) : (
           <></>
         )}
-        <form className="flex flex-col gap-5 md:gap-8" onSubmit={HandleSubmit}>
-          <div className="grid grid-cols-3 gap-8 description-items">
+        <form className="grid gap-3 md:gap-5" onSubmit={HandleSubmit}>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
             <div
               className={
                 height == "Tall"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
+                  ? "description-item bg-[#131725] "
+                  : "description-item bg-slate-700 "
               }
               onClick={() => setHeight("Tall")}
             >
@@ -57,31 +58,31 @@ function Description({ onNext }) {
             </div>
             <div
               className={
-                height == "Not to tall"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
-              }
-              onClick={() => setHeight("Not to tall")}
-            >
-              Not to tall
-            </div>
-            <div
-              className={
                 height == "Short"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
+                  ? "description-item bg-[#131725] "
+                  : "description-item bg-slate-700 "
               }
               onClick={() => setHeight("Short")}
             >
               Short
             </div>
+            <div
+              className={
+                height == "Not very tall"
+                  ? "lg:col-span-1 col-span-2 description-item  bg-[#131725]"
+                  : "lg:col-span-1 col-span-2 description-item  bg-slate-700 "
+              }
+              onClick={() => setHeight("Not very tall")}
+            >
+              Not very tall
+            </div>
           </div>
-          <div className="flex justify-around gap-8 description-items px-20">
+          <div className="grid grid-cols-2 gap-3 md:gap-5">
             <div
               className={
                 gender == "Male"
-                  ? "description-item bg-purple-500 w-1/2 text-white"
-                  : "description-item bg-inputBg w-1/2"
+                  ? "description-item   bg-[#131725]"
+                  : "description-item bg-slate-700"
               }
               onClick={() => setGender("Male")}
             >
@@ -89,51 +90,49 @@ function Description({ onNext }) {
             </div>
             <div
               className={
-                gender == "Female"
-                  ? "description-item bg-purple-500 w-1/2 text-white"
-                  : "description-item bg-inputBg w-1/2 "
+                height == "Female"
+                  ? "description-item bg-[#131725] "
+                  : "description-item bg-slate-700"
               }
               onClick={() => setGender("Female")}
             >
               Female
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-8 description-items">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
             <div
               className={
                 weight == "Fat"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
+                  ? "description-item bg-[#131725] "
+                  : "description-item bg-slate-700"
               }
               onClick={() => setWeight("Fat")}
             >
               Fat
             </div>
-            <div
-              className={
-                weight == "Not to Fat"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
-              }
-              onClick={() => setWeight("Not to Fat")}
-            >
-              Not to Fat
-            </div>
+
             <div
               className={
                 weight == "Slim"
-                  ? "description-item bg-purple-500 text-white"
-                  : "description-item bg-inputBg "
+                  ? "description-item  bg-[#131725] "
+                  : "description-item bg-slate-700 "
               }
               onClick={() => setWeight("Slim")}
             >
               Slim
             </div>
+            <div
+              className={
+                weight == "Not very Fat"
+                  ? "lg:col-span-1 col-span-2 description-item bg-[#131725]"
+                  : "col-span-2 lg:col-span-1 description-item bg-slate-700"
+              }
+              onClick={() => setWeight("Not very Fat")}
+            >
+              Not very Fat
+            </div>
           </div>
-          <button
-            type="submit"
-            className="bg-[#584296] text-white mx-auto w-fit px-12 md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center"
-          >
+          <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}
           </button>
         </form>

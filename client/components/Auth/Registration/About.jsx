@@ -29,13 +29,14 @@ function About({ onNext }) {
     handleMaxDate();
   });
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5">
-      <div className=" md:px-10 md:py-8 p-5 rounded-xl">
+    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5 gap-10">
+      <img src="/images/logo.svg" className="mx-auto lg:hidden " alt="" />
+      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>
         <form
-          className="grid grid-cols-2 gap-3 md:gap-5 py-5"
+          className="grid grid-cols-2 gap-5 py-5"
           onSubmit={HandleSubmit}
         >
           <div className="flex flex-col gap-2">
@@ -86,10 +87,7 @@ function About({ onNext }) {
               className="bg-inherit py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
-          <button
-            type="submit"
-            className="col-span-2 bg-btnColor text-white mx-auto w-fit px-12 md:px-24 rounded-lg py-4 md:text-2xl font-medium md:self-center mt-4"
-          >
+          <button type="submit" className="auth-btn col-span-2">
             Save
           </button>
         </form>

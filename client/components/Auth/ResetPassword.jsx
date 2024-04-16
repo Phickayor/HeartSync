@@ -75,10 +75,7 @@ function ResetPassword({ resetToken }) {
               className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
-          <button
-            type="submit"
-            className="bg-[#584296] text-white md:px-12 rounded-lg py-3 md:text-xl md:self-center mt-4"
-          >
+          <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Reset"}
           </button>
         </form>

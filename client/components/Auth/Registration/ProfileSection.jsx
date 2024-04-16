@@ -37,8 +37,9 @@ function ProfileSection({ onNext }) {
     setLoader(false);
   };
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5">
-      <div className="md:px-10 md:py-8 p-5 rounded-xl">
+    <div className="flex flex-col justify-center h-screen mx-auto w-11/12 md:w-10/12 lg:w-3/5">
+      <img src="/images/logo.svg" className="mx-auto lg:hidden " alt="" />
+      <div className="p-5 px-10 rounded-xl">
         <div className="text-center space-y-3 py-5">
           <h1 className="auth-header">Profile Section</h1>
           <p className="font-extralight text-sm">
@@ -57,7 +58,7 @@ function ProfileSection({ onNext }) {
           <div className="cursor-pointer group relative">
             <img
               src={image ? image : "/images/profile-2.png"}
-              className="border-2 border-purple-500 rounded-full w-32 h-32 self-center object-cover group-hover:opacity-60"
+              className="border-2 border-purple-500 rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
             />
             <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
               <AiOutlineCamera
@@ -79,7 +80,7 @@ function ProfileSection({ onNext }) {
           </div>
         </div>
         <form
-          className="flex flex-col gap-5 py-5 mx-auto w-7/12"
+          className="flex flex-col gap-5 py-5 mx-auto md:w-7/12"
           onSubmit={HandleSubmit}
         >
           <h3 className="text-center text-2xl font-medium">
@@ -91,12 +92,9 @@ function ProfileSection({ onNext }) {
             }}
             value={longBio}
             required
-            className="focus:outline-none focus:border border-[#584296] rounded-xl p-5 bg-inputBg h-32"
+            className="focus:outline-none focus:border border-[#584296] rounded-xl p-5 bg-inputBg md:h-32"
           />
-          <button
-            type="submit"
-            className="bg-[#584296] text-white px-12 rounded-lg py-3 text-xl self-center"
-          >
+          <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}
           </button>
         </form>

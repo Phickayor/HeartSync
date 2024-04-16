@@ -7,8 +7,8 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { RegContext } from "@/contexts/RegContext";
 import { createUser } from "@/components/Controllers/AuthController";
+import { toast, ToastContainer } from "react-toastify";
 function Preference({ action }) {
-  const [notificationState, setNotificationState] = useState("block");
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
   let chosenPreference = [];
@@ -83,7 +83,11 @@ function Preference({ action }) {
     }
     setLoader(false);
   };
-
+  useEffect(() => {
+    toast(
+      "🙂🙂 You can select more than one button , what you select would decide people you see on your profile"
+    );
+  }, []);
   useEffect(() => {
     if (createAccount) {
       handleRegistration();
@@ -93,20 +97,7 @@ function Preference({ action }) {
 
   return (
     <div className="pt-5 pb-20 h-screen overflow-auto">
-      <div
-        className={`self-center ${notificationState} py-2 bg-notification text-white mx-auto w-11/12 md:w-10/12 px-5 md:px-16 flex justify-between rounded-2xl duration-300`}
-      >
-        <span className="self-center py-5 ">
-          🙂🙂 You can select more than one button , what you select would
-          decide people you see on your profile
-        </span>
-        <FaTimesCircle
-          className="text-3xl"
-          onClick={() => {
-            setNotificationState("hidden");
-          }}
-        />
-      </div>
+      <ToastContainer />
       <form
         onSubmit={handleSubmit}
         className="mx-auto w-11/12 xl:w-4/5 space-y-8 py-8"
@@ -227,10 +218,7 @@ function Preference({ action }) {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="bg-[#584296] text-white px-12 rounded-lg py-3 text-xl self-center"
-        >
+        <button type="submit" className="auth-btn">
           {loader ? <ButtonLoader /> : "Save"}
         </button>
       </form>
