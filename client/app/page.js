@@ -1,13 +1,18 @@
-import Link from "next/link";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
 export default function Home() {
   return (
-    <div className='p-10 bg-[url("/images/auth-bg.png")] bg-cover flex flex-col gap-10 h-screen'>
-      <h1 className="text-xl text-center">
-        Welcome to the Landing Page of HiBuddy
-      </h1>
-      <Link href="/auth" className="px-8 py-3 self-center text-white bg-blue-500">
-        Sign In
-      </Link>
+    <div className="bg-[#FEF5E6] w-full flex flex-col h-screen max-h-screen overflow-hidden">
+      <div className="h-20">
+        <Header />
+      </div>
+      <div className="flex-1 overflow-hidden">
+        <Hero />
+      </div>
+      <div className="h-20">
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -57,3 +57,9 @@ label {
     background-position: -100% 0;
   }
 }
+
+@media screen and (max-width: 375px) {
+  .minimum {
+    font-size: 36px;
+  }
+}
