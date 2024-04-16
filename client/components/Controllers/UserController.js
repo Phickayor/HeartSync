@@ -3,7 +3,6 @@ const Cookies = require("js-cookie");
 const token = Cookies.get("token");
 const GetUser = async () => {
   try {
-    if (token) {
       const res = await fetch(`${baseUrl}/user`, {
         method: "GET",
         headers: {
@@ -11,14 +10,12 @@ const GetUser = async () => {
           Authorization: `Bearer ${JSON.parse(token)}`
         }
       });
+      if(!res.ok){
+        throw new Error("Failed to fetch data")
+      }
       const data = await res.json();
       return data;
-    } else {
-      return {
-        unauthorized: true,
-        message: "No token"
-      };
-    }
+    
   } catch (error) {
     console.log(error);
   }

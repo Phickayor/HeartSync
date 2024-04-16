@@ -16,7 +16,7 @@ function Hero() {
           href="/auth"
           className="mx-auto group w-fit rounded-full bg-[#131725] text-[#FFDFBA] md:px-5 p-3 md:py-4 flex gap-6 md:gap-10 justify-around"
         >
-          <span className="self-center text-lg font-extralight">
+          <span className="self-center md:text-lg font-extralight">
             Start your Journey
           </span>
           <div className="bg-[#FFDFBA] self-center rounded-full p-1 md:p-2">

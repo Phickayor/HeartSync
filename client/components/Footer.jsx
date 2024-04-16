@@ -4,7 +4,11 @@ import { AiFillInstagram } from "react-icons/ai";
 function Footer() {
   return (
     <div className="mx-auto w-10/12 flex justify-between">
-      <img src="/images/logo.svg" alt="" className="py-4 w-16 h-16 md:w-fit md:h-fit" />
+      <img
+        src="/images/logo.svg"
+        alt=""
+        className="py-4 w-16 h-16 md:w-fit md:h-fit self-center"
+      />
       <div className="flex gap-4 [&>*]:self-center">
         <AiFillInstagram className="text-black text-3xl " />
         <svg
