@@ -47,29 +47,29 @@ function Profile({ userId }) {
     return;
   }
   return (
-    <div className="grid md:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 md:h-screen max-h-screen gap-5 overflow-auto">
-      <div className="md:hidden flex justify-center row-span-1 h-full">
+    <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 lg:h-screen max-h-screen gap-5 overflow-auto">
+      <div className="lg:hidden flex justify-center row-span-1 h-full">
         <img
           src="/images/logo.svg"
           alt=""
-          className="self-center scale-150 h-fit"
+          className="self-center md:scale-150"
         />
       </div>
-      <div className="mx-auto row-span-4 py-2 flex flex-col gap-5 md:w-8/12 w-10/12">
+      <div className="mx-auto row-span-4 py-2 flex flex-col gap-5 lg:w-8/12 w-10/12">
         <img
           src={profile?.profilePicture}
           alt=""
           className="mx-auto w-32 h-32 rounded-full"
         />
-        <h1 className="text-center font-semibold text-3xl md:text-4xl">
+        <h1 className="text-center font-semibold text-3xl lg:text-4xl">
           {capitalize(profile?.userName)}
         </h1>
         <p className="text-center">{profile?.longBio}</p>
-        <div className="mx-auto md:w-10/12 flex justify-center flex-wrap gap-3">
+        <div className="mx-auto lg:w-10/12 flex justify-center flex-wrap gap-3">
           {profile?.preferences?.map((preference) => (
             <div
               key={preference}
-              className="py-3 md:py-5 bg-[#131725] rounded-full text-white md:px-8 px-5"
+              className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5"
             >
               {preference}
             </div>
@@ -79,8 +79,7 @@ function Profile({ userId }) {
           {userId && (
             <button
               onClick={handleChat}
-              className="bg-btnColor text-white mx-auto px-20 py-3 rounded-xl text-lg"
-            >
+              className="auth-btn" >
               Chat
             </button>
           )}

@@ -35,9 +35,9 @@ function Home() {
   };
 
   return (
-    <div className="lg:px-5 w-full lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen flex flex-col gap-5 py-10 lg:py-0">
+    <div className="lg:px-5 w-full lg:h-screen h-[calc(100vh-3rem)] overflow-hidden max-h-screen flex flex-col gap-5 py-3 md:py-10 lg:py-0">
       <img src="/images/logo.svg" alt="" className="mx-auto lg:hidden" />
-      <div className="h-full mx-auto w-11/12 md:w-10/12 lg:w-full py-5 lg:py-10 grid lg:grid-cols-3 lg:gap-5 xl:gap-8 overflow-x-auto ">
+      <div className="h-full mx-auto w-11/12 md:w-10/12 lg:w-full border-2 md:py-5 lg:py-10 grid lg:grid-cols-3 lg:gap-5 xl:gap-8 overflow-x-auto ">
         <div
           key={index}
           onTouchStart={handleTouchStart}
