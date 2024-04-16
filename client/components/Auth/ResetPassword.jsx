@@ -46,13 +46,12 @@ function ResetPassword({ resetToken }) {
     }
   });
   return (
-    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5">
-      <div className="md:px-10 md:py-8 p-5 rounded-xl">
-        <div className="flex flex-col gap-5 text-center">
-          <h1 className="auth-header">Reset Password</h1>
-        </div>
+    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col gap-10">
+      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
+      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
+        <h1 className="auth-header">Reset Password</h1>
         <form
-          className="flex flex-col gap-3  md:gap-5 p-5 "
+          className="flex flex-col gap-3  md:gap-5 md:p-5 "
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col gap-2">

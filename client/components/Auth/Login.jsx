@@ -50,7 +50,7 @@ function Login() {
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">
-      <img src="/images/logo.svg" className="mx-auto " alt="" />
+      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
       <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
         <h1 className="auth-header ">Login to your account</h1>
         <form className="flex flex-col gap-3  md:gap-5" onSubmit={HandleSubmit}>
@@ -72,10 +72,7 @@ function Login() {
               className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
             />
           </div>
-          <button
-            type="submit"
-            className="auth-btn"
-          >
+          <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign in"}
           </button>
         </form>
