@@ -1,7 +1,7 @@
 "use client";
 import baseUrl from "@/config/server";
 import io from "socket.io-client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   AiOutlineHeart,
   AiOutlinePicture,
@@ -61,6 +61,7 @@ function Message({
   setNotifications
 }) {
   const userContext = useContext(UserContext);
+  const messagesEndRef = useRef();
   const [chatId, setChatId] = useState(null);
   const [newMessageClient, setNewMessage] = useState("");
   const [messages, setMessages] = useState(null);
@@ -71,6 +72,9 @@ function Message({
   const [loader, setLoader] = useState(false);
   var socket = io(baseUrl);
   useEffect(() => {
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
     const fetchMessages = async () => {
       try {
         if (chatId) {
@@ -89,6 +93,7 @@ function Message({
       }
     };
     fetchMessages();
+    scrollToBottom();
   }, [chatId, messages]);
   useEffect(() => {
     const fetchOtherUserDetails = async () => {
@@ -179,16 +184,17 @@ function Message({
   }
   if (!userId) {
     return (
-      <div className="flex flex-col justify-center md:h-screen h-[calc(100vh-5rem)] text-center text-2xl md:text-3xl">
+      <div className="flex flex-col justify-center lg:h-screen h-[calc(100vh-5rem)] text-center text-2xl lg:text-3xl">
         <h1>Your Messages would appear here</h1>
       </div>
     );
   }
+
   return (
-    <div className="px-5 md:px-10 md:py-4 flex flex-col md:gap-5 justify-between md:h-screen h-[calc(100vh-5rem)]">
+    <div className="px-5 lg:px-10 lg:py-4 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-5rem)]">
       <Link
         href={`/profile/${userId}`}
-        className="md:h-20 rounded-2xl flex p-3 cursor-pointer gap-4"
+        className="lg:h-20 rounded-2xl flex p-3 cursor-pointer gap-4"
       >
         <img
           src={otherUser?.profilePicture}
@@ -221,10 +227,12 @@ function Message({
             }
           })
         ) : (
-          <div className="flex flex-col justify-center md:h-screen h-[calc(100vh-5rem)] text-center text-2xl md:text-3xl">
+          <div className="flex flex-col justify-center lg:h-screen h-[calc(100vh-5rem)] text-center text-2xl lg:text-3xl">
             <h1>No Messages so far. Your Messages would appear here</h1>
           </div>
         )}
+
+        <div ref={messagesEndRef} />
         {istyping ? (
           <OtherUserText
             image={otherUser.profilePicture}

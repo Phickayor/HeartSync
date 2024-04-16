@@ -45,8 +45,8 @@ function AllSetings() {
     }
   };
   return (
-    <div className="w-full md:h-full h-[calc(100vh-5rem)] overflow-auto max-h-screen flex">
-      <div className="mx-auto w-10/12 md:w-8/12 relative rounded-2xl">
+    <div className="w-full lg:h-full h-[calc(100vh-5rem)] overflow-auto max-h-screen flex">
+      <div className="mx-auto py-10 lg:py-0 w-10/12 lg:w-8/12 relative rounded-2xl">
         <div className="group flex py-4 flex-col sticky top-0 backdrop-blur gap-2">
           <img
             src={profile?.profilePicture}
@@ -71,15 +71,15 @@ function AllSetings() {
 
         <Link
           href="/admin/profile"
-          className="md:hidden block text-sm text-center font-semibold underline cursor-pointer"
+          className="lg:hidden block text-sm text-center font-semibold underline cursor-pointer"
         >
           View Profile
         </Link>
-        <div className="flex flex-col gap-2 md:px-10 py-5 overflow-y-auto ">
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+        <div className="flex flex-col gap-2 lg:px-10 py-5 overflow-y-auto ">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className="self-center">
-              <h3 className="md:text-lg">Username</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Username</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 www.hibuddy/{profile?.userName}
               </span>
             </div>
@@ -90,10 +90,10 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className="self-center">
-              <h3 className="md:text-lg">Fullname</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Fullname</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.fullName}
               </span>
             </div>
@@ -104,18 +104,18 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
-              <h3 className="md:text-lg">Email address</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Email address</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.email}
               </span>
             </div>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className="self-center">
-              <h3 className="md:text-lg">Long Bio</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Long Bio</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.longBio}
               </span>
             </div>
@@ -126,10 +126,10 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
-              <h3 className="md:text-lg">Phone number</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Phone number</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.phoneNumber
                   ? "+234 (0) " + profile.phoneNumber
                   : "Not Provided"}
@@ -142,10 +142,10 @@ function AllSetings() {
               Edit
             </span>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
-              <h3 className="md:text-lg">Change preferences</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Change preferences</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.preferences
                   ? profile.preferences.join(", ")
                   : "Not Provided"}
@@ -158,10 +158,10 @@ function AllSetings() {
               Edit
             </Link>
           </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 md:py-3">
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
-              <h3 className="md:text-lg">Password</h3>
-              <span className="md:text-md text-sm text-[#717171]">
+              <h3 className="lg:text-lg">Password</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
                 *****************
               </span>
             </div>

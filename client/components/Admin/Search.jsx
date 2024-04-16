@@ -20,7 +20,7 @@ function Search() {
     setSearching(false);
   };
   return (
-    <div className="px-5 mx-auto w-full md:w-10/12 md:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
+    <div className="px-5 mx-auto w-full lg:w-10/12 lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
         <h1 className="text-xl ">
           Search <b>Big Circle</b>
@@ -55,7 +55,7 @@ function Search() {
         )}
         {searching && <SearchResultLoader />}
         {errorMessage && (
-          <h1 className="text-xl md:text-2xl text-center py-5">
+          <h1 className="text-xl lg:text-2xl text-center py-5">
             {errorMessage}
           </h1>
         )}

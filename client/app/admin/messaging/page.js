@@ -13,11 +13,11 @@ function Page() {
 
   return (
     <AdminComp navName={"message"}>
-      <div className="grid md:grid-cols-3 w-full">
-        <div className={userId && "hidden md:block relative"}>
+      <div className="grid lg:grid-cols-3 w-full">
+        <div className={userId && "hidden lg:block relative"}>
           <Contact fetchAgain={fetchAgain} notifications={notifications} />
         </div>
-        <div className={userId ? "col-span-2" : "hidden md:block col-span-2 "}>
+        <div className={userId ? "col-span-2" : "hidden lg:block col-span-2 "}>
           <Message
             userId={userId}
             fetchAgain={fetchAgain}

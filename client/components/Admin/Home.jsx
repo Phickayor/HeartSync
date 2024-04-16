@@ -35,13 +35,14 @@ function Home() {
   };
 
   return (
-    <div className="px-5 w-full md:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
-      <div className="h-full mx-auto w-11/12 py-5 md:py-10 grid md:grid-cols-3 gap-8 overflow-x-auto ">
+    <div className="lg:px-5 w-full lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen flex flex-col gap-5 py-10 lg:py-0">
+      <img src="/images/logo.svg" alt="" className="mx-auto lg:hidden" />
+      <div className="h-full mx-auto w-11/12 md:w-10/12 lg:w-full py-5 lg:py-10 grid lg:grid-cols-3 lg:gap-5 xl:gap-8 overflow-x-auto ">
         <div
           key={index}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          className="group self-center rounded-3xl mx-auto w-full h-full md:w-[22rem] md:h-[36rem] bg-[#1E1D1D] relative p-2"
+          className="group self-center rounded-3xl mx-auto w-full h-full bg-[#1E1D1D] relative p-2"
         >
           <img
             src="/images/displayPic.png"

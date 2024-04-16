@@ -44,11 +44,11 @@ function AdminComp({ navName, children }) {
       <UserContext.Provider
         value={{ userState: state, userDispatch: dispatch }}
       >
-        <div className="fixed flex flex-col justify-between md:justify-start md:flex-row h-screen w-full">
-          <div className="md:order-1 order-2 md:relative fixed z-20 bottom-0 md:w-fit w-full">
+        <div className="fixed flex flex-col justify-between lg:justify-start lg:flex-row h-screen w-full">
+          <div className="lg:order-1 order-2 lg:relative fixed z-20 bottom-0 lg:w-fit w-full">
             <ActivityBar activeBar={navName} />
           </div>
-          <div className="md:overflow-y-auto pattern-background text-[#131725] w-full order-1 md:order-2">
+          <div className="lg:overflow-y-auto pattern-background text-[#131725] w-full order-1 lg:order-2">
             {children}
           </div>
         </div>

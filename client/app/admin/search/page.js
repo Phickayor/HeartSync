@@ -4,7 +4,7 @@ import React from "react";
 
 function page() {
   return (
-    <AdminComp>
+    <AdminComp navName={"search"}>
       <Search />
     </AdminComp>
   );

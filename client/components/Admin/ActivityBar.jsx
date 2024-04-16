@@ -27,13 +27,13 @@ function ActivityBar({ activeBar }) {
     fetchDetails();
   }, []);
   return (
-    <div className="bg-white text-[#131725] md:h-full md:flex flex-col justify-between md:py-24 py-1 px-3">
-      <div className="flex md:flex-col justify-around gap-6 ">
+    <div className="bg-white text-[#131725] lg:h-full lg:flex flex-col justify-between lg:py-12 xl:py-24 py-1 px-3">
+      <div className="grid grid-cols-5 lg:flex flex-col justify-around gap-6 ">
         <Link
           href="/admin/"
           className={
             activeBar == "home"
-              ? "activityBar text-white bg-btnColor"
+              ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
         >
@@ -43,7 +43,7 @@ function ActivityBar({ activeBar }) {
           href="/admin/search"
           className={
             activeBar == "search"
-              ? "activityBar text-white bg-btnColor"
+              ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
         >
@@ -53,7 +53,7 @@ function ActivityBar({ activeBar }) {
           href="/admin/messaging"
           className={
             activeBar == "message"
-              ? "activityBar md:text-white text-btnColor md:bg-btnColor"
+              ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
         >
@@ -63,7 +63,7 @@ function ActivityBar({ activeBar }) {
           href="/admin/settings"
           className={
             activeBar == "settings"
-              ? "activityBar text-white bg-btnColor"
+              ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
         >
@@ -73,7 +73,7 @@ function ActivityBar({ activeBar }) {
           href="/admin/logout"
           className={
             activeBar == "logout"
-              ? "activityBar text-white bg-btnColor"
+              ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
         >
@@ -84,7 +84,7 @@ function ActivityBar({ activeBar }) {
       <Link href="/admin/profile">
         <img
           src={userContext.userState?.profilePicture}
-          className="hidden md:block w-12 h-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
+          className="hidden lg:block w-12 h-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
         />
       </Link>
     </div>

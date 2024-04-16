@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'react-toastify/dist/ReactToastify.css';
+@import "react-toastify/dist/ReactToastify.css";
 label {
   @apply font-thin;
 }
@@ -28,7 +28,7 @@ label {
   @apply bg-[#131725] text-white;
 }
 .activityBar {
-  @apply self-center hover:text-white hover:bg-btnColor px-6 py-4 rounded-xl duration-300;
+  @apply self-center hover:text-white hover:bg-btnColor px-6 mx-auto py-4 rounded-xl duration-300;
 }
 .card {
   margin: 0 auto;
