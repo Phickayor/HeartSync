@@ -1,27 +1,33 @@
 import React from "react";
 import { FaAngleDown } from "react-icons/fa";
-
+import Link from "next/link";
 function Header() {
   return (
-    <div className="mx-auto w-10/12 flex justify-between py-3">
+    <div className="mx-auto w-10/12 flex justify-between py-5">
       <img
         src="/images/logo.svg"
         alt=""
         className="self-center h-24 md:h-fit w-24 md:w-fit"
       />
       <div className="hidden md:flex gap-5 self-center">
-        <button className="bg-[#F8931F] px-8 py-3 border border-black rounded-2xl flex gap-3 [&>*]:self-center">
+        <Link
+          href="/auth/register"
+          className="bg-[#F8931F] px-8 py-3 border border-black rounded-2xl flex gap-3 [&>*]:self-center"
+        >
           <span>Create an Account</span>
           <div className="bg-[#FFDFBA] p-1 rounded-full ">
             <FaAngleDown className="self-center" />
           </div>
-        </button>
-        <button className="bg-inherit px-8 py-3 border border-black rounded-2xl flex gap-3 [&>*]:self-center">
+        </Link>
+        <Link
+          href="/auth"
+          className="bg-inherit px-8 py-3 border border-black rounded-2xl flex gap-3 [&>*]:self-center"
+        >
           <span>Login</span>
           <div className="bg-[#FFDFBA] p-1 rounded-full ">
             <FaAngleDown className="self-center" />
           </div>
-        </button>
+        </Link>
       </div>
       <svg
         className="md:hidden cursor-pointer self-center"

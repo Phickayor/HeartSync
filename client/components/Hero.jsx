@@ -4,7 +4,7 @@ import { FaAngleDown } from "react-icons/fa";
 function Hero() {
   return (
     <div className="mx-auto w-10/12 flex flex-col justify-center md:justify-around relative gap-6 h-full">
-      <div className="space-y-4 text-center z-20">
+      <div className="space-y-4 text-center z-20 lg:h-1/2">
         <h1 className="minimum text-5xl md:text-6xl xl:text-8xl">
           Find your Spark
         </h1>
@@ -14,7 +14,7 @@ function Hero() {
 
         <Link
           href="/auth"
-          className="mx-auto group w-fit rounded-full bg-[#131725] text-[#FFDFBA] md:px-5 p-3 md:py-4 flex gap-6 md:gap-10 justify-around"
+          className="mx-auto group w-fit rounded-full bg-[#131725] text-[#FFDFBA] md:px-5 p-3 md:py-4 flex gap-6 justify-center"
         >
           <span className="self-center md:text-lg font-extralight">
             Start your Journey
@@ -24,11 +24,11 @@ function Hero() {
           </div>
         </Link>
       </div>
-      <div className="md:block hidden w-full">
+      <div className="md:block hidden w-full lg:h-1/2">
         <img
           src="/images/lp-desktop.png"
           alt=""
-          className="mx-auto object-contain lg:h-2/3 xl:h-full w-full"
+          className="mx-auto object-contain h-full w-full"
         />
       </div>
       <div className="md:hidden w-full h-1/2">

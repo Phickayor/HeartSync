@@ -2,11 +2,7 @@
 import baseUrl from "@/config/server";
 import io from "socket.io-client";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  AiOutlineHeart,
-  AiOutlinePicture,
-  AiOutlineSend
-} from "react-icons/ai";
+import { AiOutlineSend } from "react-icons/ai";
 import { GetSpecificUser } from "@/components/Controllers/UserController";
 import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
@@ -56,7 +52,6 @@ export const OtherUserText = ({ image, content }) => {
 function Message({
   userId,
   fetchAgain,
-  setFetchAgain,
   notifications,
   setNotifications
 }) {
@@ -67,10 +62,17 @@ function Message({
   const [messages, setMessages] = useState(null);
   const [otherUser, setOtherUser] = useState({});
   const [socketConnected, setSocketConnected] = useState(false);
-  const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const [loader, setLoader] = useState(false);
   var socket = io(baseUrl);
+  useEffect(() => {
+    socket.on("typing", () => {
+      setIsTyping(true);
+      setTimeout(() => {
+        setIsTyping(false);
+      }, 2000); // Reset typing status after 2 seconds
+    });
+  }, []);
   useEffect(() => {
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -116,27 +118,20 @@ function Message({
       socket.emit("setup", userContext.userState);
       socket.on("connected", () => setSocketConnected(true));
       socket.emit("join chat", chatId);
-      socket.on("typing", () => setIsTyping(true));
-      socket.on("stop typing", () => setIsTyping(false));
     }
   }, [chatId, userContext]);
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
-      alert("got here");
-
       if (newMessageReceived) {
         console.log(newMessageReceived);
         if (chatId !== newMessageReceived.chat._id) {
           if (!notifications.includes(newMessageReceived)) {
             setNotifications([...notifications, newMessageReceived]);
-            setFetchAgain(!fetchAgain);
+            fetchAgain();
           }
         } else {
-          if (newMessageReceived) {
-            alert("got here");
-            setMessages([...messages, newMessageReceived]);
-            setFetchAgain(!fetchAgain);
-          }
+          setMessages([...messages, newMessageReceived]);
+          fetchAgain();
         }
       }
     });
@@ -144,13 +139,13 @@ function Message({
 
   const handleSendMessage = async (e) => {
     try {
-      if (e.key === "Enter" && newMessageClient) {
-        socket.emit("stop typing", chatId);
-        const data = await sendMessage(newMessageClient, chatId);
+      var newMessage = newMessageClient;
+      setNewMessage("");
+      if (newMessage) {
+        const data = await sendMessage(newMessage, chatId);
         if (data.newMessage) {
           socket.emit("new message", data.newMessage);
           setMessages([...messages, data.newMessage]);
-          setNewMessage("");
         } else {
           console.log(data.message);
         }
@@ -163,21 +158,7 @@ function Message({
     setNewMessage(e.target.value);
 
     if (!socketConnected) return;
-
-    if (!typing) {
-      setTyping(true);
-      socket.emit("typing", chatId);
-    }
-    let lastTypingTime = new Date().getTime();
-    var timerLength = 3000;
-    setTimeout(() => {
-      var timeNow = new Date().getTime();
-      var timeDiff = timeNow - lastTypingTime;
-      if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", chatId);
-        setTyping(false);
-      }
-    }, timerLength);
+    socket.emit("typing", chatId);
   };
   if ((!messages && userId) || loader) {
     return <MessageLoader />;
@@ -233,13 +214,11 @@ function Message({
         )}
 
         <div ref={messagesEndRef} />
-        {istyping ? (
+        {istyping && (
           <OtherUserText
             image={otherUser.profilePicture}
             content={"typing..."}
           />
-        ) : (
-          <></>
         )}
       </div>
       <div className=" bg-[#1E1D1D] border border-white rounded-2xl flex py-5 px-8 cursor-pointer gap-5">
@@ -249,12 +228,11 @@ function Message({
           placeholder="Message"
           value={newMessageClient}
           onChange={typingHandler}
-          onKeyDown={handleSendMessage}
         />
         <div className="flex self-center gap-3 text-white text-2xl">
           {/* <AiOutlinePicture />
           <AiOutlineHeart /> */}
-          <AiOutlineSend />
+          <AiOutlineSend onClick={handleSendMessage} />
         </div>
       </div>
     </div>

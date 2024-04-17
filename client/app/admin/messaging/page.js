@@ -10,7 +10,9 @@ function Page() {
   const userId = searchParams.get("userId");
   const [notifications, setNotifications] = useState([]);
   const [fetchAgain, setFetchAgain] = useState(false);
-
+  const test = ()=>{
+    alert("Testinggggggg")
+  }
   return (
     <AdminComp navName={"message"}>
       <div className="grid lg:grid-cols-3 w-full">
@@ -20,8 +22,7 @@ function Page() {
         <div className={userId ? "col-span-2" : "hidden lg:block col-span-2 "}>
           <Message
             userId={userId}
-            fetchAgain={fetchAgain}
-            setFetchAgain={setFetchAgain}
+            fetchAgain={test}
             notifications={notifications}
             setNotifications={setNotifications}
           />

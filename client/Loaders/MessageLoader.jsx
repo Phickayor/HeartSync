@@ -9,7 +9,7 @@ function MessageLoader() {
         <h3 className="self-center bg-slate-400 w-32 py-3 text-xl card-skeleton rounded-xl text-[#131725]"></h3>
       </div>
 
-      <div className="flex flex-col flex-1  overflow-y-auto gap-8 py-3">
+      <div className="flex flex-col flex-1  overflow-y-auto gap-5 py-3">
         <UserText />
         <OtherUserText />
         <UserText />

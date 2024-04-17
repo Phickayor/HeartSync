@@ -13,11 +13,8 @@ function AdminComp({ navName, children }) {
   useEffect(() => {
     const fetchDetails = async () => {
       const data = await GetUser();
-      if (data.unauthorized) {
-        setIsAuthorized(false);
-      } else {
-        setIsAuthorized(true);
-      }
+      data && setIsAuthorized(true);
+
       setIsAuthorizationChecked(true);
     };
     fetchDetails();
