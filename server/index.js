@@ -8,6 +8,7 @@ const userRouter = require("./src/routes/user.route");
 const socketConfig = require("./src/config/socket.config");
 const chatRouter = require("./src/routes/chat.route");
 const messageRouter = require("./src/routes/message.route");
+const matchRouter = require("./src/routes/matches.route");
 const app = express();
 connectToDb();
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/chat", chatRouter);
 app.use("/message", messageRouter);
+app.use("/matches", matchRouter);
 const server = http.createServer(app);
 // Configure Socket.IO
 socketConfig(server);

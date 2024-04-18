@@ -1,9 +1,11 @@
 const express = require("express");
-const router = express();
+const userMatches = require("../controllers/matches.controller");
+const { checkAuth } = require("../controllers/auth.controller");
+const matchRouter = express();
 
-router.get("/");
-router.post("/interestedInMatch");
-router.post("/disinterestedInMatch");
-router.get("/mutualMatch");
+matchRouter.get("/", checkAuth, userMatches);
+// router.post("/interestedInMatch");
+// router.post("/disinterestedInMatch");
+// router.get("/mutualMatch");
 
-module.exports = router;
+module.exports = matchRouter;
