@@ -18,7 +18,7 @@ function ActivityBar({ activeBar }) {
   useEffect(() => {
     const fetchDetails = async () => {
       const data = await GetUser();
-      if (data.user) {
+      if (data?.user) {
         userContext.userDispatch({ type: "signIn", payload: data.user });
       } else {
         router.push("/auth");

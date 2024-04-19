@@ -1,6 +1,8 @@
 "use client";
+import { searchUser } from "@/components/Controllers/UserController";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 function About({ onNext }) {
   const [fullName, setFullName] = useState("");
@@ -21,9 +23,14 @@ function About({ onNext }) {
   };
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { fullName, phoneNumber, userName, dob };
-    regContext.RegDispatch({ type: "update", payload });
-    onNext();
+    const { user } = await searchUser(userName);
+    if (user) {
+      Swal.fire({ icon: "error", text: "Username is already taken" });
+    } else {
+      const payload = { fullName, phoneNumber, userName, dob };
+      regContext.RegDispatch({ type: "update", payload });
+      onNext();
+    }
   };
   useEffect(() => {
     handleMaxDate();
@@ -35,10 +42,7 @@ function About({ onNext }) {
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>
-        <form
-          className="grid grid-cols-2 gap-5 py-5"
-          onSubmit={HandleSubmit}
-        >
+        <form className="grid grid-cols-2 gap-5 py-5" onSubmit={HandleSubmit}>
           <div className="flex flex-col gap-2">
             <label className="font-normal">Full name</label>
             <input

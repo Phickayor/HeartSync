@@ -1,40 +1,53 @@
 "use client";
+import { EditUser } from "@/components/Controllers/UserController";
 import { RegContext } from "@/contexts/RegContext";
+import { UserContext } from "@/contexts/UserContext";
+import { capitalize } from "@/utilities/firstLetterCaps";
+import { useRouter } from "next/navigation";
 import React, { useContext, useRef, useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
 import Swal from "sweetalert2";
-function CardPreview({ onNext }) {
+function CardPreview({ onNext, action }) {
   const regContext = useContext(RegContext);
-  const [userName, setUserName] = useState(regContext.RegState.userName);
+  const userContext = useContext(UserContext);
   const [shortBio, setShortBio] = useState("");
   const pic = useRef(null);
-  const [displayPicture, setDisplayPicture] = useState(
-    "/images/displayPic.png"
+  const [cardPicture, setCardPicture] = useState(
+    userContext ? userContext?.userState?.cardPicture : "/images/displayPic.png"
   );
-
+  const router = useRouter();
   const handleImageDisplay = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        setDisplayPicture(e.target.result);
+        setCardPicture(e.target.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (displayPicture !== "/images/displayPic.png") {
-      const payload = {
-        displayPicture,
-        userName,
-        shortBio
-      };
-      regContext.RegDispatch({ type: "update", payload });
-      onNext();
-    } else {
-      Swal.fire({ text: "Kindly add a Display Picture to proceed" });
+    const payload = {
+      cardPicture,
+      shortBio
+    };
+    if (action == "creation") {
+      if (cardPicture !== "/images/displayPic.png") {
+        regContext.RegDispatch({ type: "update", payload });
+        onNext();
+      } else {
+        Swal.fire({ text: "Kindly add a Display Picture to proceed" });
+      }
+    } else if (action == "edit") {
+      var profile = await EditUser(payload);
+      profile.success
+        ? router.push("/admin/settings")
+        : Swal.fire({
+            icon: "error",
+            title: profile.message
+          });
     }
   };
   return (
@@ -44,7 +57,8 @@ function CardPreview({ onNext }) {
       </h1>
       <div className="group rounded-3xl mx-auto flex-1 md:w-[22rem] w-10/12 md:h-[36rem] bg-[#1E1D1D] relative p-2">
         <img
-          src={displayPicture}
+          src={cardPicture}
+          ref={pic}
           className="self-center rounded-3xl top-0 left-0 absolute object-cover group-hover:opacity-40 w-full h-full"
           alt="Display picture"
         />
@@ -59,7 +73,7 @@ function CardPreview({ onNext }) {
 
             <input
               type="file"
-              name="displayPicture"
+              name="cardPicture"
               onChange={handleImageDisplay}
               alt=""
               ref={pic}
@@ -67,23 +81,16 @@ function CardPreview({ onNext }) {
             />
           </div>
           <div className="bg-[#1E1D1D] font-light text-center rounded-3xl py-4 flex flex-col justify-between gap-5">
-            <input
-              type="text"
-              required
-              className="text-center text-2xl bg-inherit focus:outline-none"
-              value={userName}
-              minLength={3}
-              maxLength={10}
-              onChange={(e) => {
-                setUserName(e.target.value);
-              }}
-              placeholder="Username"
-            />
+            <p className="text-center text-2xl bg-inherit focus:outline-none">
+              {action == "edit"
+                ? capitalize(userContext?.userState?.userName)
+                : capitalize(regContext?.RegState?.userName)}
+            </p>
             <input
               type="text"
               className="text-center md:text-lg bg-inherit focus:outline-none"
               required
-              value={shortBio}
+              value={userContext ? userContext?.userState?.shortBio : shortBio}
               onChange={(e) => {
                 setShortBio(e.target.value);
               }}

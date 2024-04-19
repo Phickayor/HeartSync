@@ -15,7 +15,7 @@ function RegistrationComp({ children }) {
     weight: null,
     profilePicture: null,
     longBio: null,
-    displayPicture: null,
+    cardPicture: null,
     shortBio: null,
     preferences: null
   };

@@ -20,7 +20,7 @@ function page() {
     <About onNext={handleNext} />,
     <Description onNext={handleNext} />,
     <ProfileSection onNext={handleNext} />,
-    <CardPreview onNext={handleNext} />,
+    <CardPreview onNext={handleNext} action={"creation"} />,
     <Preference action={"creation"} />
   ];
 
