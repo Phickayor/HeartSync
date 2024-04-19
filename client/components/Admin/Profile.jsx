@@ -18,7 +18,7 @@ function Profile({ userId }) {
         await navigator.share({
           title: `${capitalize(profile.userName)}'s Big Circle Profile`,
           text: `Get to meet ${profile.userName} on Big Circle `,
-          url: `www.hibuddydev.netlify.app/profile/${profile._id}`
+          url: `https://hibuddydev.netlify.app/profile/${profile._id}`
         });
         console.log("Successfully shared");
       } else {
@@ -65,21 +65,35 @@ function Profile({ userId }) {
           {capitalize(profile?.userName)}
         </h1>
         <p className="text-center">{profile?.longBio}</p>
+
         <div className="mx-auto lg:w-10/12 flex justify-center flex-wrap gap-3">
-          {profile?.preferences?.map((preference) => (
-            <div
-              key={preference}
-              className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5"
-            >
-              {preference}
-            </div>
-          ))}
+          <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
+            {profile.weight}
+          </div>
+          <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
+            {profile.height}
+          </div>
+          <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
+            {profile.gender}
+          </div>
+          {profile?.preferences?.map((preference) => {
+            if (["Male", "Female", "Male & Female"].includes(preference)) {
+              return;
+            } else {
+              return (
+                <div
+                  key={preference}
+                  className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5"
+                >
+                  {preference}
+                </div>
+              );
+            }
+          })}
         </div>
         <div className="flex flex-col gap-2 py-4">
           {userId && (
-            <button
-              onClick={handleChat}
-              className="auth-btn" >
+            <button onClick={handleChat} className="auth-btn">
               Chat
             </button>
           )}

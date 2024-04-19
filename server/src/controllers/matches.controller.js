@@ -7,7 +7,10 @@ const userMatches = async (req, res) => {
     allUsers.map((user) => {
       var userMatchDetails;
       var matchCount = 0;
-      if (req.user.preferences?.includes(user.gender || "Male and Female")) {
+      if (
+        req.user.preferences?.includes(user.gender) ||
+        req.user.preferences?.includes("Male & Female")
+      ) {
         req.user.preferences.map((userPreference) => {
           if (user.preferences?.includes(userPreference)) {
             matchCount++;
@@ -28,7 +31,7 @@ const userMatches = async (req, res) => {
       }
     });
     if (matches.length == 0) {
-      res.status(200).json({ message: "Nothing for you. lol" });
+      return res.status(200).json({ message: "Nothing for you. lol" });
     }
     res.json({ matches });
   } catch (error) {

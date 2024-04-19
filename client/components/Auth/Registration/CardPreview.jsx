@@ -4,7 +4,7 @@ import { RegContext } from "@/contexts/RegContext";
 import { UserContext } from "@/contexts/UserContext";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import { useRouter } from "next/navigation";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
 import Swal from "sweetalert2";
 function CardPreview({ onNext, action }) {
@@ -13,7 +13,9 @@ function CardPreview({ onNext, action }) {
   const [shortBio, setShortBio] = useState("");
   const pic = useRef(null);
   const [cardPicture, setCardPicture] = useState(
-    userContext ? userContext?.userState?.cardPicture : "/images/displayPic.png"
+    action == "edit"
+      ? userContext?.userState?.cardPicture
+      : "/images/displayPic.png"
   );
   const router = useRouter();
   const handleImageDisplay = (e) => {
@@ -26,7 +28,12 @@ function CardPreview({ onNext, action }) {
       reader.readAsDataURL(file);
     }
   };
-
+  useEffect(() => {
+    if (action == "edit") {
+      setCardPicture(userContext?.userState?.cardPicture);
+      setShortBio(userContext?.userState?.shortBio);
+    }
+  }, [action, userContext]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
@@ -90,7 +97,7 @@ function CardPreview({ onNext, action }) {
               type="text"
               className="text-center md:text-lg bg-inherit focus:outline-none"
               required
-              value={userContext ? userContext?.userState?.shortBio : shortBio}
+              value={shortBio}
               onChange={(e) => {
                 setShortBio(e.target.value);
               }}

@@ -30,9 +30,12 @@ function Home() {
   };
   useEffect(() => {
     const fetchMatches = async () => {
-      const { matches } = await getMatches();
-      console.log(matches);
-      setMatches(matches);
+      try {
+        const { matches } = await getMatches();
+        matches && setMatches(matches);
+      } catch (error) {
+        console.log(error.message);
+      }
     };
     fetchMatches();
   }, []);

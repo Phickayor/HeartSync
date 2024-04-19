@@ -11,21 +11,29 @@ import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import { GetUser } from "../Controllers/UserController";
+import PageLoader from "@/Loaders/PageLoader";
 function ActivityBar({ activeBar }) {
   const userContext = useContext(UserContext);
   const router = useRouter();
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const data = await GetUser();
-      if (data?.user) {
-        userContext.userDispatch({ type: "signIn", payload: data.user });
-      } else {
+      try {
+        const { user } = await GetUser();
+        userContext.userDispatch({ type: "signIn", payload: user });
+      } catch (error) {
         router.push("/auth");
       }
     };
     fetchDetails();
   }, []);
+  if (!userContext.userState) {
+    return (
+      <div className="w-screen h-screen fixed top-0 left-0 bg-white">
+        <PageLoader />
+      </div>
+    );
+  }
   return (
     <div className="bg-white text-[#131725] lg:h-full lg:flex flex-col justify-between lg:py-12 xl:py-24 py-1 px-3">
       <div className="grid grid-cols-5 lg:flex flex-col justify-around gap-6 ">

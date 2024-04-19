@@ -15,9 +15,9 @@ function Preference({ action }) {
   const regContext = useContext(RegContext);
   const setActive = (e) => {
     e.preventDefault();
-    var position = chosenPreference.indexOf(e.target.innerHTML);
+    var position = chosenPreference.indexOf(e.target.innerText);
     if (position == -1) {
-      chosenPreference.push(e.target.innerHTML);
+      chosenPreference.push(e.target.innerText);
     } else {
       chosenPreference.splice(position, 1);
     }

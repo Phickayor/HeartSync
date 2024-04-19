@@ -12,9 +12,12 @@ function AdminComp({ navName, children }) {
   const router = useRouter();
   useEffect(() => {
     const fetchDetails = async () => {
-      const data = await GetUser();
-      data && setIsAuthorized(true);
-
+      try {
+        const data = await GetUser();
+        data && setIsAuthorized(true);
+      } catch (error) {
+        alert(error.message);
+      }
       setIsAuthorizationChecked(true);
     };
     fetchDetails();

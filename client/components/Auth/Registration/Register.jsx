@@ -29,16 +29,9 @@ function Register({ onNext }) {
         setPswdError("");
         password = pswd1;
         const response = await checkExistingUser(email);
-        if (response.existingUser) {
+        if (response?.existingUser) {
           Swal.fire({
             title: "Existing User",
-            text: response.message,
-            icon: "error",
-            timer: 5000
-          });
-        } else if (response.existingUser == null) {
-          Swal.fire({
-            title: "Oops",
             text: response.message,
             icon: "error",
             timer: 5000
@@ -46,6 +39,7 @@ function Register({ onNext }) {
         } else {
           const payload = { email, password };
           regContext.RegDispatch({ type: "update", payload });
+          console.log(response);
           onNext();
         }
       } else {

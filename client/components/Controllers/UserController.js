@@ -2,23 +2,18 @@ const baseUrl = require("@/config/server");
 const Cookies = require("js-cookie");
 const token = Cookies.get("token");
 const GetUser = async () => {
-  try {
-      const res = await fetch(`${baseUrl}/user`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(token)}`
-        }
-      });
-      if(!res.ok){
-        throw new Error("Failed to fetch data")
-      }
-      const data = await res.json();
-      return data;
-    
-  } catch (error) {
-    console.log(error);
+  const res = await fetch(`${baseUrl}/user`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(token)}`
+    }
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message);
   }
+  return data;
 };
 
 const GetSpecificUser = async (userId) => {
