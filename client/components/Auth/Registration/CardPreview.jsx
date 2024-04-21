@@ -102,7 +102,7 @@ function CardPreview({ onNext, action }) {
                 setShortBio(e.target.value);
               }}
               minLength={7}
-              maxLength={30}
+              maxLength={40}
               placeholder="Short bio here..."
             />
             <button

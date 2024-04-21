@@ -1,5 +1,5 @@
 "use client";
-import React, {useState } from "react";
+import React, { useState } from "react";
 import Contact from "@/components/Admin/Messaging/Contact";
 import AdminComp from "@/components/Admin/AdminComp";
 import Message from "@/components/Admin/Messaging/Message";
@@ -9,15 +9,14 @@ function Page() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const [notifications, setNotifications] = useState([]);
-  const [fetchAgain, setFetchAgain] = useState(false);
-  const test = ()=>{
-    alert("Testinggggggg")
-  }
+  const test = () => {
+    alert("Testinggggggg");
+  };
   return (
     <AdminComp navName={"message"}>
       <div className="grid lg:grid-cols-3 w-full">
         <div className={userId && "hidden lg:block relative"}>
-          <Contact fetchAgain={fetchAgain} notifications={notifications} />
+          <Contact notifications={notifications} />
         </div>
         <div className={userId ? "col-span-2" : "hidden lg:block col-span-2 "}>
           <Message

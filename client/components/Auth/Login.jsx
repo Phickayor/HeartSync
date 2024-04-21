@@ -60,7 +60,7 @@ function Login() {
               type="email"
               required
               onChange={(e) => SetEmail(e.target.value)}
-              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-2 md:px-5 focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -69,7 +69,7 @@ function Login() {
               type="password"
               required
               onChange={(e) => SetPassword(e.target.value)}
-              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              className="bg-inherit rounded-lg py-2 focus:outline-none px-2 md:px-5 focus:border-[#584296] border"
             />
           </div>
           <button type="submit" className="auth-btn">

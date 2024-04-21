@@ -51,7 +51,7 @@ function About({ onNext }) {
               placeholder="John Doe"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="bg-inherit  py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit  py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -63,7 +63,7 @@ function About({ onNext }) {
               max={maxDate}
               placeholder="2004-08-07"
               onChange={(e) => setDob(e.target.value)}
-              className="bg-inherit py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -75,7 +75,7 @@ function About({ onNext }) {
               pattern="[0-9]{11}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="bg-inherit py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -88,7 +88,7 @@ function About({ onNext }) {
               value={userName}
               placeholder="Johnny"
               onChange={(e) => setUserName(e.target.value)}
-              className="bg-inherit py-2 md:py-4 focus:outline-none px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
             />
           </div>
           <button type="submit" className="auth-btn col-span-2">

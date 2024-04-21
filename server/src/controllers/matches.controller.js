@@ -30,9 +30,6 @@ const userMatches = async (req, res) => {
         }
       }
     });
-    if (matches.length == 0) {
-      return res.status(200).json({ message: "Nothing for you. lol" });
-    }
     res.json({ matches });
   } catch (error) {
     res.status(501).json({ message: error.message });

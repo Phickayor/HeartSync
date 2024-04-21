@@ -63,7 +63,7 @@ function Preference({ action }) {
           };
           var profile = await EditUser(values);
           profile.success
-            ? router.push("/admin/settings")
+            ? router.back()
             : Swal.fire({
                 icon: "error",
                 title: profile.message

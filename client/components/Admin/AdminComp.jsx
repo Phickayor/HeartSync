@@ -7,16 +7,18 @@ import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/Loaders/PageLoader";
 
 function AdminComp({ navName, children }) {
-  const [isAuthorized, setIsAuthorized] = useState();
+  // const [isAuthorized, setIsAuthorized] = useState();
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const data = await GetUser();
-        data && setIsAuthorized(true);
+        await GetUser();
+        // data && setIsAuthorized(true);
       } catch (error) {
-        alert(error.message);
+        // alert(error.message);
+        router.push("/auth");
       }
       setIsAuthorizationChecked(true);
     };
@@ -33,15 +35,13 @@ function AdminComp({ navName, children }) {
         return state;
     }
   };
+
   const [state, dispatch] = useReducer(reducer, null);
 
   if (!isAuthorizationChecked) {
     return <PageLoader />;
   }
 
-  if (!isAuthorized && isAuthorizationChecked) {
-    router.push("/auth");
-  }
   return (
     <UserContext.Provider value={{ userState: state, userDispatch: dispatch }}>
       <div className="fixed flex flex-col justify-between lg:justify-start lg:flex-row h-screen w-full">

@@ -211,9 +211,7 @@ const checkAuth = async (req, res, next) => {
   }
 
   if (!token) {
-    res
-      .status(401)
-      .json({ unauthorized: true, message: "Not authorized, no token" });
+    res.status(401).json({ unauthorized: true, message: "User not logged in" });
   }
 };
 module.exports = {
