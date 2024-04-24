@@ -30,15 +30,15 @@ function Profile({ userId }) {
   };
   useEffect(() => {
     if (userId) {
-      try {
-        const fetchUserInfo = async () => {
+      const fetchUserInfo = async () => {
+        try {
           const { profile } = await GetSpecificUser(userId);
           profile ? setProfile(profile) : router.back();
-        };
-        fetchUserInfo();
-      } catch (error) {
-        console.log(error);
-      }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchUserInfo();
     } else {
       setProfile(userContext.userState);
     }
@@ -97,13 +97,12 @@ function Profile({ userId }) {
               Chat
             </button>
           )}
-          <span
+          <button
             onClick={handleShareClick}
-            href="/admin/profile"
             className=" block text-center font-semibold underline cursor-pointer"
           >
             Share Profile
-          </span>
+          </button>
         </div>
       </div>
     </div>

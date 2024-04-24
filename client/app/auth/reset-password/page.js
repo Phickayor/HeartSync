@@ -2,7 +2,7 @@
 import ResetPassword from "@/components/Auth/ResetPassword";
 import React from "react";
 import { useSearchParams } from "next/navigation";
-function page() {
+function Page() {
   const searchParams = useSearchParams();
   const resetToken = searchParams.get("resetToken");
   return (
@@ -12,4 +12,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

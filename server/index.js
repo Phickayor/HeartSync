@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use("/auth", authRouter);
-app.use("/user", userRouter);``
+app.use("/user", userRouter);
 app.use("/chat", chatRouter);
 app.use("/message", messageRouter);
 app.use("/matches", matchRouter);

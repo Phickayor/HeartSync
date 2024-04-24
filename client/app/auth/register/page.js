@@ -9,7 +9,7 @@ import RegistrationComp from "@/components/Auth/Registration/RegistrationComp";
 import Preference from "@/components/Auth/Registration/Preference";
 import CardPreview from "@/components/Auth/Registration/CardPreview";
 
-function page() {
+function Page() {
   var [counter, setCounter] = useState(0);
 
   const handleNext = () => {
@@ -27,4 +27,4 @@ function page() {
   return <RegistrationComp>{components[counter]}</RegistrationComp>;
 }
 
-export default page;
+export default Page;

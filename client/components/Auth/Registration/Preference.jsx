@@ -105,30 +105,62 @@ function Preference({ action }) {
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Choose your interests</h3>
           <div className="grid grid-cols-3 md:grid-cols-4 [&>*]:w-full gap-3 md:gap-5">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Sports
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Fashion
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Music
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Stoner
             </div>
 
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Tequila
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Weeb
             </div>
             <div className="col-span-3 md:col-span-2 flex gap-5 [&>*]:w-full">
-              <div onClick={setActive} className=" preference-item">
+              <div
+                onClick={setActive}
+                onKeyDown={(event) => event.key == "Enter" && setActive}
+                className=" preference-item"
+              >
                 I am a Techie
               </div>
-              <div onClick={setActive} className="preference-item">
+              <div
+                onClick={setActive}
+                onKeyDown={(event) => event.key == "Enter" && setActive}
+                className="preference-item"
+              >
                 I am a Gamer
               </div>
             </div>
@@ -137,13 +169,25 @@ function Preference({ action }) {
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Gender Of Interest</h3>
           <div className="flex justify-between [&>*]:w-full gap-3 md:gap-5 ">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Male
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Female
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Male & Female
             </div>
           </div>
@@ -151,54 +195,110 @@ function Preference({ action }) {
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Personality Traits</h3>
           <div className="grid grid-cols-3 [&>*]:w-full gap-2 md:gap-5">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Introvert
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Extrovert
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Creative
             </div>
           </div>
 
           <div className="grid grid-cols-4 gap-2 md:gap-5 [&>*]:w-full">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Timid
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Bold
             </div>
 
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Kind
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Easy going
             </div>
           </div>
           <div className="grid grid-cols-3 [&>*]:w-full gap-2 md:gap-5">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Independent
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Dependent
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Christian
             </div>
           </div>
           <div className="grid grid-cols-4 gap-2 md:gap-5 [&>*]:w-full">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Muslim
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Reserved
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Outspoken
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Empathy
             </div>
           </div>
@@ -206,13 +306,25 @@ function Preference({ action }) {
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Why did you join us</h3>
           <div className="grid grid-cols-3 gap-3 md:gap-5 ">
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Make friends
             </div>
-            <div onClick={setActive} className="preference-item em">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item em"
+            >
               Relationships
             </div>
-            <div onClick={setActive} className="preference-item">
+            <div
+              onClick={setActive}
+              onKeyDown={(event) => event.key == "Enter" && setActive}
+              className="preference-item"
+            >
               Fun Buddies
             </div>
           </div>

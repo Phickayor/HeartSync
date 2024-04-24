@@ -23,18 +23,20 @@ function ResetPassword({ resetToken }) {
       }
       const newPassword = password;
       const response = await resetPassword(resetToken, newPassword);
-      response.ok
-        ? (Swal.fire({
-            icon: "success",
-            title: "Pasword Reset Succesful",
-            text: "You can now login with your new password"
-          }),
-          router.push("/auth/"))
-        : Swal.fire({
-            icon: "error",
-            title: "An error occured",
-            text: response.message
-          });
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Pasword Reset Succesful",
+          text: "You can now login with your new password"
+        });
+        router.push("/auth/");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "An error occured",
+          text: response.message
+        });
+      }
       setLoader(false);
     } catch (error) {
       console.log(error.message);

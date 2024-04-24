@@ -53,6 +53,7 @@ function Description({ onNext }) {
                   : "description-item bg-slate-700 "
               }
               onClick={() => setHeight("Tall")}
+              onKeyDown={(event) => event.key == "Enter" && setHeight("Tall")}
             >
               Tall
             </div>
@@ -63,6 +64,7 @@ function Description({ onNext }) {
                   : "description-item bg-slate-700 "
               }
               onClick={() => setHeight("Short")}
+              onKeyDown={(event) => event.key == "Enter" && setHeight("Short")}
             >
               Short
             </div>
@@ -73,6 +75,9 @@ function Description({ onNext }) {
                   : "lg:col-span-1 col-span-2 description-item  bg-slate-700 "
               }
               onClick={() => setHeight("Not very tall")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && setHeight("Not very tall")
+              }
             >
               Not very tall
             </div>
@@ -85,6 +90,7 @@ function Description({ onNext }) {
                   : "description-item bg-slate-700"
               }
               onClick={() => setGender("Male")}
+              onKeyDown={(event) => event.key == "Enter" && setGender("Male")}
             >
               Male
             </div>
@@ -95,6 +101,7 @@ function Description({ onNext }) {
                   : "description-item bg-slate-700"
               }
               onClick={() => setGender("Female")}
+              onKeyDown={(event) => event.key == "Enter" && setGender("Female")}
             >
               Female
             </div>
@@ -107,6 +114,7 @@ function Description({ onNext }) {
                   : "description-item bg-slate-700"
               }
               onClick={() => setWeight("Fat")}
+              onKeyDown={(event) => event.key == "Enter" && setWeight("Fat")}
             >
               Fat
             </div>
@@ -118,6 +126,7 @@ function Description({ onNext }) {
                   : "description-item bg-slate-700 "
               }
               onClick={() => setWeight("Slim")}
+              onKeyDown={(event) => event.key == "Enter" && setWeight("Slim")}
             >
               Slim
             </div>
@@ -128,6 +137,9 @@ function Description({ onNext }) {
                   : "col-span-2 lg:col-span-1 description-item bg-slate-700"
               }
               onClick={() => setWeight("Not very Fat")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && setWeight("Not very Fat")
+              }
             >
               Not very Fat
             </div>

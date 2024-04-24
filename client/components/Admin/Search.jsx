@@ -15,7 +15,12 @@ function Search() {
       setErrorMessage();
       setSearching(true);
       const { user, message } = await searchUser(userName);
-      user ? setResult(user) : (setResult(), setErrorMessage(message));
+      if (user) {
+        setResult(user);
+      } else {
+        setResult();
+        setErrorMessage(message);
+      }
     }
     setSearching(false);
   };

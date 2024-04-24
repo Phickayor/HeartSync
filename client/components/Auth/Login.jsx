@@ -26,18 +26,20 @@ function Login() {
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      res.ok
-        ? (Cookies.set("token", JSON.stringify(data.token)),
-          Swal.fire({
-            title: "Success!",
-            text: "Login Successful",
-            icon: "success"
-          }),
-          router.push("/admin"))
-        : Swal.fire({
-            icon: "error",
-            title: data.message
-          });
+      if (res.ok) {
+        Cookies.set("token", JSON.stringify(data.token));
+        Swal.fire({
+          title: "Success!",
+          text: "Login Successful",
+          icon: "success"
+        });
+        router.push("/admin");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: data.message
+        });
+      }
     } catch (error) {
       console.log(error.message);
       Swal.fire({

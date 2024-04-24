@@ -85,6 +85,9 @@ function AllSetings() {
             </div>
             <span
               onClick={() => handleEdit("Username", "userName")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && handleEdit("Username", "userName")
+              }
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -98,7 +101,10 @@ function AllSetings() {
               </span>
             </div>
             <span
-              onClick={() => handleEdit("Username", "userName")}
+              onClick={() => handleEdit("Fullname", "fullName")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && handleEdit("Fullname", "fullName")
+              }
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -132,6 +138,9 @@ function AllSetings() {
             </div>
             <span
               onClick={() => handleEdit("Long Bio", "longBio")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && handleEdit("Long Bio", "longBio")
+              }
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -148,6 +157,10 @@ function AllSetings() {
             </div>
             <span
               onClick={() => handleEdit("Phone Number", "phoneNumber")}
+              onKeyDown={(event) =>
+                event.key == "Enter" &&
+                handleEdit("Phone Number", "phoneNumber")
+              }
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
@@ -178,6 +191,9 @@ function AllSetings() {
             </div>
             <span
               onClick={() => handleEdit("Password", "password")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && handleEdit("Password", "password")
+              }
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
