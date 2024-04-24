@@ -7,7 +7,6 @@ import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/Loaders/PageLoader";
 
 function AdminComp({ navName, children }) {
-  // const [isAuthorized, setIsAuthorized] = useState();
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
   const router = useRouter();
 
@@ -15,9 +14,7 @@ function AdminComp({ navName, children }) {
     const fetchDetails = async () => {
       try {
         await GetUser();
-        // data && setIsAuthorized(true);
       } catch (error) {
-        // alert(error.message);
         router.push("/auth");
       }
       setIsAuthorizationChecked(true);

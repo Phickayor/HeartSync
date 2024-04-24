@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 
 export default function Verify() {
   return (
@@ -8,7 +7,7 @@ export default function Verify() {
         <div className="flex flex-col gap-5 text-center">
           <h1 className="auth-header">Verify Mail</h1>
           <p className="font-thin leading-2 mx-auto w-4/5">
-            A 6 digit code was sent to{" "}
+            A 6 digit code was sent to
             <b className="font-semibold">tapeyjunior@gmail.com</b> kindly input
             code
           </p>

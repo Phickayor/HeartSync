@@ -3,10 +3,9 @@ const userMatches = async (req, res) => {
   try {
     const allUsers = await User.find();
     const matches = [];
-    // console.log(allUsers);
     allUsers.map((user) => {
-      var userMatchDetails;
-      var matchCount = 0;
+      let userMatchDetails;
+      let matchCount = 0;
       if (
         req.user.preferences?.includes(user.gender) ||
         req.user.preferences?.includes("Male & Female")

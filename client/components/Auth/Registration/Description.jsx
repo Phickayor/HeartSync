@@ -6,12 +6,12 @@ function Description({ onNext }) {
   const [height, setHeight] = useState(null);
   const [gender, setGender] = useState(null);
   const [weight, setWeight] = useState(null);
-  const [loader, SetLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const regContext = useContext(RegContext);
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    SetLoader(true);
+    setLoader(true);
     if (height == null) {
       setErrorMessage("What category best fits your height?");
     } else if (gender == null) {
@@ -23,7 +23,7 @@ function Description({ onNext }) {
       regContext.RegDispatch({ type: "update", payload });
       onNext();
     }
-    SetLoader(false);
+    setLoader(false);
   };
   return (
     <div className="flex flex-col justify-center h-screen mx-auto w-11/12 md:w-10/12 lg:w-4/6">

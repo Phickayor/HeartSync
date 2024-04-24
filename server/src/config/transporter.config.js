@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-var transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
   service: "SMTP",
   host: "smtp-mail.outlook.com", // hostname
   port: 587, // port for secure SMTP
@@ -16,4 +16,3 @@ var transporter = nodemailer.createTransport({
 });
 
 module.exports = transporter;
- 

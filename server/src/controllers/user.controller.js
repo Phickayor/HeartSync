@@ -1,19 +1,19 @@
-// const pictureModel = require("../models/pictures.model");
+
 const User = require("../models/user.model");
 const { handleEncryption } = require("../utilities/encrypt");
 
 const editUser = async (req, res) => {
   try {
-    var findUser = await User.findById(req.user._id);
+    let findUser = await User.findById(req.user._id);
     if (findUser) {
       if (req.body.password) {
-        var encryptedPassword = await handleEncryption(req.body.password);
+        let encryptedPassword = await handleEncryption(req.body.password);
         req.body.password = encryptedPassword;
       }
       if (req.body.userName) {
         req.body.userName = req.body.userName.toLowerCase();
       }
-      var updateUser = await User.findByIdAndUpdate(req.user._id, req.body);
+      let updateUser = await User.findByIdAndUpdate(req.user._id, req.body);
       updateUser
         ? res
             .status(200)
@@ -42,7 +42,7 @@ const getUser = async (req, res) => {
 };
 const getSpecificUser = async (req, res) => {
   try {
-    var profile = await User.findById(req.params.userId).select(
+    let profile = await User.findById(req.params.userId).select(
       "-password -isEmailVerified -phoneNumber"
     );
     profile
@@ -54,7 +54,7 @@ const getSpecificUser = async (req, res) => {
 };
 const getSpecificUserByUserName = async (req, res) => {
   try {
-    var user = await User.findOne({
+    let user = await User.findOne({
       userName: req.params.userName.toLowerCase()
     }).select("-password -isEmailVerified -phoneNumber");
     user
@@ -70,7 +70,7 @@ const getMatches = async (req, res) => {
     const userPreferences = userDetails.preferences;
     const allUsers = await User.find();
     const matches = [];
-    for (var i = 0; i < allUsers.length; i++) {
+    for (let i = 0; i < allUsers.length; i++) {
       if (allUsers[i]._id == req.user._id) {
         continue;
       }

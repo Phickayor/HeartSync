@@ -49,22 +49,17 @@ export const OtherUserText = ({ image, content }) => {
   );
 };
 
-function Message({
-  userId,
-  fetchAgain,
-  notifications,
-  setNotifications
-}) {
+function Message({ userId, fetchAgain, notifications, setNotifications }) {
   const userContext = useContext(UserContext);
   const messagesEndRef = useRef();
   const [chatId, setChatId] = useState(null);
-  const [newMessageClient, setNewMessage] = useState("");
+  const [newMessageClient, setNewMessageClient] = useState("");
   const [messages, setMessages] = useState(null);
   const [otherUser, setOtherUser] = useState({});
   const [socketConnected, setSocketConnected] = useState(false);
-  const [istyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [loader, setLoader] = useState(false);
-  var socket = io(baseUrl);
+  let socket = io(baseUrl);
   useEffect(() => {
     socket.on("typing", () => {
       setIsTyping(true);
@@ -137,10 +132,10 @@ function Message({
     });
   });
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = async () => {
     try {
-      var newMessage = newMessageClient;
-      setNewMessage("");
+      let newMessage = newMessageClient;
+      setNewMessageClient("");
       if (newMessage) {
         const data = await sendMessage(newMessage, chatId);
         if (data.newMessage) {
@@ -155,7 +150,7 @@ function Message({
     }
   };
   const typingHandler = (e) => {
-    setNewMessage(e.target.value);
+    setNewMessageClient(e.target.value);
 
     if (!socketConnected) return;
     socket.emit("typing", chatId);
@@ -188,11 +183,11 @@ function Message({
 
       <div className="flex flex-col flex-1  overflow-y-auto gap-5 py-3">
         {messages.length > 0 ? (
-          messages.map((message, index) => {
+          messages.map((message) => {
             if (message.sender._id == userContext.userState?._id) {
               return (
                 <UserText
-                  key={index}
+                  key={message._id}
                   image={userContext.userState?.profilePicture}
                   content={message.content}
                 />
@@ -200,7 +195,7 @@ function Message({
             } else if (message.sender._id == otherUser._id) {
               return (
                 <OtherUserText
-                  key={index}
+                  key={message._id}
                   image={otherUser.profilePicture}
                   content={message.content}
                 />
@@ -214,7 +209,7 @@ function Message({
         )}
 
         <div ref={messagesEndRef} />
-        {istyping && (
+        {isTyping && (
           <OtherUserText
             image={otherUser.profilePicture}
             content={"typing..."}

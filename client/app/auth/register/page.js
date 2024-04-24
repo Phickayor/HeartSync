@@ -10,18 +10,18 @@ import Preference from "@/components/Auth/Registration/Preference";
 import CardPreview from "@/components/Auth/Registration/CardPreview";
 
 function Page() {
-  var [counter, setCounter] = useState(0);
+  let [counter, setCounter] = useState(0);
 
   const handleNext = () => {
     setCounter(counter++);
   };
   const components = [
-    <Register onNext={handleNext} />,
-    <About onNext={handleNext} />,
-    <Description onNext={handleNext} />,
-    <ProfileSection onNext={handleNext} />,
-    <CardPreview onNext={handleNext} action={"creation"} />,
-    <Preference action={"creation"} />
+    <Register key="register" onNext={handleNext} />,
+    <About key="about" onNext={handleNext} />,
+    <Description key="description" onNext={handleNext} />,
+    <ProfileSection key="profile" onNext={handleNext} />,
+    <CardPreview key="cardPreview" onNext={handleNext} action={"creation"} />,
+    <Preference key="preference" action={"creation"} />
   ];
 
   return <RegistrationComp>{components[counter]}</RegistrationComp>;

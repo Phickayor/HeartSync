@@ -1,9 +1,9 @@
 const generateOtp = (otpLength) => {
-  var otpArr = [];
-  for (var i = 0; i < otpLength; i++) {
+  let otpArr = [];
+  for (let i = 0; i < otpLength; i++) {
     otpArr.push(Math.floor(Math.random() * 9));
   }
-  var otp = otpArr.join("");
+  let otp = otpArr.join("");
   return parseInt(otp);
 };
 

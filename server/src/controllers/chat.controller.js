@@ -10,7 +10,7 @@ const accessChat = async (req, res) => {
         .json({ message: "User id missing in request body" });
     }
     const verifyUserId = await User.findById(userId);
-    var userIds = [req.user._id, userId];
+    let userIds = [req.user._id, userId];
     if (!verifyUserId) {
       return res.status(404).json({ message: "User not found" });
     }

@@ -3,7 +3,6 @@ const Cookies = require("js-cookie");
 
 const token = Cookies.get("token");
 
-const loginUser = async () => {};
 const checkExistingUser = async (email) => {
   try {
     const res = await fetch(`${baseUrl}/auth/search-users/${email}`);
@@ -25,7 +24,7 @@ const createUser = async (payload) => {
     const data = await res.json();
     return {
       message: data.message,
-      ok: res.ok ? true : false
+      ok: res.ok
     };
   } catch (error) {
     console.error(error.message);

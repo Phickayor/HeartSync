@@ -9,22 +9,22 @@ function Register({ onNext }) {
   const [email, setEmail] = useState("");
   const [pswd1, setPswd1] = useState("");
   const [pswd2, setPswd2] = useState("");
-  const [loader, SetLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [pswdError, setPswdError] = useState("");
-  var password;
+  let password;
   const regContext = useContext(RegContext);
   const handleMatchingPassword = () => {
     try {
-      return pswd1 === pswd2 ? true : false;
+      return pswd1 === pswd2;
     } catch (error) {
       console.error(error.message);
     }
   };
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    SetLoader(true);
+    setLoader(true);
     try {
-      var comparePassword = handleMatchingPassword();
+      let comparePassword = handleMatchingPassword();
       if (comparePassword) {
         setPswdError("");
         password = pswd1;
@@ -39,7 +39,6 @@ function Register({ onNext }) {
         } else {
           const payload = { email, password };
           regContext.RegDispatch({ type: "update", payload });
-          console.log(response);
           onNext();
         }
       } else {
@@ -48,7 +47,7 @@ function Register({ onNext }) {
     } catch (error) {
       console.error(error.message);
     }
-    SetLoader(false);
+    setLoader(false);
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">

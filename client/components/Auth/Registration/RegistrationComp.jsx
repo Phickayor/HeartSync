@@ -20,11 +20,10 @@ function RegistrationComp({ children }) {
     preferences: null
   };
   const reducer = (state, action) => {
-    switch (action.type) {
-      case "update":
-        return { ...state, ...action.payload };
-      default:
-        return state;
+    if (action.type == "update") {
+      return { ...state, ...action.payload };
+    } else {
+      return state;
     }
   };
   const [state, dispatch] = useReducer(reducer, initialState);

@@ -1,7 +1,7 @@
 export const capitalize = (word) => {
   try {
     if (word) {
-      var wordArray = word.split("");
+      let wordArray = word.split("");
       let firstLeterCap = wordArray[0].toUpperCase();
       let wordWithoutFirstLetter = wordArray.splice(1);
       let newWordArray = [firstLeterCap, wordWithoutFirstLetter.join("")];

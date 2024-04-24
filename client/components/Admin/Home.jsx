@@ -5,7 +5,7 @@ import { capitalize } from "@/utilities/firstLetterCaps";
 import Link from "next/link";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import HomeLoader from "@/Loaders/HomeLoader";
-import "swiper/react";
+// import "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -64,22 +64,17 @@ function Home() {
   }
   return (
     <div className="lg:h-screen h-[calc(100vh-3rem)] mx-auto w-11/12 py-4">
-      {/* <img src="/images/logo.svg" alt="" className="mx-auto lg:hidden" /> */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
         slidesPerView={numberOfSlides}
-        // navigation
-        // pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        // onSlideChange={() => console.log("slide change")}
-        // onSwiper={(swiper) => console.log(swiper)}
         className="py-10 h-full"
       >
         {matches &&
-          matches.map((match, index) => (
+          matches.map((match) => (
             <SwiperSlide
-              key={index}
+              key={match.user._id}
               className="group h-full gap-4 relative border-2 rounded-2xl bg-slate-700"
             >
               <img

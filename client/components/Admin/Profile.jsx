@@ -22,7 +22,7 @@ function Profile({ userId }) {
         });
         console.log("Successfully shared");
       } else {
-        // console.log("Web Share API not supported");
+        console.log("Web Share API not supported");
       }
     } catch (error) {
       console.error("Error sharing:", error);

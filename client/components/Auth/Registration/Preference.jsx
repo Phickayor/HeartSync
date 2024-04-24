@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useContext, useState } from "react";
-import { FaTimesCircle } from "react-icons/fa";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { EditUser } from "../../Controllers/UserController";
 import Swal from "sweetalert2";
@@ -15,7 +14,7 @@ function Preference({ action }) {
   const regContext = useContext(RegContext);
   const setActive = (e) => {
     e.preventDefault();
-    var position = chosenPreference.indexOf(e.target.innerText);
+    let position = chosenPreference.indexOf(e.target.innerText);
     if (position == -1) {
       chosenPreference.push(e.target.innerText);
     } else {
@@ -56,27 +55,29 @@ function Preference({ action }) {
           timer: 5000,
           icon: "error"
         });
-      } else {
-        if (action == "edit") {
-          const values = {
+        return;
+      }
+
+      if (action == "edit") {
+        const values = {
+          preferences: chosenPreference
+        };
+        let profile = await EditUser(values);
+        profile.success
+          ? router.back()
+          : Swal.fire({
+              icon: "error",
+              title: profile.message
+            });
+      }
+      if (action == "creation") {
+        regContext.RegDispatch({
+          type: "update",
+          payload: {
             preferences: chosenPreference
-          };
-          var profile = await EditUser(values);
-          profile.success
-            ? router.back()
-            : Swal.fire({
-                icon: "error",
-                title: profile.message
-              });
-        } else if (action == "creation") {
-          regContext.RegDispatch({
-            type: "update",
-            payload: {
-              preferences: chosenPreference
-            }
-          });
-          setCreateAccount(true);
-        }
+          }
+        });
+        setCreateAccount(true);
       }
     } catch (error) {
       console.log(error);

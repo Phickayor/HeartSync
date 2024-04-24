@@ -6,7 +6,7 @@ import Link from "next/link";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import SearchResultLoader from "@/Loaders/SearchResultLoader";
 function Search() {
-  const [userName, SetUserName] = useState("");
+  const [userName, setUserName] = useState("");
   const [result, setResult] = useState();
   const [searching, setSearching] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -35,7 +35,7 @@ function Search() {
           <input
             type="search"
             value={userName}
-            onChange={(e) => SetUserName(e.target.value)}
+            onChange={(e) => setUserName(e.target.value)}
             onKeyDown={handleSearch}
             className="self-center bg-inherit w-full px-2 focus:outline-none"
             placeholder="Search here..."

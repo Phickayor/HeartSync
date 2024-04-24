@@ -19,7 +19,7 @@ function ProfileSection({ onNext }) {
       };
       reader.readAsDataURL(file);
     }
-  };
+  };    
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
@@ -57,7 +57,7 @@ function ProfileSection({ onNext }) {
         <div className="flex mx-auto w-fit gap-2 md:gap-5 [&>*]:self-center [&>*]:cursor-pointer">
           <div className="cursor-pointer group relative">
             <img
-              src={image ? image : "/images/profile-2.png"}
+              src={image || "/images/profile-2.png"}
               className="border-2 border-purple-500 rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
             />
             <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">

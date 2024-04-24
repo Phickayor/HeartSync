@@ -3,8 +3,7 @@ const User = require("../models/user.model");
 const { accessPayload, signPayload } = require("../utilities/auth");
 const { handleEncryption, comparePassword } = require("../utilities/encrypt");
 const generateOtp = require("../utilities/generateOtp");
-const getMail = require("../utilities/mail");
-const verificationMail = require("../utilities/mail");
+const VerificationMail = require("../utilities/mail");
 
 const CheckExistingUser = async (req, res) => {
   try {
@@ -87,12 +86,12 @@ const logInUser = async (req, res) => {
     let { email, password } = req.body;
     const userDetails = await User.findOne({ email: email.toLowerCase() });
     if (userDetails) {
-      var verifyPassword = await comparePassword(
+      let verifyPassword = await comparePassword(
         password,
         userDetails.password
       );
       if (verifyPassword) {
-        var token = signPayload({ id: userDetails._id }, "2h");
+        let token = signPayload({ id: userDetails._id }, "2h");
         res.status(200).json({
           message: `Successful Login`,
           token
@@ -115,7 +114,7 @@ const logInUser = async (req, res) => {
 const sendVerificationMail = async (req, res) => {
   try {
     if (!req.user.isEmailVerified) {
-      const verificationMail = await getMail.VerificationMail(6);
+      const verificationMail = await VerificationMail(6);
       const mailOptions = {
         from: "jetawof@gmail.com",
         to: req.user.email,
@@ -177,7 +176,9 @@ const resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
     const payload = accessPayload(token);
     const encryptedPassword = await handleEncryption(newPassword);
-    const updatePassword = await User.findById(payload._id);
+    const updatePassword = await User.findByIdAndUpdate(payload._id, {
+      password: encryptedPassword
+    });
     if (updatePassword) {
       res.status(200).json({ message: "Pasword has been reset" });
       updatePassword.save();

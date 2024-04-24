@@ -8,14 +8,14 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 function Login() {
-  const [email, SetEmail] = useState();
-  const [password, SetPassword] = useState();
-  const [loader, SetLoader] = useState(false);
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [loader, setLoader] = useState(false);
   const router = useRouter();
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    SetLoader(true);
+    setLoader(true);
 
     try {
       const res = await fetch(`${baseUrl}/auth/login`, {
@@ -48,7 +48,7 @@ function Login() {
         text: "Something went wrong! Check your internet cnnection and try again"
       });
     }
-    SetLoader(false);
+    setLoader(false);
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">
@@ -61,7 +61,7 @@ function Login() {
             <input
               type="email"
               required
-              onChange={(e) => SetEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="bg-inherit rounded-lg py-2 focus:outline-none px-2 md:px-5 focus:border-[#584296] border"
             />
           </div>
@@ -70,7 +70,7 @@ function Login() {
             <input
               type="password"
               required
-              onChange={(e) => SetPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="bg-inherit rounded-lg py-2 focus:outline-none px-2 md:px-5 focus:border-[#584296] border"
             />
           </div>

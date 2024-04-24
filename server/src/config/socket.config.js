@@ -7,7 +7,6 @@ const socketConfig = (server) => {
   });
 
   io.on("connection", (socket) => {
-    // console.log("Connected to socket.io");
     socket.on("setup", (userData) => {
       socket.join(userData._id);
       socket.emit("connected");
@@ -21,7 +20,7 @@ const socketConfig = (server) => {
 
     socket.on("typing", (room) => socket.in(room).emit("typing"));
     socket.on("new message", (newMessageRecieved) => {
-      var chat = newMessageRecieved.chat;
+      let chat = newMessageRecieved.chat;
       if (!chat.users) return console.log("chat.users not defined");
 
       chat.users.forEach((user) => {

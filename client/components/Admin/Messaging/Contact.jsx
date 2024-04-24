@@ -32,17 +32,17 @@ function Contact({ fetchAgain, notifications }) {
       {chats ? (
         chats.length > 0 ? (
           <div className="flex flex-col gap-2 h-full py-4">
-            {chats.map((chat, index) => {
+            {chats.map((chat) => {
               try {
-                for (var i = 0; i < chat.users.length; i++) {
+                for (let i = 0; i < chat.users.length; i++) {
                   if (chat.users[i]._id != userContext.userState?._id) {
-                    var unread = notifications.filter(
+                    let unread = notifications.filter(
                       (notification) =>
                         notification.chat._id === chat.users[i]._id
                     ).length;
                     return (
                       <Link
-                        key={index}
+                        key={chat._id}
                         href={`/admin/messaging/?userId=${chat.users[i]._id}`}
                         className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
                       >
