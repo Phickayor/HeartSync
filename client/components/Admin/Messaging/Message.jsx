@@ -9,10 +9,12 @@ import { UserContext } from "@/contexts/UserContext";
 import { AccessChat } from "@/components/Controllers/ChatController";
 import {
   getAllMessages,
+  markAsRead,
   sendMessage
 } from "@/components/Controllers/MessageController";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import MessageLoader from "@/Loaders/MessageLoader";
+import { toast, ToastContainer } from "react-toastify";
 
 export const UserText = ({ image, content }) => {
   return content ? (
@@ -49,7 +51,7 @@ export const OtherUserText = ({ image, content }) => {
   );
 };
 
-function Message({ userId, fetchAgain, notifications, setNotifications }) {
+function Message({ userId}) {
   const userContext = useContext(UserContext);
   const messagesEndRef = useRef();
   const [chatId, setChatId] = useState(null);
@@ -65,7 +67,7 @@ function Message({ userId, fetchAgain, notifications, setNotifications }) {
       setIsTyping(true);
       setTimeout(() => {
         setIsTyping(false);
-      }, 2000); // Reset typing status after 2 seconds
+      }, 2000);
     });
   }, []);
   useEffect(() => {
@@ -78,11 +80,6 @@ function Message({ userId, fetchAgain, notifications, setNotifications }) {
           const { messages } = await getAllMessages(chatId);
           if (messages) {
             setMessages([...messages]);
-            notifications.map((notification, index) => {
-              if (notification.chat._id == chatId) {
-                notifications.splice(index, 1);
-              }
-            });
           }
         }
       } catch (error) {
@@ -108,6 +105,7 @@ function Message({ userId, fetchAgain, notifications, setNotifications }) {
 
     fetchOtherUserDetails();
   }, [userId]);
+
   useEffect(() => {
     if (userContext.userState && chatId) {
       socket.emit("setup", userContext.userState);
@@ -115,22 +113,18 @@ function Message({ userId, fetchAgain, notifications, setNotifications }) {
       socket.emit("join chat", chatId);
     }
   }, [chatId, userContext]);
-  useEffect(() => {
-    socket.on("message received", (newMessageReceived) => {
-      if (newMessageReceived) {
-        console.log(newMessageReceived);
-        if (chatId !== newMessageReceived.chat._id) {
-          if (!notifications.includes(newMessageReceived)) {
-            setNotifications([...notifications, newMessageReceived]);
-            fetchAgain();
-          }
-        } else {
-          setMessages([...messages, newMessageReceived]);
-          fetchAgain();
-        }
-      }
-    });
-  });
+  // useEffect(() => {
+  //   try {
+  //     socket.on("message received", async (newMessageReceived) => {
+  //       if (chatId === newMessageReceived.chat._id) {
+  //         await markAsRead(newMessageReceived._id);
+  //         setMessages([...messages, newMessageReceived]);
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // });
 
   const handleSendMessage = async () => {
     try {
@@ -225,11 +219,10 @@ function Message({ userId, fetchAgain, notifications, setNotifications }) {
           onChange={typingHandler}
         />
         <div className="flex self-center gap-3 text-white text-2xl">
-          {/* <AiOutlinePicture />
-          <AiOutlineHeart /> */}
           <AiOutlineSend onClick={handleSendMessage} />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

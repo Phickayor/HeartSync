@@ -19,14 +19,16 @@ const socketConfig = (server) => {
     });
 
     socket.on("typing", (room) => socket.in(room).emit("typing"));
-    socket.on("new message", (newMessageRecieved) => {
-      let chat = newMessageRecieved.chat;
+    socket.on("new message", (newMessageReceived) => {
+      let chat = newMessageReceived.chat;
       if (!chat.users) return console.log("chat.users not defined");
-
       chat.users.forEach((user) => {
-        if (user._id == newMessageRecieved.sender._id) return;
-
-        socket.in(user._id).emit("message recieved", newMessageRecieved);
+        if (user._id == newMessageReceived.sender._id) return;
+        try {
+          socket.to(user._id).emit("message received", newMessageReceived);
+        } catch (error) {
+          console.log(error.message);
+        }
       });
     });
   });

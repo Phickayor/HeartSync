@@ -5,16 +5,18 @@ import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
 import ChatLoader from "@/Loaders/ChatLoader";
 import { getAllChats } from "@/components/Controllers/ChatController";
-function Contact({ fetchAgain, notifications }) {
+import { capitalize } from "@/utilities/firstLetterCaps";
+function Contact() {
   const userContext = useContext(UserContext);
   const [chats, setChats] = useState(null);
   const fetchChats = async () => {
-    const { userChats } = await getAllChats();
-    setChats(userChats);
+    const { chats } = await getAllChats();
+    setChats(chats);
+    console.log(chats);
   };
   useEffect(() => {
     fetchChats();
-  }, [fetchAgain]);
+  }, []);
   return (
     <div className="px-5 w-full lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
@@ -34,28 +36,27 @@ function Contact({ fetchAgain, notifications }) {
           <div className="flex flex-col gap-2 h-full py-4">
             {chats.map((chat) => {
               try {
-                for (let i = 0; i < chat.users.length; i++) {
-                  if (chat.users[i]._id != userContext.userState?._id) {
-                    let unread = notifications.filter(
-                      (notification) =>
-                        notification.chat._id === chat.users[i]._id
+                for (let i = 0; i < chat.chat.users.length; i++) {
+                  if (chat.chat.users[i]._id != userContext.userState?._id) {
+                    let unread = chat.unread.filter(
+                      (message) => message.sender !== userContext.userState?._id
                     ).length;
                     return (
                       <Link
-                        key={chat._id}
-                        href={`/admin/messaging/?userId=${chat.users[i]._id}`}
+                        key={chat.chat._id}
+                        href={`/admin/messaging/?userId=${chat.chat.users[i]._id}`}
                         className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
                       >
                         <div className="flex gap-4 py-4">
                           <img
-                            src={chat.users[i].profilePicture}
+                            src={chat.chat.users[i].profilePicture}
                             className="w-12 h-12 rounded-full self-center"
                           />
                           <div className="self-center gap-3">
                             <h3 className="text-lg">
-                              {chat.users[i].userName}
+                              {capitalize(chat.chat.users[i].userName)}
                             </h3>
-                            <span>{chat.latestMessage.content}</span>
+                            <span>{chat.chat.latestMessage.content}</span>
                           </div>
                         </div>
                         {unread > 0 && (

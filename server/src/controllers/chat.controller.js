@@ -1,4 +1,5 @@
 const Chat = require("../models/chat.model");
+const Message = require("../models/message.model");
 const User = require("../models/user.model");
 
 const accessChat = async (req, res) => {
@@ -28,17 +29,27 @@ const accessChat = async (req, res) => {
 
 const fetchChats = async (req, res) => {
   try {
+    let chats = [];
     const userChats = await Chat.find({
       users: { $in: [req.user._id] }
     })
       .sort({ updatedAt: -1 })
       .populate("users", "userName profilePicture")
       .populate("latestMessage", "content");
-    if (userChats) {
-      res.status(200).json({ userChats });
-    } else {
-      res.status(404).json({ userChats });
+    await Promise.all(
+      userChats.map(async (chat) => {
+        const messagesWithId = await Message.find({
+          chat: chat._id
+        });
+        let unread = messagesWithId.filter((message) => message.unread == true);
+        let combo = { chat, unread };
+        chats.push(combo);
+      })
+    );
+    if (chats) {
+      res.status(200).json({ chats });
     }
+    res.end();
   } catch (error) {
     res.status(501).json({ message: error.message });
   }

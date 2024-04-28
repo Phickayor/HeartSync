@@ -32,7 +32,22 @@ const getAllMessages = async (chatId) => {
     console.error(error.message);
   }
 };
+const markAsRead = async (messageId) => {
+  try {
+    const res = await fetch(`${baseUrl}/message/toogle-read/${messageId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    });
+    const data = await res.json();
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 module.exports = {
   sendMessage,
-  getAllMessages
+  getAllMessages,
+  markAsRead
 };
