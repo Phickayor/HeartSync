@@ -51,7 +51,7 @@ export const OtherUserText = ({ image, content }) => {
   );
 };
 
-function Message({ userId}) {
+function Message({ userId }) {
   const userContext = useContext(UserContext);
   const messagesEndRef = useRef();
   const [chatId, setChatId] = useState(null);
@@ -62,14 +62,6 @@ function Message({ userId}) {
   const [isTyping, setIsTyping] = useState(false);
   const [loader, setLoader] = useState(false);
   let socket = io(baseUrl);
-  useEffect(() => {
-    socket.on("typing", () => {
-      setIsTyping(true);
-      setTimeout(() => {
-        setIsTyping(false);
-      }, 2000);
-    });
-  }, []);
   useEffect(() => {
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -143,12 +135,6 @@ function Message({ userId}) {
       console.error(error.message);
     }
   };
-  const typingHandler = (e) => {
-    setNewMessageClient(e.target.value);
-
-    if (!socketConnected) return;
-    socket.emit("typing", chatId);
-  };
   if ((!messages && userId) || loader) {
     return <MessageLoader />;
   }
@@ -203,12 +189,6 @@ function Message({ userId}) {
         )}
 
         <div ref={messagesEndRef} />
-        {isTyping && (
-          <OtherUserText
-            image={otherUser.profilePicture}
-            content={"typing..."}
-          />
-        )}
       </div>
       <div className=" bg-[#1E1D1D] border border-white rounded-2xl flex py-5 px-8 cursor-pointer gap-5">
         <input
@@ -216,7 +196,8 @@ function Message({ userId}) {
           className="self-center bg-inherit text-white w-full focus:outline-none"
           placeholder="Message"
           value={newMessageClient}
-          onChange={typingHandler}
+          onChange={(e) => setNewMessageClient(e.target.value)}
+          onKeyDown={(e) => e.key == "Enter" && handleSendMessage() }
         />
         <div className="flex self-center gap-3 text-white text-2xl">
           <AiOutlineSend onClick={handleSendMessage} />

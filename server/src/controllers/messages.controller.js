@@ -39,11 +39,12 @@ const allMessages = async (req, res) => {
       .populate("chat")
       .populate("chat.users", "name profilePicture");
     var receiver;
-    messages[0].chat.users.map((user) => {
-      if (user == req.user._id) {
-        receiver = user;
-      }
-    });
+    messages.length > 0 &&
+      messages[0].chat.users.map((user) => {
+        if (user == req.user._id) {
+          receiver = user;
+        }
+      });
 
     await Message.updateMany(
       { chat: req.params.chatId },
