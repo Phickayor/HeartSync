@@ -13,7 +13,7 @@ import {
   sendMessage
 } from "@/components/Controllers/MessageController";
 import { capitalize } from "@/utilities/firstLetterCaps";
-import MessageLoader from "@/loaders/MessageLoader";
+import MessageLoader from "@/loader/MessageLoader";
 import { toast, ToastContainer } from "react-toastify";
 
 export const UserText = ({ image, content }) => {

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import { GetUser } from "../Controllers/UserController";
-import PageLoader from "@/loaders/PageLoader";
+import PageLoader from "@/loader/PageLoader";
 function ActivityBar({ activeBar }) {
   const userContext = useContext(UserContext);
   const router = useRouter();

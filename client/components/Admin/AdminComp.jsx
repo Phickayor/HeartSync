@@ -4,7 +4,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
-import PageLoader from "@/loaders/PageLoader";
+import PageLoader from "@/loader/PageLoader";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);

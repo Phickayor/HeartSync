@@ -4,7 +4,7 @@ import { getMatches } from "@/components/Controllers/MatchController";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import Link from "next/link";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import HomeLoader from "@/loaders/HomeLoader";
+import HomeLoader from "@/loader/HomeLoader";
 // import "swiper/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
