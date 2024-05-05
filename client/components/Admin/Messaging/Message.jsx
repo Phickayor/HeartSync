@@ -13,7 +13,7 @@ import {
   sendMessage
 } from "@/components/Controllers/MessageController";
 import { capitalize } from "@/utilities/firstLetterCaps";
-import MessageLoader from "@/Loaders/MessageLoader";
+import MessageLoader from "@/loaders/MessageLoader";
 import { toast, ToastContainer } from "react-toastify";
 
 export const UserText = ({ image, content }) => {
@@ -197,7 +197,7 @@ function Message({ userId }) {
           placeholder="Message"
           value={newMessageClient}
           onChange={(e) => setNewMessageClient(e.target.value)}
-          onKeyDown={(e) => e.key == "Enter" && handleSendMessage() }
+          onKeyDown={(e) => e.key == "Enter" && handleSendMessage()}
         />
         <div className="flex self-center gap-3 text-white text-2xl">
           <AiOutlineSend onClick={handleSendMessage} />

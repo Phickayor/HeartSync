@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
-import ChatLoader from "@/Loaders/ChatLoader";
+import ChatLoader from "@/loaders/ChatLoader";
 import { getAllChats } from "@/components/Controllers/ChatController";
 import { capitalize } from "@/utilities/firstLetterCaps";
 function Contact() {

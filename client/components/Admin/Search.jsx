@@ -4,7 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { searchUser } from "../Controllers/UserController";
 import Link from "next/link";
 import { capitalize } from "@/utilities/firstLetterCaps";
-import SearchResultLoader from "@/Loaders/SearchResultLoader";
+import SearchResultLoader from "@/loaders/SearchResultLoader";
 function Search() {
   const [userName, setUserName] = useState("");
   const [result, setResult] = useState();

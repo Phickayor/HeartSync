@@ -27,13 +27,13 @@ function Login() {
       });
       const data = await res.json();
       if (res.ok) {
-        Cookies.set("token", JSON.stringify(data.token));
+        const setToken = Cookies.set("token", JSON.stringify(data.token));
         Swal.fire({
           title: "Success!",
           text: "Login Successful",
           icon: "success"
         });
-        router.push("/admin");
+        setToken && router.push("/admin");
       } else {
         Swal.fire({
           icon: "error",
@@ -47,8 +47,9 @@ function Login() {
         title: "Oops...",
         text: "Something went wrong! Check your internet cnnection and try again"
       });
+    } finally {
+      setLoader(false);
     }
-    setLoader(false);
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">
