@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { RegContext } from "@/contexts/RegContext";
 import { createUser } from "@/components/Controllers/AuthController";
-import { toast, ToastContainer } from "react-toastify";
 function Preference({ action }) {
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -85,11 +84,6 @@ function Preference({ action }) {
     setLoader(false);
   };
   useEffect(() => {
-    toast(
-      "🙂🙂 You can select more than one button , what you select would decide people you see on your profile"
-    );
-  }, []);
-  useEffect(() => {
     if (createAccount) {
       handleRegistration();
       setCreateAccount(false);
@@ -98,10 +92,14 @@ function Preference({ action }) {
 
   return (
     <div className="pt-5 pb-20 h-screen overflow-auto">
-      <ToastContainer />
+      <span className="mx-auto w-11/12 my-1 p-3 text-white font-extralight text-sm rounded-2xl bg-btnColor block  ">
+        🙂🙂 You can select more than one button , what you select would decide
+        people you see on your profile
+      </span>
+      
       <form
         onSubmit={handleSubmit}
-        className="mx-auto w-11/12 xl:w-4/5 space-y-8 py-8"
+        className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8"
       >
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Choose your interests</h3>
@@ -195,7 +193,7 @@ function Preference({ action }) {
         </div>
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Personality Traits</h3>
-          <div className="grid grid-cols-3 [&>*]:w-full gap-2 md:gap-5">
+          <div className="grid grid-cols-3 md:grid-cols-4 [&>*]:w-full gap-2 md:gap-5">
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
@@ -217,9 +215,6 @@ function Preference({ action }) {
             >
               Creative
             </div>
-          </div>
-
-          <div className="grid grid-cols-4 gap-2 md:gap-5 [&>*]:w-full">
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
@@ -234,7 +229,6 @@ function Preference({ action }) {
             >
               Bold
             </div>
-
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
@@ -247,33 +241,8 @@ function Preference({ action }) {
               onKeyDown={(event) => event.key == "Enter" && setActive}
               className="preference-item"
             >
-              Easy going
-            </div>
-          </div>
-          <div className="grid grid-cols-3 [&>*]:w-full gap-2 md:gap-5">
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Independent
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Dependent
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
               Christian
             </div>
-          </div>
-          <div className="grid grid-cols-4 gap-2 md:gap-5 [&>*]:w-full">
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
@@ -294,13 +263,6 @@ function Preference({ action }) {
               className="preference-item"
             >
               Outspoken
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Empathy
             </div>
           </div>
         </div>
@@ -331,7 +293,10 @@ function Preference({ action }) {
           </div>
         </div>
 
-        <button type="submit" className="auth-btn">
+        <button
+          type="submit"
+          className="bg-[#584296] text-white mx-auto md:mx-0 w-fit px-16 rounded-lg py-3 md:text-xl"
+        >
           {loader ? <ButtonLoader /> : "Save"}
         </button>
       </form>

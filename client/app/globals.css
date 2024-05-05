@@ -26,7 +26,7 @@ label {
 }
 .description-item:hover,
 .preference-item:hover {
-  @apply bg-[#131725] text-white;
+  @apply bg-btnColor text-white;
 }
 .activityBar {
   @apply self-center hover:text-white hover:bg-btnColor px-6 mx-auto py-4 rounded-xl duration-300;

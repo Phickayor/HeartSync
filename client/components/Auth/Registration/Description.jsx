@@ -49,8 +49,8 @@ function Description({ onNext }) {
             <div
               className={
                 height == "Tall"
-                  ? "description-item bg-[#131725] "
-                  : "description-item bg-slate-700 "
+                  ? "description-item bg-btnColor "
+                  : "description-item bg-[#131725] "
               }
               onClick={() => setHeight("Tall")}
               onKeyDown={(event) => event.key == "Enter" && setHeight("Tall")}
@@ -60,8 +60,8 @@ function Description({ onNext }) {
             <div
               className={
                 height == "Short"
-                  ? "description-item bg-[#131725] "
-                  : "description-item bg-slate-700 "
+                  ? "description-item bg-btnColor "
+                  : "description-item bg-[#131725] "
               }
               onClick={() => setHeight("Short")}
               onKeyDown={(event) => event.key == "Enter" && setHeight("Short")}
@@ -71,8 +71,8 @@ function Description({ onNext }) {
             <div
               className={
                 height == "Not very tall"
-                  ? "lg:col-span-1 col-span-2 description-item  bg-[#131725]"
-                  : "lg:col-span-1 col-span-2 description-item  bg-slate-700 "
+                  ? "lg:col-span-1 col-span-2 description-item  bg-btnColor"
+                  : "lg:col-span-1 col-span-2 description-item  bg-[#131725] "
               }
               onClick={() => setHeight("Not very tall")}
               onKeyDown={(event) =>
@@ -86,8 +86,8 @@ function Description({ onNext }) {
             <div
               className={
                 gender == "Male"
-                  ? "description-item   bg-[#131725]"
-                  : "description-item bg-slate-700"
+                  ? "description-item   bg-btnColor"
+                  : "description-item bg-[#131725]"
               }
               onClick={() => setGender("Male")}
               onKeyDown={(event) => event.key == "Enter" && setGender("Male")}
@@ -97,8 +97,8 @@ function Description({ onNext }) {
             <div
               className={
                 height == "Female"
-                  ? "description-item bg-[#131725] "
-                  : "description-item bg-slate-700"
+                  ? "description-item bg-btnColor "
+                  : "description-item bg-[#131725]"
               }
               onClick={() => setGender("Female")}
               onKeyDown={(event) => event.key == "Enter" && setGender("Female")}
@@ -110,8 +110,8 @@ function Description({ onNext }) {
             <div
               className={
                 weight == "Fat"
-                  ? "description-item bg-[#131725] "
-                  : "description-item bg-slate-700"
+                  ? "description-item bg-btnColor "
+                  : "description-item bg-[#131725]"
               }
               onClick={() => setWeight("Fat")}
               onKeyDown={(event) => event.key == "Enter" && setWeight("Fat")}
@@ -122,8 +122,8 @@ function Description({ onNext }) {
             <div
               className={
                 weight == "Slim"
-                  ? "description-item  bg-[#131725] "
-                  : "description-item bg-slate-700 "
+                  ? "description-item  bg-btnColor "
+                  : "description-item bg-[#131725] "
               }
               onClick={() => setWeight("Slim")}
               onKeyDown={(event) => event.key == "Enter" && setWeight("Slim")}
@@ -133,8 +133,8 @@ function Description({ onNext }) {
             <div
               className={
                 weight == "Not very Fat"
-                  ? "lg:col-span-1 col-span-2 description-item bg-[#131725]"
-                  : "col-span-2 lg:col-span-1 description-item bg-slate-700"
+                  ? "lg:col-span-1 col-span-2 description-item bg-btnColor"
+                  : "col-span-2 lg:col-span-1 description-item bg-[#131725]"
               }
               onClick={() => setWeight("Not very Fat")}
               onKeyDown={(event) =>

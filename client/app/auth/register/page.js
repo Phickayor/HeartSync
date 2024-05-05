@@ -12,9 +12,9 @@ import CardPreview from "@/components/Auth/Registration/CardPreview";
 function Page() {
   let [counter, setCounter] = useState(0);
   const handleNext = () => {
-    setCounter(counter++);
+    setCounter(++counter);
   };
-  
+
   const components = [
     <Register key="register" onNext={handleNext} />,
     <About key="about" onNext={handleNext} />,

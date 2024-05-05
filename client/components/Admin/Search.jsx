@@ -26,10 +26,7 @@ function Search() {
   };
   return (
     <div className="px-5 mx-auto w-full lg:w-10/12 lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
-      <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
-        <h1 className="text-xl ">
-          Search <b>Big Circle</b>
-        </h1>
+      <div className="space-y-8 pt-10 sticky top-0  backdrop-blur">
         <div className="bg-[#131725] text-white py-4 rounded-xl flex px-5">
           <AiOutlineSearch className="self-center text-2xl text-slate-200" />
           <input
@@ -44,9 +41,9 @@ function Search() {
         {result && (
           <Link
             href={`/profile/${result._id}`}
-            className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5 text-white bg-slate-500 hover:bg-[#131725]"
+            className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5 border-dashed hover:border-2 "
           >
-            <div className="flex gap-4 py-4">
+            <div className="flex gap-4 py-3">
               <img
                 src={result.profilePicture}
                 className="w-12 h-12 rounded-full self-center"

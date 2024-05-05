@@ -47,15 +47,8 @@ function Profile({ userId }) {
     return;
   }
   return (
-    <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 lg:h-screen max-h-screen gap-5 overflow-auto">
-      <div className="lg:hidden flex justify-center row-span-1 h-full">
-        <img
-          src="/images/logo.svg"
-          alt=""
-          className="self-center md:scale-150"
-        />
-      </div>
-      <div className="mx-auto row-span-4 py-2 flex flex-col gap-5 lg:w-8/12 w-10/12">
+    <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 lg:h-screen gap-5 overflow-auto">
+      <div className="mx-auto row-span-4 py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-10/12">
         <img
           src={profile?.profilePicture}
           alt=""

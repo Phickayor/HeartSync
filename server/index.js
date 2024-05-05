@@ -13,7 +13,7 @@ const matchRouter = require("./src/routes/matches.route");
 const app = express();
 connectToDb();
 app.use(cors());
-app.use(compression({ level: 6 }));
+app.use(compression());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use("/auth", authRouter);

@@ -97,7 +97,7 @@ function Register({ onNext }) {
           </button>
         </form>
 
-        <div className="flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
+        <div className="flex justify-center [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg text-center">
           <Link href="/auth/">Already have an account?</Link>
         </div>
       </div>

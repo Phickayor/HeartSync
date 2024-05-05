@@ -18,15 +18,15 @@ import { toast, ToastContainer } from "react-toastify";
 
 export const UserText = ({ image, content }) => {
   return content ? (
-    <div className="flex gap-2 justify-end">
-      <div className="bg-[#1E1D1D] rounded-l-full rounded-tr-full flex py-4 px-6 cursor-pointer gap-5 max-w-96">
-        <h3 className="text-white">{content}</h3>
+    <div className="flex gap-2 justify-end self-end w-10/12">
+      <div className="bg-[#1E1D1D] rounded-l-3xl rounded-tr-3xl flex py-4 px-6 cursor-pointer gap-5 w-fit">
+        <span className="text-white">{content}</span>
       </div>
       <img src={image} className="w-12 h-12 rounded-full self-end" />
     </div>
   ) : (
-    <div className="flex gap-2 justify-end">
-      <div className="bg-slate-400 card-skeleton rounded-l-full rounded-tr-full flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
+    <div className="flex gap-2 justify-end self-end w-10/12">
+      <div className="bg-slate-400 card-skeleton rounded-l-3xl rounded-tr-3xl flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white">{content}</h3>
       </div>
       <div className="w-12 h-12 bg-slate-400 card-skeleton rounded-full self-end"></div>
@@ -35,9 +35,9 @@ export const UserText = ({ image, content }) => {
 };
 export const OtherUserText = ({ image, content }) => {
   return content ? (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-10/12">
       <img src={image} className="w-12 h-12 self-end rounded-full" />
-      <div className="bg-[#1E1D1D] rounded-r-full rounded-tl-full flex py-4 px-6 cursor-pointer gap-5 max-w-96">
+      <div className="bg-[#1E1D1D] rounded-r-3xl rounded-tl-3xl flex py-4 px-6 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white">{content}</h3>
       </div>
     </div>
@@ -161,7 +161,7 @@ function Message({ userId }) {
         </h3>
       </Link>
 
-      <div className="flex flex-col flex-1  overflow-y-auto gap-5 py-3">
+      <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto gap-5 py-3">
         {messages.length > 0 ? (
           messages.map((message) => {
             if (message.sender._id == userContext.userState?._id) {

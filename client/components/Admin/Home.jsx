@@ -82,7 +82,7 @@ function Home() {
                 alt=""
                 className="rounded-2xl w-full h-full object-cover"
               />
-              <div className="bg-[#2c2626] absolute bottom-0 w-full text-white font-light text-center rounded-3xl py-4 flex flex-col justify-between gap-5">
+              <div className="bg-[#2c2626] absolute bottom-0 w-full text-white font-light text-center rounded-xl py-4 flex flex-col justify-between gap-5">
                 <h2 className="text-2xl">{capitalize(match.user.userName)}</h2>
                 <p>{match.user.shortBio}</p>
                 <Link
