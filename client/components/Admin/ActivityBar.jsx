@@ -12,10 +12,43 @@ import { UserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import { GetUser } from "../Controllers/UserController";
 import PageLoader from "@/loader/PageLoader";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 function ActivityBar({ activeBar }) {
   const userContext = useContext(UserContext);
   const router = useRouter();
 
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#F15A24",
+      confirmButtonText: "Yes, Logout!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire({
+            title: " Logout Successful",
+            icon: "success",
+            timer: 2000
+          }).then(() => {
+            userContext.userDispatch("signOut");
+            Cookies.set("token", "");
+            router.push("/auth");
+          });
+        } catch (error) {
+          if (error instanceof Error) {
+            Swal.fire("Oops!", error.message, "error");
+          } else {
+            Swal.fire("Oops!", "An unknown error has occured", "error");
+          }
+        }
+      }
+    });
+  };
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -35,8 +68,8 @@ function ActivityBar({ activeBar }) {
     );
   }
   return (
-    <div className="bg-white text-[#131725] lg:h-full lg:flex flex-col justify-between lg:py-12 xl:py-24 py-1 px-3">
-      <div className="grid grid-cols-5 lg:flex flex-col justify-around gap-6 ">
+    <div className="bg-[#0D0D0D] text-white lg:h-full lg:flex flex-col justify-between lg:py-12 py-1 px-2">
+      <div className="grid grid-cols-5 lg:flex flex-col justify-around gap-4 ">
         <Link
           href="/admin/"
           className={
@@ -45,7 +78,7 @@ function ActivityBar({ activeBar }) {
               : "activityBar"
           }
         >
-          <AiOutlineHome className="text-2xl" />
+          <AiOutlineHome className="text-xl" />
         </Link>
         <Link
           href="/admin/search"
@@ -55,7 +88,7 @@ function ActivityBar({ activeBar }) {
               : "activityBar"
           }
         >
-          <AiOutlineSearch className="text-2xl" />
+          <AiOutlineSearch className="text-xl" />
         </Link>
         <Link
           href="/admin/messaging"
@@ -65,7 +98,7 @@ function ActivityBar({ activeBar }) {
               : "activityBar"
           }
         >
-          <AiOutlineMessage className="text-2xl" />
+          <AiOutlineMessage className="text-xl" />
         </Link>
         <Link
           href="/admin/settings"
@@ -75,18 +108,18 @@ function ActivityBar({ activeBar }) {
               : "activityBar"
           }
         >
-          <AiOutlineSetting className="text-2xl" />
+          <AiOutlineSetting className="text-xl" />
         </Link>
-        <Link
-          href="/admin/logout"
+        <div
+          onClick={handleLogout}
           className={
             activeBar == "logout"
-              ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
-              : "activityBar"
+              ? "activityBar cursor-pointer lg:text-white text-btnColor lg:bg-btnColor"
+              : "activityBar cursor-pointer"
           }
         >
-          <AiOutlineLogout className="text-2xl" />
-        </Link>
+          <AiOutlineLogout className="text-xl" />
+        </div>
       </div>
 
       <Link href="/admin/profile">

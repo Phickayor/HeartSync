@@ -16,7 +16,10 @@ module.exports = {
       colors: {
         inputBg: "#EBEBEB",
         notification: "#8D65FF",
-        btnColor: "#584296"
+        btnColor: "#F15A24"
+      },
+      fontFamily: {
+        urbanist: ["var(--font-urbanist)"]
       }
     }
   },

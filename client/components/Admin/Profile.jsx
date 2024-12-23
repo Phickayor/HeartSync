@@ -47,7 +47,7 @@ function Profile({ userId }) {
     return;
   }
   return (
-    <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-5rem)] py-10 lg:h-screen gap-5 overflow-auto">
+    <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-3.5rem)] py-10 lg:h-screen gap-5 overflow-auto">
       <div className="mx-auto row-span-4 py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-10/12">
         <img
           src={profile?.profilePicture}
@@ -60,9 +60,9 @@ function Profile({ userId }) {
         <p className="text-center">{profile?.longBio}</p>
 
         <div className="mx-auto lg:w-10/12 flex justify-center flex-wrap gap-3">
-          <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
+          {/* <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
             {profile.weight}
-          </div>
+          </div> */}
           <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
             {profile.height}
           </div>
@@ -87,7 +87,7 @@ function Profile({ userId }) {
         <div className="flex flex-col gap-2 py-4">
           {userId && (
             <button onClick={handleChat} className="auth-btn">
-              Chat
+              Send a message
             </button>
           )}
           <button

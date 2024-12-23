@@ -23,11 +23,11 @@ function Contact() {
     <div className="px-5 w-full lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-w-screen max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
         <h1 className="text-xl">Messages</h1>
-        <div className="bg-[#131725] text-white py-4 rounded-xl flex px-5">
+        <div className="bg-white/10 text-white py-4 rounded-xl flex px-5">
           <AiOutlineSearch className="self-center text-2xl text-slate-200" />
           <input
             type="search"
-            className="self-center bg-inherit w-full px-2 focus:outline-none"
+            className="self-center bg-transparent w-full px-2 focus:outline-none"
             placeholder="Search here..."
           />
         </div>
@@ -47,18 +47,18 @@ function Contact() {
                       <Link
                         key={chat.chat._id}
                         href={`/admin/messaging/?userId=${chat.chat.users[i]._id}`}
-                        className="rounded-2xl flex justify-between px-4 cursor-pointer border-dashed hover:border-2 gap-5 "
+                        className="rounded-2xl flex justify-between px-4 cursor-pointer bg-[#131313] border-dashed hover:border-2 gap-5 "
                       >
                         <div className="flex gap-4 py-3 ">
                           <img
                             src={chat.chat.users[i].profilePicture}
-                            className="w-12 h-12 rounded-full self-center"
+                            className="size-12 rounded-full self-center"
                           />
                           <div className="self-center space-y-3 max-w-72 md:max-w-96 lg:max-w-60 truncate overflow-hidden">
                             <h3 className="text-lg">
                               {capitalize(chat.chat.users[i].userName)}
                             </h3>
-                            <span>{chat.chat.latestMessage.content}</span>
+                            <span className="font-extralight text-sm">{chat.chat.latestMessage.content}</span>
                           </div>
                         </div>
                         {unread > 0 && (

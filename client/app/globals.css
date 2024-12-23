@@ -3,20 +3,18 @@
 @tailwind utilities;
 @import "react-toastify/dist/ReactToastify.css";
 @import "swiper/css";
-label {
-  @apply font-thin;
-}
-.pattern-background {
+
+/* .pattern-background {
   @apply bg-[url('/images/auth-bg.png')] bg-cover bg-fixed;
-}
+} */
 .auth-header {
   @apply text-2xl md:text-3xl xl:text-4xl font-medium text-center;
 }
 .auth-btn {
-  @apply bg-[#584296] text-white mx-auto w-fit px-16 rounded-lg py-3 md:text-xl md:self-center;
+  @apply bg-[#F15A24] hover:bg-[#F15A24]/60 text-white mx-auto w-fit px-14 rounded-xl py-2 md:text-xl md:self-center;
 }
 .description-item {
-  @apply duration-300 text-center text-white font-medium py-3 md:py-5 rounded-full cursor-pointer ;
+  @apply duration-300 text-center text-white font-medium py-3 md:py-5 rounded-full cursor-pointer;
 }
 .preference-item {
   @apply bg-[#131725] rounded-full text-center self-center font-medium py-4 text-sm md:text-base md:py-6 text-white cursor-pointer;
@@ -40,25 +38,24 @@ label {
 }
 
 .card-skeleton {
-  background-image: linear-gradient(
-    90deg,
-    #ccc 0px,
-    rgb(229 229 229 / 90%) 40px,
-    #ccc 80px
-  );
+  background-image: linear-gradient(90deg, #222 0px, #333 40px, #222 80px);
   background-size: 300%;
   background-position: 100% 0;
   animation: shimmer 1.5s infinite;
+}
+input {
+  @apply border-[#FFFEFE99]/60;
+}
+body {
+  @apply font-urbanist;
+}
+
+.slick-slide {
+  @apply md:px-5;
 }
 
 @keyframes shimmer {
   to {
     background-position: -100% 0;
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .minimum {
-    font-size: 36px;
   }
 }

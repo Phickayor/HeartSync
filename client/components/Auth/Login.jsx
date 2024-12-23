@@ -27,13 +27,17 @@ function Login() {
       });
       const data = await res.json();
       if (res.ok) {
-        const setToken = Cookies.set("token", JSON.stringify(data.token));
         Swal.fire({
           title: "Success!",
           text: "Login Successful",
-          icon: "success"
+          icon: "success",
+          confirmButtonColor: "#F15A24"
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const setToken = Cookies.set("token", JSON.stringify(data.token));
+            setToken && router.push("/admin");
+          }
         });
-        setToken && router.push("/admin");
       } else {
         Swal.fire({
           icon: "error",
@@ -52,37 +56,52 @@ function Login() {
     }
   };
   return (
-    <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col justify-center h-screen gap-10">
-      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
-      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
-        <h1 className="auth-header ">Login to your account</h1>
-        <form className="flex flex-col gap-3  md:gap-5" onSubmit={HandleSubmit}>
+    <div className="h-screen flex flex-col justify-center">
+      <div className="md:w-4/6 lg:w-2/5 w-full md:h-fit h-full place-content-center md:place-content-start mx-auto py-5 px-8 bg-[#16161680] border-[#282828] border-1 rounded-lg">
+        <img
+          src="/images/logo.svg"
+          alt=""
+          className="py-4 size-16 md:size-20 mx-auto self-center"
+        />
+        <form
+          onSubmit={HandleSubmit}
+          className="flex flex-col font-urbanist gap-5 py-5"
+        >
+          <h1 className="font-medium text-center text-4xl">
+            Login to your account
+          </h1>
           <div className="flex flex-col gap-2">
-            <label>Email</label>
+            <label className="font-extralight">Email</label>
             <input
               type="email"
-              required
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-inherit rounded-lg py-2 focus:outline-none px-2 md:px-5 focus:border-[#584296] border"
+              value={email}
+              required
+              className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label>Password</label>
+            <label className="font-extralight">Password</label>
             <input
               type="password"
-              required
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-inherit rounded-lg py-2 focus:outline-none px-2 md:px-5 focus:border-[#584296] border"
+              value={password}
+              required
+              className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
             />
           </div>
-          <button type="submit" className="auth-btn">
+          <button className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign in"}
           </button>
+          <div className="flex w-full mx-auto md:hidden justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4">
+            <Link href="/auth/register">Create an account</Link>
+            <Link href="/auth/forgot-password">Forgotten Password</Link>
+          </div>
         </form>
-        <div className="flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
-          <Link href="/auth/register">Create an account</Link>
-          <Link href="/auth/forgot-password">Forgotten Password</Link>
-        </div>
+      </div>
+      <div className="hidden w-4/6 lg:w-2/5 mx-auto md:flex justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
+        <Link href="/auth/register">Create an account</Link>
+        <Link href="/auth/forgot-password">Forgotten Password</Link>
       </div>
     </div>
   );

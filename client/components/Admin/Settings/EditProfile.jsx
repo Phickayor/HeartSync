@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { FaSpinner } from "react-icons/fa";
 
 function EditProfile({ onClose, name, keyName, onSubmit }) {
   const [value, setValue] = useState("");
+  const [loader, setLoader] = useState(false);
   return (
     <div
-      className={`fixed top-0 left-0  bg-opacity-20 bg-black h-screen z-20 w-screen flex flex-col justify-center`}
+      className={`fixed top-0 left-0  bg-opacity-50 bg-black h-screen z-20 w-screen flex flex-col justify-center`}
     >
-      <div className="p-6 py-8 rounded-xl border border-white bg-white mx-auto w-10/12 md:w-2/5">
+      <div className="p-6 py-8 rounded-xl border bg-black mx-auto w-10/12 md:w-2/5">
         <div className="relative flex justify-center">
           <h1 className="text-center md:text-2xl text-lg self-center">
             Edit {name}
@@ -19,7 +21,11 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
         </div>
         <form
           className="flex flex-col gap-5 py-5 md:pt-10"
-          onSubmit={(e) => onSubmit(e, keyName, value)}
+          onSubmit={(e) => {
+            setLoader(true);
+            onSubmit(e, keyName, value);
+            // setLoader(false);
+          }}
         >
           <input
             type={
@@ -34,13 +40,14 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
             onChange={(e) => {
               setValue(e.target.value);
             }}
-            className="md:py-5 py-4 px-6 rounded-lg bg-[#1E1D1D] text-center md:text-start text-white focus:outline-none"
+            required
+            className="py-4 px-6 rounded-lg bg-[#1E1D1D] text-center md:text-start text-white focus:outline-none"
           />
           <button
             type="submit"
-            className="bg-[#584296]  text-white px-16 md:px-20 rounded-lg py-3 md:text-xl self-center md:mt-4"
+            className="bg-[#584296]  text-white px-16 md:px-20 rounded-lg py-2 md:text-xl self-center md:mt-4"
           >
-            Next
+            {loader ? <FaSpinner className="mx-auto animate-spin" /> : "Next"}
           </button>
         </form>
       </div>

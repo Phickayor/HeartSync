@@ -45,9 +45,9 @@ function AllSetings() {
     }
   };
   return (
-    <div className="w-full lg:h-full h-[calc(100vh-5rem)] overflow-auto max-h-screen flex">
-      <div className="mx-auto py-10 lg:py-0 w-10/12 lg:w-8/12 relative rounded-2xl">
-        <div className="group flex py-4 flex-col sticky top-0 backdrop-blur gap-2">
+    <div className="w-full lg:h-full overflow-auto max-h-screen flex py-10 ">
+      <div className="mx-auto lg:py-0 w-full md:w-10/12 lg:w-8/12 relative bg-[#1E1D1D] rounded-2xl overflow-auto">
+        <div className="group rounded-xl flex py-4 flex-col sticky top-0 bg-[#232222] backdrop-blur gap-2">
           <img
             src={profile?.profilePicture}
             alt="dp"
@@ -67,15 +67,15 @@ function AllSetings() {
               />
             </div>
           </div>
-        </div>
 
-        <Link
-          href="/admin/profile"
-          className="lg:hidden block text-sm text-center font-semibold underline cursor-pointer"
-        >
-          View Profile
-        </Link>
-        <div className="flex flex-col gap-2 lg:px-10 py-5 overflow-y-auto ">
+          <Link
+            href="/admin/profile"
+            className="lg:hidden block text-sm text-center font-semibold underline cursor-pointer"
+          >
+            View Profile
+          </Link>
+        </div>
+        <div className="flex flex-col gap-2 px-4 lg:px-10 py-5 overflow-y-auto ">
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className="self-center">
               <h3 className="lg:text-lg">Username</h3>

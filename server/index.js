@@ -1,5 +1,6 @@
 const http = require("http");
 const express = require("express");
+const morgan = require("morgan");
 const cors = require("cors");
 const compression = require("compression");
 const bodyParser = require("body-parser");
@@ -12,6 +13,7 @@ const messageRouter = require("./src/routes/message.route");
 const matchRouter = require("./src/routes/matches.route");
 const app = express();
 connectToDb();
+app.use(morgan("dev"));
 app.use(cors());
 app.use(compression());
 app.use(bodyParser.json({ limit: "50mb" }));

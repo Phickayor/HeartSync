@@ -22,6 +22,7 @@ const userMatches = async (req, res) => {
               _id: user._id,
               userName: user.userName,
               shortBio: user.shortBio,
+              preferences: user.preferences,
               cardPicture: user.cardPicture
             }
           };

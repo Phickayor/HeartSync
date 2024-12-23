@@ -45,7 +45,7 @@ function AdminComp({ navName, children }) {
         <div className="lg:order-1 order-2 lg:relative fixed z-20 bottom-0 lg:w-fit w-full">
           <ActivityBar activeBar={navName} />
         </div>
-        <div className="lg:overflow-y-auto pattern-background text-[#131725] w-full order-1 lg:order-2">
+        <div className="lg:overflow-y-auto bg-[#171717] text-white w-full order-1 lg:order-2">
           {children}
         </div>
       </div>
