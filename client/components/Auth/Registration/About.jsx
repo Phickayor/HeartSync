@@ -36,9 +36,9 @@ function About({ onNext }) {
     handleMaxDate();
   });
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5 gap-10">
+    <div className="">
       <img src="/images/logo.svg" className="mx-auto lg:hidden " alt="" />
-      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
+      <div className="">
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>

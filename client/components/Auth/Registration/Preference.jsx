@@ -91,7 +91,7 @@ function Preference({ action }) {
   }, [createAccount]);
 
   return (
-    <div className="pt-5 pb-20 h-screen overflow-auto">
+    <div className="pt-5 h-[600px] overflow-auto">
       <span className="mx-auto w-11/12 my-1 p-3 text-white font-extralight text-sm rounded-2xl bg-btnColor block  ">
         🙂🙂 You can select more than one button , what you select would decide
         people you see on your profile

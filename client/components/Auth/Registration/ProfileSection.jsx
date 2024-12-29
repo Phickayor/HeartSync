@@ -37,7 +37,7 @@ function ProfileSection({ onNext }) {
     setLoader(false);
   };
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-11/12 md:w-10/12 lg:w-3/5">
+    <div className="">
       <img src="/images/logo.svg" className="mx-auto lg:hidden " alt="" />
       <div className="p-5 px-10 rounded-xl">
         <div className="text-center space-y-3 py-5">
