@@ -45,7 +45,7 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
           />
           <button
             type="submit"
-            className="bg-btnColor  text-white px-16 md:px-20 rounded-lg py-2 md:text-xl self-center md:mt-4"
+            className="bg-[#FFEBE4] hover:bg-[#F15A24] text-black duration-300 hover:text-white px-16 md:px-20 rounded-lg py-2 md:text-xl self-center md:mt-4"
           >
             {loader ? <FaSpinner className="mx-auto animate-spin" /> : "Next"}
           </button>
