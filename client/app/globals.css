@@ -17,7 +17,7 @@
   @apply duration-300 text-center font-medium py-3 rounded-full cursor-pointer;
 }
 .preference-item {
-  @apply bg-[#383838] rounded-full text-center self-center font-medium py-4 px-8 lg:px-16 text-sm md:text-base text-white cursor-pointer;
+  @apply bg-[#202020] rounded-full text-center self-center font-medium py-4 px-8 lg:px-16 text-sm md:text-base text-white cursor-pointer;
 }
 .active-preference-item {
   @apply bg-[#F9F9F9] rounded-full text-center self-center font-medium py-4 px-8 lg:px-16 text-sm md:text-base text-black cursor-pointer;

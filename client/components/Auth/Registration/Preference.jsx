@@ -134,20 +134,29 @@ function Preference({ onPrev, action }) {
   }, [createAccount]);
 
   return (
-    <div className="pt-5 pb-20 h-screen overflow-auto text-white">
+    <div
+      className={
+        action == "creation"
+          ? "pb-20 h-screen overflow-auto text-white bg-[#1B1B1B]"
+          : "pb-20 h-screen overflow-auto text-white"
+      }
+    >
       {/* <span className="mx-auto w-11/12 my-1 p-3 text-white font-extralight text-sm rounded-2xl bg-btnColor block  ">
         🙂🙂 You can select more than one button , what you select would decide
         people you see on your profile
       </span> */}
       {action == "creation" && (
-        <FaAngleLeft
-          className="text-3xl fixed font-extralight cursor-pointer"
-          onClick={() => onPrev()}
-        />
+        <div className="sticky top-0 mx-auto w-11/12 xl:w-4/5 py-6 backdrop-blur">
+          <FaAngleLeft
+            className="text-3xl  font-extralight cursor-pointer"
+            onClick={() => onPrev()}
+          />
+        </div>
       )}
+
       <form
         onSubmit={handleSubmit}
-        className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8"
+        className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8 pt-5"
       >
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Choose your interests</h3>

@@ -3,6 +3,7 @@ import { getUsers, searchUser } from "@/components/Controllers/UserController";
 import ButtonLoader from "@/components/Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";
+import { AiFillInfoCircle } from "react-icons/ai";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Swal from "sweetalert2";
 
@@ -20,6 +21,7 @@ function About({ onNext, onPrev }) {
   const [dob, setDob] = useState(regContext?.RegState?.dob || "");
   const [maxDate, setMaxDate] = useState(null);
   const [loader, setLoader] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
   const handleMaxDate = () => {
     const today = new Date();
     const maxDate = new Date(
@@ -54,7 +56,9 @@ function About({ onNext, onPrev }) {
   });
   const handleNext = () => {
     if (!fullName || !dob || !phoneNumber || !userName) {
-      return setErrorMessage("Kindly fill and save all fields before proceeding");
+      return setErrorMessage(
+        "Kindly fill and save all fields before proceeding"
+      );
     }
     onNext();
   };
@@ -74,53 +78,61 @@ function About({ onNext, onPrev }) {
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>
+        {errorMessage ? (
+          <div className="flex justify-center pb-4 gap-2 [&>*]:self-center">
+            <AiFillInfoCircle />
+            <span className="text-center text-red-500">{errorMessage}</span>
+          </div>
+        ) : (
+          <></>
+        )}
         <form className="grid grid-cols-2 gap-5 py-5" onSubmit={HandleSubmit}>
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Full name</label>
+            {/* <label className="font-normal">Full name</label> */}
             <input
               type="text"
               required
-              placeholder="John Doe"
+              placeholder="Full name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="bg-inherit  py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
+              className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Date of birth</label>
+            {/* <label className="font-normal">Date of birth</label> */}
             <input
               type="date"
               required
               max={maxDate}
-              placeholder="2004-08-07"
+              placeholder="Date of birth"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
-              className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
+              className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Phone </label>
+            {/* <label className="font-normal">Phone Number</label> */}
             <input
               type="text"
               required
-              placeholder="08123456789"
+              placeholder="Phone Number"
               pattern="[0-9]{11}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
+              className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-normal">Username</label>
+            {/* <label className="font-normal">Username</label> */}
             <input
               type="text"
               required
               minLength={3}
               maxLength={10}
               value={userName}
-              placeholder="Johnny"
+              placeholder="Username"
               onChange={(e) => setUserName(e.target.value)}
-              className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
+              className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"
             />
           </div>
           <button type="submit" className="auth-btn col-span-2">
