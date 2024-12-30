@@ -27,6 +27,7 @@ function Login() {
       });
       const data = await res.json();
       if (res.ok) {
+        const setToken = Cookies.set("token", JSON.stringify(data.token));
         Swal.fire({
           title: "Success!",
           text: "Login Successful",
@@ -34,7 +35,6 @@ function Login() {
           confirmButtonColor: "#F15A24"
         }).then(async (result) => {
           if (result.isConfirmed) {
-            const setToken = Cookies.set("token", JSON.stringify(data.token));
             setToken && router.push("/admin");
           }
         });
