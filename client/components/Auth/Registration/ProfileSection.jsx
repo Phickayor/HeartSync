@@ -116,7 +116,7 @@ function ProfileSection({ onNext, onPrev }) {
           onSubmit={HandleSubmit}
         >
           <input
-            className="py-4 rounded-lg font-light bg-[#202020] px-5 focus:outline-none"
+            className="py-4 rounded-lg font-light bg-[#202020] px-5 focus:outline-none focus:border"
             type="text"
             onChange={(e) => {
               setLongBio(e.target.value);

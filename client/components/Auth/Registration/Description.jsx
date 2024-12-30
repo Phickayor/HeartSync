@@ -62,7 +62,7 @@ function Description({ onNext, onPrev }) {
               className={
                 gender == "Male"
                   ? "description-item   bg-white text-black"
-                  : "description-item bg-[#383838]"
+                  : "description-item bg-[#202020]"
               }
               onClick={() => setGender("Male")}
               onKeyDown={(event) => event.key == "Enter" && setGender("Male")}
@@ -73,7 +73,7 @@ function Description({ onNext, onPrev }) {
               className={
                 gender == "Female"
                   ? "description-item bg-white text-black "
-                  : "description-item bg-[#383838]"
+                  : "description-item bg-[#202020]"
               }
               onClick={() => setGender("Female")}
             >
@@ -84,7 +84,7 @@ function Description({ onNext, onPrev }) {
             Are you in School? (optional)
           </label>
           <input
-            className="py-2 rounded-lg font-light bg-[#5C5C5C] px-5 focus:outline-none"
+            className="py-2 rounded-lg font-light bg-[#202020] px-5 focus:outline-none focus:border"
             type="text"
             onChange={(e) => setSchool(e.target.value)}
             value={school}
