@@ -3,7 +3,8 @@ const {
   getUser,
   editUser,
   getSpecificUser,
-  getSpecificUserByUserName
+  getSpecificUserByUserName,
+  getUsers
 } = require("../controllers/user.controller");
 const {
   checkAuth,
@@ -13,6 +14,7 @@ const userRouter = express();
 
 userRouter.get("/", checkAuth, getUser);
 userRouter.get("/verify", checkAuth, sendVerificationMail);
+userRouter.get("/all", checkAuth, getUsers);
 userRouter.patch("/edit", checkAuth, editUser);
 userRouter.get("/:userId", getSpecificUser);
 userRouter.get("/username/:userName", getSpecificUserByUserName);

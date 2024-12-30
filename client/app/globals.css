@@ -54,6 +54,7 @@ body {
   @apply md:px-5;
 }
 
+
 @keyframes shimmer {
   to {
     background-position: -100% 0;

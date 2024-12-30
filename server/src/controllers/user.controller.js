@@ -1,4 +1,3 @@
-
 const User = require("../models/user.model");
 const { handleEncryption } = require("../utilities/encrypt");
 
@@ -88,10 +87,19 @@ const getMatches = async (req, res) => {
     res.status(501).json({ message: error.message });
   }
 };
+const getUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    res.status(200).json({ allUsers });
+  } catch (error) {
+    res.status(501).json({ message: error.message });
+  }
+};
 module.exports = {
   getUser,
   editUser,
   getSpecificUser,
   getSpecificUserByUserName,
-  getMatches
+  getMatches,
+  getUsers
 };

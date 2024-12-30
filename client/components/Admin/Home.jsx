@@ -8,6 +8,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Slider from "react-slick";
 function Home() {
   const [matches, setMatches] = useState(null);
+  const [filteredMatches, setFilteredMatches] = useState(null);
   const [numberOfSlides, setNumberOfSlides] = useState(3);
   var settings = {
     // dots: true,
@@ -22,9 +23,19 @@ function Home() {
       ? setNumberOfSlides(3)
       : setNumberOfSlides(1);
   }
-
+  const handleSearch = (input) => {
+    if (input) {
+      let filtered = matches.filter((match) =>
+        match.user.userName.includes(input.toLowerCase())
+      );
+      console.log(filtered);
+      setFilteredMatches(filtered);
+    } else {
+      setFilteredMatches(matches);
+    }
+  };
   useEffect(() => {
-    AdjustSlides    ();
+    AdjustSlides();
     const handleResize = () => {
       AdjustSlides();
     };
@@ -41,6 +52,9 @@ function Home() {
         const { matches } = await getMatches();
         matches &&
           setMatches(matches.sort((a, b) => b.matchCount - a.matchCount));
+          setFilteredMatches(
+            matches.sort((a, b) => b.matchCount - a.matchCount)
+          );
       } catch (error) {
         console.log(error.message);
       }
@@ -74,13 +88,14 @@ function Home() {
         </div>
         <input
           type="search"
+          onChange={(e) => handleSearch(e.target.value)}
           className="self-center bg-white/10 w-full text-sm flex-1 py-3 rounded-r-lg h-full px-2 focus:outline-none"
-          placeholder="Search here..."
+          placeholder="Search matches here..."
         />
       </div>
       <div className="mx-auto flex-1 h-full w-11/12 py-4">
-        <Slider {...settings} className="h-full ">
-          {matches?.map((match, index) => (
+       {filteredMatches?.length>0&& <Slider {...settings} className="h-full ">
+          {filteredMatches?.map((match, index) => (
             <div
               key={match.user._id}
               className="group h-full self-center flex flex-col py-5 gap-y-4 relative rounded-2xl bg-[#242424]"
@@ -109,7 +124,12 @@ function Home() {
               </div>
             </div>
           ))}
-        </Slider>
+        </Slider>}
+        {filteredMatches.length == 0 && (
+          <p className="text-2xl text-center self-center h-full place-content-center">
+            No result found for search
+          </p>
+        )}
       </div>
     </div>
   );

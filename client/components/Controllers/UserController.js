@@ -25,9 +25,15 @@ const GetSpecificUser = async (userId) => {
     console.log(error);
   }
 };
-const searchUser = async (userName) => {
+const getUsers = async () => {
   try {
-    const res = await fetch(`${baseUrl}/user/username/${userName}`);
+    const res = await fetch(`${baseUrl}/user/all`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    });
     const data = await res.json();
     return data;
   } catch (error) {
@@ -56,5 +62,5 @@ module.exports = {
   GetUser,
   GetSpecificUser,
   EditUser,
-  searchUser
+  getUsers
 };
