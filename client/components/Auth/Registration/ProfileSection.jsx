@@ -83,16 +83,14 @@ function ProfileSection({ onNext }) {
           className="flex flex-col gap-5 py-5 mx-auto md:w-7/12"
           onSubmit={HandleSubmit}
         >
-          <h3 className="text-center text-2xl font-medium">
-            Tell us about yourself
-          </h3>
-          <textarea
+          <input
             onChange={(e) => {
               setLongBio(e.target.value);
             }}
             value={longBio}
             required
-            className="focus:outline-none focus:border border-[#584296] rounded-xl p-5 bg-inputBg md:h-32"
+            className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md w-full"
+            placeholder="Add a short bio about yourself"
           />
           <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}

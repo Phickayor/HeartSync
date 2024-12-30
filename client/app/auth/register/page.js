@@ -7,7 +7,7 @@ import ProfileSection from "@/components/Auth/Registration/ProfileSection";
 import React, { useState } from "react";
 import RegistrationComp from "@/components/Auth/Registration/RegistrationComp";
 import Preference from "@/components/Auth/Registration/Preference";
-import CardPreview from "@/components/Auth/Registration/CardPreview";
+// import CardPreview from "@/components/Auth/Registration/CardPreview";
 
 function Page() {
   const [showPopup, setShowPopup] = useState(false);
@@ -33,11 +33,11 @@ function Page() {
     setIsFormValid(isValid);
   };
 
-  const validateCardPreview = () => {
-    // Implement validation logic for the CardPreview component
-    const isValid = true; // Replace with actual validation logic
-    setIsFormValid(isValid);
-  };
+  // const validateCardPreview = () => {
+  //   // Implement validation logic for the CardPreview component
+  //   const isValid = true; // Replace with actual validation logic
+  //   setIsFormValid(isValid);
+  // };
 
   const validatePreference = () => {
     // Implement validation logic for the Preference component
@@ -46,10 +46,10 @@ function Page() {
   };
 
   const components = [
-    <About onNext={() => handleNextComponent()} onValidate={validateAbout} />,
-    <Description onNext={() => handleNextComponent()} onValidate={validateDescription} />,
+    <About onNext={() => handleNextComponent()} onValidate={validateAbout} />, 
+    <Description onNext={() => handleNextComponent()} onValidate={validateDescription} />, 
     <ProfileSection onNext={() => handleNextComponent()} onValidate={validateProfileSection} />,
-    <CardPreview onNext={() => handleNextComponent()} action={"creation"} onValidate={validateCardPreview} />,
+    // <CardPreview onNext={() => handleNextComponent()} action={"creation"} onValidate={validateCardPreview} />, 
     <Preference action={"creation"} onNext={() => alert('Preference Saved!')} onValidate={validatePreference} />
   ];
 

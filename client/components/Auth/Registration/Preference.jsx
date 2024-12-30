@@ -295,7 +295,7 @@ function Preference({ action }) {
 
         <button
           type="submit"
-          className="bg-[#584296] text-white mx-auto md:mx-0 w-fit px-16 rounded-lg py-3 md:text-xl"
+          className="auth-btn"
         >
           {loader ? <ButtonLoader /> : "Save"}
         </button>

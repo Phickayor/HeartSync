@@ -2,29 +2,30 @@ import React, { useContext, useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
+
 function Description({ onNext }) {
-  const [height, setHeight] = useState(null);
   const [gender, setGender] = useState(null);
-  const [weight, setWeight] = useState(null);
+  const [inSchool, setInSchool] = useState("");
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const regContext = useContext(RegContext);
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-    if (height == null) {
-      setErrorMessage("What category best fits your height?");
-    } else if (gender == null) {
+
+    if (gender == null) {
       setErrorMessage("What is your gender? ");
-    } else if (weight == null) {
-      setErrorMessage("What category best fits your weight?");
+    } else if (!inSchool.trim()) {
+      setErrorMessage("Are you in school?");
     } else {
-      const payload = { height, gender, weight };
+      const payload = { gender, inSchool };
       regContext.RegDispatch({ type: "update", payload });
       onNext();
     }
     setLoader(false);
   };
+
   return (
     <div className="">
       <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
@@ -36,113 +37,38 @@ function Description({ onNext }) {
             <br /> match you better
           </p>
         </div>
-        {errorMessage ? (
+        {errorMessage && (
           <div className="flex justify-center pb-4 gap-2 [&>*]:self-center">
             <AiFillInfoCircle />
             <span className="text-center text-red-500">{errorMessage}</span>
           </div>
-        ) : (
-          <></>
         )}
         <form className="grid gap-3 md:gap-5" onSubmit={HandleSubmit}>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
-            <div
-              className={
-                height == "Tall"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725] "
-              }
-              onClick={() => setHeight("Tall")}
-              onKeyDown={(event) => event.key == "Enter" && setHeight("Tall")}
-            >
-              Tall
-            </div>
-            <div
-              className={
-                height == "Short"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725] "
-              }
-              onClick={() => setHeight("Short")}
-              onKeyDown={(event) => event.key == "Enter" && setHeight("Short")}
-            >
-              Short
-            </div>
-            <div
-              className={
-                height == "Not very tall"
-                  ? "lg:col-span-1 col-span-2 description-item  bg-btnColor"
-                  : "lg:col-span-1 col-span-2 description-item  bg-[#131725] "
-              }
-              onClick={() => setHeight("Not very tall")}
-              onKeyDown={(event) =>
-                event.key == "Enter" && setHeight("Not very tall")
-              }
-            >
-              Not very tall
-            </div>
-          </div>
           <div className="grid grid-cols-2 gap-3 md:gap-5">
-            <div
-              className={
-                gender == "Male"
-                  ? "description-item   bg-btnColor"
-                  : "description-item bg-[#131725]"
-              }
-              onClick={() => setGender("Male")}
-              onKeyDown={(event) => event.key == "Enter" && setGender("Male")}
-            >
-              Male
-            </div>
-            <div
-              className={
-                height == "Female"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725]"
-              }
-              onClick={() => setGender("Female")}
-              onKeyDown={(event) => event.key == "Enter" && setGender("Female")}
-            >
-              Female
-            </div>
+            {["Male", "Female"].map((option) => (
+              <div
+                key={option}
+                className={`description-item ${gender === option ? 'bg-btnColor' : 'bg-[#131725]'}`}
+                onClick={() => setGender(option)}
+                onKeyDown={(event) => event.key === "Enter" && setGender(option)}
+                tabIndex={0}
+              >
+                {option}
+              </div>
+            ))}
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
-            <div
-              className={
-                weight == "Fat"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725]"
-              }
-              onClick={() => setWeight("Fat")}
-              onKeyDown={(event) => event.key == "Enter" && setWeight("Fat")}
-            >
-              Fat
-            </div>
-
-            <div
-              className={
-                weight == "Slim"
-                  ? "description-item  bg-btnColor "
-                  : "description-item bg-[#131725] "
-              }
-              onClick={() => setWeight("Slim")}
-              onKeyDown={(event) => event.key == "Enter" && setWeight("Slim")}
-            >
-              Slim
-            </div>
-            <div
-              className={
-                weight == "Not very Fat"
-                  ? "lg:col-span-1 col-span-2 description-item bg-btnColor"
-                  : "col-span-2 lg:col-span-1 description-item bg-[#131725]"
-              }
-              onClick={() => setWeight("Not very Fat")}
-              onKeyDown={(event) =>
-                event.key == "Enter" && setWeight("Not very Fat")
-              }
-            >
-              Not very Fat
-            </div>
+          <div className=" flex flex-col mt-4 gap-2 font-medium text-lg">
+            <label htmlFor="inSchool" className="font-medium text-lg">
+              Are you in school? (Optional)
+            </label>
+            <input
+              id="inSchool"
+              type="text"
+              value={inSchool}
+              onChange={(e) => setInSchool(e.target.value)}
+              className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md w-full"
+              placeholder="Eg. University of Lagos"
+            />
           </div>
           <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}
