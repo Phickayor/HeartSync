@@ -46,7 +46,7 @@ function AllSetings() {
   };
   return (
     <div className="w-full lg:h-full overflow-auto max-h-screen flex py-10 ">
-      <div className="mx-auto lg:py-0 w-full md:w-10/12 lg:w-8/12 relative bg-[#1E1D1D] rounded-2xl overflow-auto">
+      <div className="mx-auto pb-6 lg:py-0 w-full md:w-10/12 lg:w-8/12 relative bg-[#1E1D1D] rounded-2xl overflow-auto">
         <div className="group rounded-xl flex py-4 flex-col sticky top-0 bg-[#232222] backdrop-blur gap-2">
           <img
             src={profile?.profilePicture}
@@ -168,7 +168,7 @@ function AllSetings() {
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
-              <h3 className="lg:text-lg">Change preferences</h3>
+              <h3 className="lg:text-lg">Your preferences</h3>
               <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.preferences
                   ? profile.preferences.join(", ")

@@ -1,5 +1,6 @@
 "use client";
-import { searchUser } from "@/components/Controllers/UserController";
+import { getUsers, searchUser } from "@/components/Controllers/UserController";
+import ButtonLoader from "@/components/Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -11,6 +12,7 @@ function About({ onNext }) {
   const [dob, setDob] = useState("");
   const [maxDate, setMaxDate] = useState(null);
   const regContext = useContext(RegContext);
+  const [loader, setLoader] = useState(false);
   const handleMaxDate = () => {
     const today = new Date();
     const maxDate = new Date(
@@ -23,22 +25,29 @@ function About({ onNext }) {
   };
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    const { user } = await searchUser(userName);
-    if (user) {
-      Swal.fire({ icon: "error", text: "Username is already taken" });
-    } else {
-      const payload = { fullName, phoneNumber, userName, dob };
-      regContext.RegDispatch({ type: "update", payload });
-      onNext();
+    try {
+      setLoader(true);
+      const { user } = await searchUser(userName);
+      if (user) {
+        setLoader(false);
+        return Swal.fire({ icon: "error", text: "Username is already taken" });
+      } else {
+        const payload = { fullName, phoneNumber, userName, dob };
+        regContext.RegDispatch({ type: "update", payload });
+        onNext();
+        setLoader(false);
+      }
+    } catch (error) {
+      setLoader(false);
+      Swal.fire("Oops!", error.message, "error");
     }
   };
   useEffect(() => {
     handleMaxDate();
   });
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-10/12 lg:w-3/5 gap-10">
-      <img src="/images/logo.svg" className="mx-auto lg:hidden " alt="" />
-      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
+    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
+      <div className=" md:px-10 p-5 rounded-xl flex flex-col gap-5">
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>
@@ -51,7 +60,7 @@ function About({ onNext }) {
               placeholder="John Doe"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="bg-inherit  py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit  py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -63,7 +72,7 @@ function About({ onNext }) {
               max={maxDate}
               placeholder="2004-08-07"
               onChange={(e) => setDob(e.target.value)}
-              className="bg-inherit py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -75,7 +84,7 @@ function About({ onNext }) {
               pattern="[0-9]{11}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className="bg-inherit py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -88,11 +97,11 @@ function About({ onNext }) {
               value={userName}
               placeholder="Johnny"
               onChange={(e) => setUserName(e.target.value)}
-              className="bg-inherit py-2 md:py-4 focus:outline-none px-2 md:px-5 rounded-lg focus:border-[#584296] border"
+              className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
             />
           </div>
           <button type="submit" className="auth-btn col-span-2">
-            Save
+            {loader ? <ButtonLoader /> : " Save"}
           </button>
         </form>
       </div>

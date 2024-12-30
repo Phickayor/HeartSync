@@ -19,7 +19,7 @@ function ProfileSection({ onNext }) {
       };
       reader.readAsDataURL(file);
     }
-  };    
+  };
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
@@ -37,15 +37,8 @@ function ProfileSection({ onNext }) {
     setLoader(false);
   };
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-11/12 md:w-10/12 lg:w-3/5">
-      <img src="/images/logo.svg" className="mx-auto lg:hidden " alt="" />
+    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
       <div className="p-5 px-10 rounded-xl">
-        <div className="text-center space-y-3 py-5">
-          <h1 className="auth-header">Profile Section</h1>
-          <p className="font-extralight text-sm">
-            All details here would show on your public feed
-          </p>
-        </div>
         {errorMessage ? (
           <div className="flex justify-center gap-2 py-5 [&>*]:self-center">
             <AiFillInfoCircle />
@@ -54,45 +47,65 @@ function ProfileSection({ onNext }) {
         ) : (
           <></>
         )}
-        <div className="flex mx-auto w-fit gap-2 md:gap-5 [&>*]:self-center [&>*]:cursor-pointer">
-          <div className="cursor-pointer group relative">
-            <img
-              src={image || "/images/profile-2.png"}
-              className="border-2 border-purple-500 rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
-            />
-            <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
-              <AiOutlineCamera
-                onClick={() => {
-                  pic.current.click();
-                }}
-                className="self-center text-3xl text-white"
-              />
+        <div className="flex justify-between gap-5">
+          <div className="space-y-2 py-5">
+            <h1 className=" text-2xl md:text-3xl xl:text-4xl font-medium">
+              Profile Section
+            </h1>
+            <p className="font-extralight text-sm w-9/12">
+              All details here would show on your public feed
+            </p>
+          </div>
+          <div className="flex mx-auto w-fit gap-2 md:gap-5 [&>*]:self-center [&>*]:cursor-pointer">
+            <div className="cursor-pointer group relative">
+              {image && (
+                <img
+                  src={image}
+                  className="border-2 border-btnColor rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
+                />
+              )}
+              {!image && (
+                <div className="border-2 border-btnColor rounded-full size-20 flex flex-col justify-center place-content-center group-hover:opacity-0">
+                  <img
+                    src="/images/camera.png"
+                    className="rounded-full size-10 self-center object-contain"
+                  />
+                </div>
+              )}
+              <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
+                <AiOutlineCamera
+                  onClick={() => {
+                    pic.current.click();
+                  }}
+                  className="self-center text-3xl text-white"
+                />
 
-              <input
-                type="file"
-                name="profilePicture"
-                onChange={handleImageDisplay}
-                alt=""
-                ref={pic}
-                className="hidden"
-              />
+                <input
+                  type="file"
+                  name="profilePicture"
+                  onChange={handleImageDisplay}
+                  alt=""
+                  ref={pic}
+                  className="hidden"
+                />
+              </div>
             </div>
           </div>
         </div>
+
         <form
-          className="flex flex-col gap-5 py-5 mx-auto md:w-7/12"
+          className="flex flex-col gap-5 py-5 mx-auto"
           onSubmit={HandleSubmit}
         >
-          <h3 className="text-center text-2xl font-medium">
-            Tell us about yourself
-          </h3>
-          <textarea
+          <input
+            className="py-4 rounded-lg font-light bg-[#202020] px-5 focus:outline-none"
+            type="text"
             onChange={(e) => {
               setLongBio(e.target.value);
             }}
             value={longBio}
             required
-            className="focus:outline-none focus:border border-[#584296] rounded-xl p-5 bg-inputBg md:h-32"
+            placeholder="Add a short bio about yourself"
           />
           <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}

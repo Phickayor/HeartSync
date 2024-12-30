@@ -9,7 +9,7 @@ function ForgotPassword() {
       e.preventDefault();
       const { existingUser } = await checkExistingUser(email);
       if (!existingUser) {
-        Swal.fire();
+        Swal.fire("Oops!", "We don't have an account with this email", "error");
       }
     } catch (error) {
       console.error(error.message);
@@ -17,8 +17,7 @@ function ForgotPassword() {
   };
   return (
     <div className="mx-auto w-10/12 lg:w-3/5 xl:w-2/5 flex flex-col gap-10">
-      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
-      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
+      <div className=" md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5 bg-[#1B1B1B]">
         <div className="flex flex-col gap-2 md:gap-5 text-center">
           <h1 className="auth-header">Forgotten Password</h1>
           <p className="font-thin  leading-2 mx-auto w-4/5">
@@ -30,13 +29,13 @@ function ForgotPassword() {
           onSubmit={HandleSubmit}
         >
           <div className="flex flex-col gap-2">
-            <label>Email</label>
             <input
+              className="py-4 rounded-lg font-light bg-[#202020] px-5 focus:outline-none"
               type="email"
               required
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              className="bg-inherit rounded-lg py-2 focus:outline-none px-5 focus:border-[#584296] border"
+              placeholder="Email Address"
             />
           </div>
           <button type="submit" className="auth-btn">

@@ -52,9 +52,7 @@ function Home() {
         const { matches } = await getMatches();
         matches &&
           setMatches(matches.sort((a, b) => b.matchCount - a.matchCount));
-          setFilteredMatches(
-            matches.sort((a, b) => b.matchCount - a.matchCount)
-          );
+        setFilteredMatches(matches.sort((a, b) => b.matchCount - a.matchCount));
       } catch (error) {
         console.log(error.message);
       }
@@ -93,38 +91,42 @@ function Home() {
           placeholder="Search matches here..."
         />
       </div>
-      <div className="mx-auto flex-1 h-full w-11/12 py-4">
-       {filteredMatches?.length>0&& <Slider {...settings} className="h-full ">
-          {filteredMatches?.map((match, index) => (
-            <div
-              key={match.user._id}
-              className="group h-full self-center flex flex-col py-5 gap-y-4 relative rounded-2xl bg-[#242424]"
-            >
-              <img
-                src={match.user.cardPicture}
-                alt=""
-                className="rounded-2xl mx-auto md:w-10/12 md:h-2/5 h-1/2  max-h-56 lg:max-h-72 flex-1 object-cover"
-              />
-              <div className="w-full text-white font-light h-full flex-1 text-center rounded-xl flex flex-col py-4 gap-3">
-                <h2 className="text-2xl">{capitalize(match.user.userName)}</h2>
-                <p className="px-5">Bio: {match.user.shortBio}</p>
-                <div className="flex justify-center gap-2 flex-wrap">
-                  {match.user.preferences.slice(-3).map((preference) => (
-                    <div className="bg-white/20 text-white px-4 py-2 rounded-full text-xs ">
-                      {preference}
-                    </div>
-                  ))}
+      <div className="mx-auto flex-1 h-full w-4/5 lg:w-11/12 py-4">
+        {filteredMatches?.length > 0 && (
+          <Slider {...settings} className="h-full">
+            {filteredMatches?.map((match, index) => (
+              <div
+                key={match.user._id}
+                className="group lg:h-[32rem] self-center flex flex-col py-5 gap-y-4 relative rounded-2xl bg-[#242424]"
+              >
+                <img
+                  src={match.user.cardPicture}
+                  alt=""
+                  className="rounded-2xl mx-auto lg:w-10/12 lg:h-3/5 max-h-60 lg:max-h-72 flex-1 aspect-square object-cover"
+                />
+                <div className="w-full text-white font-light lg:h-2/5 flex-1 text-center rounded-xl flex flex-col py-4 gap-3">
+                  <h2 className="text-2xl">
+                    {capitalize(match.user.userName)}
+                  </h2>
+                  <p className="px-5">Bio: {match.user.shortBio}</p>
+                  <div className="flex justify-center gap-2 flex-wrap">
+                    {match.user.preferences.slice(-3).map((preference) => (
+                      <div className="bg-white/20 text-white px-4 py-2 rounded-full text-xs ">
+                        {preference}
+                      </div>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/profile/${match.user._id}`}
+                    className="block cursor-pointer underline"
+                  >
+                    Vew profile
+                  </Link>
                 </div>
-                <Link
-                  href={`/profile/${match.user._id}`}
-                  className="block cursor-pointer underline"
-                >
-                  Vew profile
-                </Link>
               </div>
-            </div>
-          ))}
-        </Slider>}
+            ))}
+          </Slider>
+        )}
         {filteredMatches.length == 0 && (
           <p className="text-2xl text-center self-center h-full place-content-center">
             No result found for search

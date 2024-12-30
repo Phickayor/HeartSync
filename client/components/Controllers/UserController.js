@@ -26,18 +26,18 @@ const GetSpecificUser = async (userId) => {
   }
 };
 const getUsers = async () => {
-  try {
-    const res = await fetch(`${baseUrl}/user/all`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${JSON.parse(token)}`
-      }
-    });
-    const data = await res.json();
+  const res = await fetch(`${baseUrl}/user/all`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${JSON.parse(token)}`
+    }
+  });
+  const data = await res.json();
+  if (res.ok) {
     return data;
-  } catch (error) {
-    console.log(error);
+  } else {
+    throw new Error(data.error);
   }
 };
 
@@ -57,10 +57,19 @@ const EditUser = async (payload) => {
     console.log(error);
   }
 };
-
+const searchUser = async (userName) => {
+  const res = await fetch(`${baseUrl}/user/username/${userName}`);
+  const data = await res.json();
+  if (res.ok) {
+    return data;
+  } else {
+    return { user: null };
+  }
+};
 module.exports = {
   GetUser,
   GetSpecificUser,
   EditUser,
+  searchUser,
   getUsers
 };

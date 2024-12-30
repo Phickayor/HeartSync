@@ -3,37 +3,31 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
 function Description({ onNext }) {
-  const [height, setHeight] = useState(null);
   const [gender, setGender] = useState(null);
-  const [weight, setWeight] = useState(null);
+  const [school, setSchool] = useState(null);
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const regContext = useContext(RegContext);
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-    if (height == null) {
-      setErrorMessage("What category best fits your height?");
-    } else if (gender == null) {
+    if (gender == null) {
       setErrorMessage("What is your gender? ");
-    } else if (weight == null) {
-      setErrorMessage("What category best fits your weight?");
+      setLoader(false);
     } else {
-      const payload = { height, gender, weight };
+      const payload = { gender, school };
       regContext.RegDispatch({ type: "update", payload });
       onNext();
     }
     setLoader(false);
   };
   return (
-    <div className="flex flex-col justify-center h-screen mx-auto w-11/12 md:w-10/12 lg:w-4/6">
-      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
+    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
       <div className="p-5 px-10 rounded-xl">
-        <div className="text-center py-5">
+        <div className="text-center py-5 space-y-4">
           <h1 className="auth-header">We'll like to know more</h1>
           <p className="text-sm font-extralight">
-            This information would help us
-            <br /> match you better
+            This information would help us match you better
           </p>
         </div>
         {errorMessage ? (
@@ -45,49 +39,13 @@ function Description({ onNext }) {
           <></>
         )}
         <form className="grid gap-3 md:gap-5" onSubmit={HandleSubmit}>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
-            <div
-              className={
-                height == "Tall"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725] "
-              }
-              onClick={() => setHeight("Tall")}
-              onKeyDown={(event) => event.key == "Enter" && setHeight("Tall")}
-            >
-              Tall
-            </div>
-            <div
-              className={
-                height == "Short"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725] "
-              }
-              onClick={() => setHeight("Short")}
-              onKeyDown={(event) => event.key == "Enter" && setHeight("Short")}
-            >
-              Short
-            </div>
-            <div
-              className={
-                height == "Not very tall"
-                  ? "lg:col-span-1 col-span-2 description-item  bg-btnColor"
-                  : "lg:col-span-1 col-span-2 description-item  bg-[#131725] "
-              }
-              onClick={() => setHeight("Not very tall")}
-              onKeyDown={(event) =>
-                event.key == "Enter" && setHeight("Not very tall")
-              }
-            >
-              Not very tall
-            </div>
-          </div>
+          <label className="font-light text-center">Select your gender</label>
           <div className="grid grid-cols-2 gap-3 md:gap-5">
             <div
               className={
                 gender == "Male"
-                  ? "description-item   bg-btnColor"
-                  : "description-item bg-[#131725]"
+                  ? "description-item   bg-white text-black"
+                  : "description-item bg-[#383838]"
               }
               onClick={() => setGender("Male")}
               onKeyDown={(event) => event.key == "Enter" && setGender("Male")}
@@ -96,54 +54,24 @@ function Description({ onNext }) {
             </div>
             <div
               className={
-                height == "Female"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725]"
+                gender == "Female"
+                  ? "description-item bg-white text-black "
+                  : "description-item bg-[#383838]"
               }
               onClick={() => setGender("Female")}
-              onKeyDown={(event) => event.key == "Enter" && setGender("Female")}
             >
               Female
             </div>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
-            <div
-              className={
-                weight == "Fat"
-                  ? "description-item bg-btnColor "
-                  : "description-item bg-[#131725]"
-              }
-              onClick={() => setWeight("Fat")}
-              onKeyDown={(event) => event.key == "Enter" && setWeight("Fat")}
-            >
-              Fat
-            </div>
-
-            <div
-              className={
-                weight == "Slim"
-                  ? "description-item  bg-btnColor "
-                  : "description-item bg-[#131725] "
-              }
-              onClick={() => setWeight("Slim")}
-              onKeyDown={(event) => event.key == "Enter" && setWeight("Slim")}
-            >
-              Slim
-            </div>
-            <div
-              className={
-                weight == "Not very Fat"
-                  ? "lg:col-span-1 col-span-2 description-item bg-btnColor"
-                  : "col-span-2 lg:col-span-1 description-item bg-[#131725]"
-              }
-              onClick={() => setWeight("Not very Fat")}
-              onKeyDown={(event) =>
-                event.key == "Enter" && setWeight("Not very Fat")
-              }
-            >
-              Not very Fat
-            </div>
-          </div>
+          <label className="font-light text-center">
+            Are you in School? (optional)
+          </label>
+          <input
+            className="py-2 rounded-lg font-light bg-[#5C5C5C] px-5 focus:outline-none"
+            type="text"
+            onChange={(e) => setSchool(e.target.value)}
+            placeholder="E.g University of Lagos"
+          />
           <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}
           </button>

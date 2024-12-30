@@ -4,12 +4,12 @@ const Cookies = require("js-cookie");
 const token = Cookies.get("token");
 
 const checkExistingUser = async (email) => {
-  try {
-    const res = await fetch(`${baseUrl}/auth/search-users/${email}`);
-    const data = await res.json();
+  const res = await fetch(`${baseUrl}/auth/search-users/${email}`);
+  const data = await res.json();
+  if (res.ok) {
     return data;
-  } catch (error) {
-    console.error(error.message);
+  } else {
+    throw new Error(data.message);
   }
 };
 const createUser = async (payload) => {
@@ -27,7 +27,7 @@ const createUser = async (payload) => {
       ok: res.ok
     };
   } catch (error) {
-    console.error(error.message);
+    throw new Error(error.message);
   }
 };
 
@@ -43,7 +43,7 @@ const resetPassword = async (regToken, newPassword) => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error(error.message);
+    throw new Error(error.message);
   }
 };
 module.exports = {

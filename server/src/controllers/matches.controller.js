@@ -6,10 +6,7 @@ const userMatches = async (req, res) => {
     allUsers.map((user) => {
       let userMatchDetails;
       let matchCount = 0;
-      if (
-        req.user.preferences?.includes(user.gender) ||
-        req.user.preferences?.includes("Male & Female")
-      ) {
+      if (req.user.preferences?.includes(user.gender)) {
         req.user.preferences.map((userPreference) => {
           if (user.preferences?.includes(userPreference)) {
             matchCount++;

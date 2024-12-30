@@ -1,30 +1,26 @@
 "use client";
 
 import Register from "@/components/Auth/Registration/Register";
-import About from "@/components/Auth/Registration/About";
-import Description from "@/components/Auth/Registration/Description";
-import ProfileSection from "@/components/Auth/Registration/ProfileSection";
-import React, { useState } from "react";
-import RegistrationComp from "@/components/Auth/Registration/RegistrationComp";
-import Preference from "@/components/Auth/Registration/Preference";
-import CardPreview from "@/components/Auth/Registration/CardPreview";
+import { regInitialState } from "@/components/Auth/Registration/RegistrationComp";
+import { RegContext } from "@/contexts/RegContext";
+import React, { useReducer } from "react";
 
 function Page() {
-  let [counter, setCounter] = useState(0);
-  const handleNext = () => {
-    setCounter(++counter);
+  const reducer = (state, action) => {
+    if (action.type == "update") {
+      return { ...state, ...action.payload };
+    } else {
+      return state;
+    }
   };
-
-  const components = [
-    <Register key="register" onNext={handleNext} />,
-    <About key="about" onNext={handleNext} />,
-    <Description key="description" onNext={handleNext} />,
-    <ProfileSection key="profile" onNext={handleNext} />,
-    <CardPreview key="cardPreview" onNext={handleNext} action={"creation"} />,
-    <Preference key="preference" action={"creation"} />
-  ];
-
-  return <RegistrationComp>{components[counter]}</RegistrationComp>;
+  const [state, dispatch] = useReducer(reducer, regInitialState);
+  return (
+    <RegContext.Provider value={{ RegState: state, RegDispatch: dispatch }}>
+      <div className="flex flex-col justify-center h-screen fixed w-full bg-[#202020] text-white">
+        <Register />
+      </div>
+    </RegContext.Provider>
+  );
 }
 
 export default Page;
