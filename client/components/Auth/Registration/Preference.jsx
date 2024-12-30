@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useContext, useState } from "react";
 import ButtonLoader from "../../Loaders/ButtonLoader";
-import { EditUser } from "../../Controllers/UserController";
+import { EditUser, GetUser } from "../../Controllers/UserController";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { RegContext } from "@/contexts/RegContext";
@@ -11,18 +11,24 @@ function Preference({ onPrev, action }) {
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
   const router = useRouter();
-  let chosenPreference = [];
+  const [chosenPreference, setChosenPreferences] = useState([]);
   const regContext = useContext(RegContext);
   const setActive = (e) => {
     e.preventDefault();
-    let position = chosenPreference.indexOf(e.target.innerText);
-    if (position == -1) {
-      chosenPreference.push(e.target.innerText);
+    let preference = chosenPreference.find(
+      (item) => item == e.target.innerText
+    );
+    console.log("preference ", preference);
+    console.log("Text", e.target.innerText);
+    if (!preference) {
+      setChosenPreferences([...chosenPreference, e.target.innerText]);
     } else {
-      chosenPreference.splice(position, 1);
+      let filter = chosenPreference.filter(
+        (item) => item != e.target.innerText
+      );
+      setChosenPreferences(filter);
     }
-    e.target.classList.toggle("active-preference-item");
-    e.target.classList.toggle("preference-item");
+    console.log(chosenPreference);
   };
   const handleRegistration = async () => {
     const response = await createUser(regContext.RegState);
@@ -48,14 +54,13 @@ function Preference({ onPrev, action }) {
     try {
       setLoader(true);
       if (chosenPreference.length == 0) {
-        throw new Error(
-          Swal.fire({
-            title: "No Interest Selected",
-            text: "It is important to pick at least one interest, it help us match you with the right people",
-            timer: 5000,
-            icon: "error"
-          })
-        );
+        setLoader(false);
+        return Swal.fire({
+          title: "No Interest Selected",
+          text: "It is important to pick at least one interest, it help us match you with the right people",
+          timer: 5000,
+          icon: "error"
+        });
       }
 
       if (action == "edit") {
@@ -112,6 +117,16 @@ function Preference({ onPrev, action }) {
     "Empathetic"
   ];
   useEffect(() => {
+    if (action == "edit") {
+      const fetchPreviousPreferences = async () => {
+        const { user } = await GetUser();
+        setChosenPreferences(user.preferences);
+      };
+      fetchPreviousPreferences();
+    }
+  }, []);
+
+  useEffect(() => {
     if (createAccount) {
       handleRegistration();
       setCreateAccount(false);
@@ -141,7 +156,11 @@ function Preference({ onPrev, action }) {
               <div
                 key={interest}
                 onClick={(e) => setActive(e)}
-                className="preference-item"
+                className={
+                  chosenPreference?.includes(interest)
+                    ? "active-preference-item"
+                    : "preference-item"
+                }
               >
                 {interest}
               </div>
@@ -151,10 +170,24 @@ function Preference({ onPrev, action }) {
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Gender Of Interest</h3>
           <div className="flex justify-around md:w-10/12 [&>*]:w-full gap-3 md:gap-6 ">
-            <div onClick={(e) => setActive(e)} className="preference-item">
+            <div
+              onClick={(e) => setActive(e)}
+              className={
+                chosenPreference?.includes("Male")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
+            >
               Male
             </div>
-            <div onClick={(e) => setActive(e)} className="preference-item">
+            <div
+              onClick={(e) => setActive(e)}
+              className={
+                chosenPreference?.includes("Female")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
+            >
               Female
             </div>
             {/* <div
@@ -173,7 +206,11 @@ function Preference({ onPrev, action }) {
               <div
                 key={trait}
                 onClick={(e) => setActive(e)}
-                className="preference-item"
+                className={
+                  chosenPreference?.includes(trait)
+                    ? "active-preference-item"
+                    : "preference-item"
+                }
               >
                 {trait}
               </div>
@@ -186,21 +223,32 @@ function Preference({ onPrev, action }) {
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
+              className={
+                chosenPreference?.includes("Make friends")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Make friends
             </div>
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item em"
+              className={
+                chosenPreference?.includes("Relationships")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Relationships
             </div>
             <div
               onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
+              className={
+                chosenPreference?.includes("Fun Buddies")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Fun Buddies
             </div>
@@ -209,7 +257,7 @@ function Preference({ onPrev, action }) {
 
         <button
           type="submit"
-          className="bg-btnColor text-white mx-auto md:mx-0 w-fit px-16 rounded-lg py-3 md:text-xl"
+          className="bg-[#FFEBE4] hover:bg-[#F15A24] text-black duration-300 hover:text-white  mx-auto md:mx-0 w-fit px-16 rounded-lg py-3 md:text-xl"
         >
           {loader ? <ButtonLoader /> : "Save"}
         </button>

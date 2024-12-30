@@ -26,8 +26,8 @@ function Register() {
     }
   };
 
-  let [counter, setCounter] = useState(0);
-  const [showModal, setShowModal] = useState(false);
+  let [counter, setCounter] = useState(4);
+  const [showModal, setShowModal] = useState(true);
   const handleNext = () => {
     setCounter(++counter);
   };
