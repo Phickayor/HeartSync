@@ -18,6 +18,7 @@ function Register() {
   const [pswd2, setPswd2] = useState(regContext?.RegState?.password || "");
   const [loader, setLoader] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [pswdError, setPswdError] = useState("");
   const handleMatchingPassword = () => {
     try {
