@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { RegContext } from "@/contexts/RegContext";
 import { createUser } from "@/components/Controllers/AuthController";
-function Preference({ action }) {
+import { FaAngleLeft } from "react-icons/fa";
+function Preference({ onPrev, action }) {
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
   const router = useRouter();
@@ -123,7 +124,12 @@ function Preference({ action }) {
         🙂🙂 You can select more than one button , what you select would decide
         people you see on your profile
       </span> */}
-
+      {action == "creation" && (
+        <FaAngleLeft
+          className="text-3xl fixed font-extralight cursor-pointer"
+          onClick={() => onPrev()}
+        />
+      )}
       <form
         onSubmit={handleSubmit}
         className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8"

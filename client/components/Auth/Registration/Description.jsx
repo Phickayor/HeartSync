@@ -2,16 +2,17 @@ import React, { useContext, useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
-function Description({ onNext }) {
-  const [gender, setGender] = useState(null);
-  const [school, setSchool] = useState(null);
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+function Description({ onNext, onPrev }) {
+  const regContext = useContext(RegContext);
+  const [gender, setGender] = useState(regContext?.RegState?.gender || null);
+  const [school, setSchool] = useState(regContext?.RegState?.school || null);
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const regContext = useContext(RegContext);
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-    if (gender == null) {
+    if (!gender) {
       setErrorMessage("What is your gender? ");
       setLoader(false);
     } else {
@@ -21,9 +22,25 @@ function Description({ onNext }) {
     }
     setLoader(false);
   };
+  const handleNext = () => {
+    if (!gender) {
+      return setErrorMessage("Kindly select a gender before proceeding");
+    }
+    onNext();
+  };
   return (
-    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
-      <div className="p-5 px-10 rounded-xl">
+    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B] md:w-fit w-11/12">
+      <div className="p-5 md:px-10 rounded-xl">
+        <div className="flex justify-between">
+          <FaAngleLeft
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={() => onPrev()}
+          />
+          <FaAngleRight
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={handleNext}
+          />
+        </div>
         <div className="text-center py-5 space-y-4">
           <h1 className="auth-header">We'll like to know more</h1>
           <p className="text-sm font-extralight">
@@ -38,7 +55,7 @@ function Description({ onNext }) {
         ) : (
           <></>
         )}
-        <form className="grid gap-3 md:gap-5" onSubmit={HandleSubmit}>
+        <form className="grid gap-5" onSubmit={HandleSubmit}>
           <label className="font-light text-center">Select your gender</label>
           <div className="grid grid-cols-2 gap-3 md:gap-5">
             <div
@@ -70,6 +87,7 @@ function Description({ onNext }) {
             className="py-2 rounded-lg font-light bg-[#5C5C5C] px-5 focus:outline-none"
             type="text"
             onChange={(e) => setSchool(e.target.value)}
+            value={school}
             placeholder="E.g University of Lagos"
           />
           <button type="submit" className="auth-btn">

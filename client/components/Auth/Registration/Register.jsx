@@ -9,15 +9,15 @@ import Description from "@/components/Auth/Registration/Description";
 import ProfileSection from "@/components/Auth/Registration/ProfileSection";
 import RegistrationComp from "@/components/Auth/Registration/RegistrationComp";
 import Preference from "@/components/Auth/Registration/Preference";
-import CardPreview from "@/components/Auth/Registration/CardPreview";
 import Link from "next/link";
+import RegCardPreview from "./RegCardPreview";
 function Register() {
-  const [email, setEmail] = useState("");
-  const [pswd1, setPswd1] = useState("");
-  const [pswd2, setPswd2] = useState("");
+  const regContext = useContext(RegContext);
+  const [email, setEmail] = useState(regContext?.RegState?.email || "");
+  const [pswd1, setPswd1] = useState(regContext?.RegState?.password || "");
+  const [pswd2, setPswd2] = useState(regContext?.RegState?.password || "");
   const [loader, setLoader] = useState(false);
   const [pswdError, setPswdError] = useState("");
-  const regContext = useContext(RegContext);
   const handleMatchingPassword = () => {
     try {
       return pswd1 === pswd2;
@@ -31,12 +31,23 @@ function Register() {
   const handleNext = () => {
     setCounter(++counter);
   };
+  const handlePrev = () => {
+    if (counter == 0) {
+      setShowModal(false);
+    } else {
+      setCounter(--counter);
+    }
+  };
   const components = [
-    <About key="about" onNext={handleNext} />,
-    <Description key="description" onNext={handleNext} />,
-    <ProfileSection key="profile" onNext={handleNext} />,
-    <CardPreview key="cardPreview" onNext={handleNext} action={"creation"} />,
-    <Preference key="preference" action={"creation"} />
+    <About key="about" onNext={handleNext} onPrev={handlePrev} />,
+    <Description key="description" onNext={handleNext} onPrev={handlePrev} />,
+    <ProfileSection key="profile" onNext={handleNext} onPrev={handlePrev} />,
+    <RegCardPreview
+      key="cardPreview"
+      onNext={handleNext}
+      onPrev={handlePrev}
+    />,
+    <Preference key="preference" action={"creation"} onPrev={handlePrev} />
   ];
   const HandleSubmit = async (e) => {
     e.preventDefault();
@@ -92,6 +103,7 @@ function Register() {
               type="email"
               required
               onChange={(e) => setEmail(e.target.value)}
+              value={email}
               className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
             />
           </div>
@@ -100,6 +112,7 @@ function Register() {
             <input
               type="password"
               required
+              value={pswd1}
               onChange={(e) => setPswd1(e.target.value)}
               className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
             />
@@ -109,6 +122,7 @@ function Register() {
             <input
               type="password"
               onChange={(e) => setPswd2(e.target.value)}
+              value={pswd2}
               required
               className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
             />

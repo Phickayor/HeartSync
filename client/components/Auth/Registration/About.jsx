@@ -3,15 +3,22 @@ import { getUsers, searchUser } from "@/components/Controllers/UserController";
 import ButtonLoader from "@/components/Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-function About({ onNext }) {
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [userName, setUserName] = useState("");
-  const [dob, setDob] = useState("");
-  const [maxDate, setMaxDate] = useState(null);
+function About({ onNext, onPrev }) {
   const regContext = useContext(RegContext);
+  const [fullName, setFullName] = useState(
+    regContext?.RegState?.fullName || ""
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    regContext?.RegState?.phoneNumber || ""
+  );
+  const [userName, setUserName] = useState(
+    regContext?.RegState?.userName || ""
+  );
+  const [dob, setDob] = useState(regContext?.RegState?.dob || "");
+  const [maxDate, setMaxDate] = useState(null);
   const [loader, setLoader] = useState(false);
   const handleMaxDate = () => {
     const today = new Date();
@@ -45,9 +52,25 @@ function About({ onNext }) {
   useEffect(() => {
     handleMaxDate();
   });
+  const handleNext = () => {
+    if (!fullName || !dob || !phoneNumber || !userName) {
+      return setErrorMessage("Kindly fill and save all fields before proceeding");
+    }
+    onNext();
+  };
   return (
-    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
+    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B] md:w-fit w-11/12">
       <div className=" md:px-10 p-5 rounded-xl flex flex-col gap-5">
+        <div className="flex justify-between">
+          <FaAngleLeft
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={() => onPrev()}
+          />
+          <FaAngleRight
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={handleNext}
+          />
+        </div>
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>
@@ -68,9 +91,9 @@ function About({ onNext }) {
             <input
               type="date"
               required
-              value={dob}
               max={maxDate}
               placeholder="2004-08-07"
+              value={dob}
               onChange={(e) => setDob(e.target.value)}
               className="bg-inherit py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border-btnColor border"
             />

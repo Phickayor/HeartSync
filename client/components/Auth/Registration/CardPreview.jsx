@@ -6,9 +6,9 @@ import { capitalize } from "@/utilities/firstLetterCaps";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
-import { FaSpinner } from "react-icons/fa";
+import { FaAngleLeft, FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
-function CardPreview({ onNext, action }) {
+function CardPreview({ onNext, onPrev, action }) {
   const regContext = useContext(RegContext);
   const userContext = useContext(UserContext);
   const [shortBio, setShortBio] = useState("");

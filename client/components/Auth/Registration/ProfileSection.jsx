@@ -3,12 +3,15 @@ import React, { useContext, useRef, useState } from "react";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { AiFillInfoCircle, AiOutlineCamera } from "react-icons/ai";
 import { RegContext } from "@/contexts/RegContext";
-function ProfileSection({ onNext }) {
-  const pic = useRef(null);
-  const [image, setImage] = useState(null);
-  const [longBio, setLongBio] = useState("");
-  const [loader, setLoader] = useState(false);
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+function ProfileSection({ onNext, onPrev }) {
   const regContext = useContext(RegContext);
+  const pic = useRef(null);
+  const [image, setImage] = useState(
+    regContext?.RegState?.profilePicture || null
+  );
+  const [longBio, setLongBio] = useState(regContext?.RegState?.longBio || "");
+  const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const handleImageDisplay = (e) => {
     const file = e.target.files[0];
@@ -36,9 +39,25 @@ function ProfileSection({ onNext }) {
     }
     setLoader(false);
   };
+  const handleNext = () => {
+    if (!image || !longBio) {
+      return setErrorMessage("Kindly fill all fields before proceeding");
+    }
+    onNext();
+  };
   return (
     <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
       <div className="p-5 px-10 rounded-xl">
+        <div className="flex justify-between">
+          <FaAngleLeft
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={() => onPrev()}
+          />
+          <FaAngleRight
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={handleNext}
+          />
+        </div>
         {errorMessage ? (
           <div className="flex justify-center gap-2 py-5 [&>*]:self-center">
             <AiFillInfoCircle />
@@ -92,7 +111,6 @@ function ProfileSection({ onNext }) {
             </div>
           </div>
         </div>
-
         <form
           className="flex flex-col gap-5 py-5 mx-auto"
           onSubmit={HandleSubmit}
