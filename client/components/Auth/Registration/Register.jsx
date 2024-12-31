@@ -108,7 +108,7 @@ function Register() {
           <h1 className="font-medium text-center text-4xl">
             Create an account
           </h1>
-          {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+          {errorMessage && <p className="text-red-500 text-center text-sm md:text-base lg:text-lg">{errorMessage}</p>}
           <div className="flex flex-col gap-2">
             <label className="font-extralight">Email</label>
             <input

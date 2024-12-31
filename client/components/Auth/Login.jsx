@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Swal from "sweetalert2";
 import Link from "next/link";
 import baseUrl from "../../config/server";
 import ButtonLoader from "../Loaders/ButtonLoader";
@@ -8,14 +7,31 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 function Login() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
+    setErrorMessage("");
+
+    // Email and password regex validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    if (!emailRegex.test(email)) {
+      setLoader(false);
+      return setErrorMessage("Invalid email format.");
+    }
+
+    if (!passwordRegex.test(password)) {
+      setLoader(false);
+      return setErrorMessage("Password must be at least 8 characters long and include both letters and numbers.");
+    }
 
     try {
       const res = await fetch(`${baseUrl}/auth/login`, {
@@ -27,34 +43,19 @@ function Login() {
       });
       const data = await res.json();
       if (res.ok) {
-        const setToken = Cookies.set("token", JSON.stringify(data.token));
-        Swal.fire({
-          title: "Success!",
-          text: "Login Successful",
-          icon: "success",
-          confirmButtonColor: "#F15A24"
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            setToken && router.push("/admin");
-          }
-        });
+        Cookies.set("token", JSON.stringify(data.token));
+        router.push("/admin");
       } else {
-        Swal.fire({
-          icon: "error",
-          title: data.message
-        });
+        setErrorMessage(data.message);
       }
     } catch (error) {
       console.log(error.message);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! Check your internet cnnection and try again"
-      });
+      setErrorMessage("Something went wrong! Check your internet connection and try again.");
     } finally {
       setLoader(false);
     }
   };
+
   return (
     <div className="h-screen flex flex-col justify-center">
       <div className="md:w-4/6 lg:w-2/5 w-full md:h-fit h-full place-content-center md:place-content-start mx-auto py-5 px-8 bg-[#16161680] border-[#282828] border-1 rounded-lg">
@@ -70,6 +71,7 @@ function Login() {
           <h1 className="font-medium text-center text-4xl">
             Login to your account
           </h1>
+          {errorMessage && <p className="text-red-500 text-center text-sm md:text-base lg:text-lg">{errorMessage}</p>}
           <div className="flex flex-col gap-2">
             <label className="font-extralight">Email</label>
             <input
@@ -80,15 +82,21 @@ function Login() {
               className="bg-[#1A1818] focus:border py-2 px-4 focus:outline-none rounded-md"
             />
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 relative">
             <label className="font-extralight">Password</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               required
               className="bg-[#1A1818] py-2 px-4 focus:outline-none focus:border rounded-md"
             />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-9 cursor-pointer text-sm text-gray-400 mt-1"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </span>
           </div>
           <button className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign in"}
