@@ -1,6 +1,8 @@
+const fs = require("fs");
+const path = require("path");
 const User = require("../models/user.model");
 const { handleEncryption } = require("../utilities/encrypt");
-
+const { uploadToCloudinary } = require("../utilities/getImageUrl");
 const editUser = async (req, res) => {
   try {
     let findUser = await User.findById(req.user._id);
@@ -11,6 +13,46 @@ const editUser = async (req, res) => {
       }
       if (req.body.userName) {
         req.body.userName = req.body.userName.toLowerCase();
+      }
+      if (req.body.profilePicture) {
+        const uploadDir = path.join(__dirname, "uploads"); // Directory for uploads
+        const tempFilePath = path.join(uploadDir, "temp-image.png"); // Temporary path
+
+        // Ensure the directory exists
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        const base64Data = req.body.profilePicture.replace(
+          /^data:image\/\w+;base64,/,
+          ""
+        );
+        fs.writeFileSync(tempFilePath, Buffer.from(base64Data, "base64"));
+        const image = await uploadToCloudinary(tempFilePath);
+        if (image.url) {
+          req.body.profilePicture = image.url;
+        } else {
+          throw new Error(image.error);
+        }
+      }
+      if (req.body.cardPicture) {
+        const uploadDir = path.join(__dirname, "uploads"); // Directory for uploads
+        const tempFilePath = path.join(uploadDir, "temp-image.png"); // Temporary path
+
+        // Ensure the directory exists
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        const base64Data = req.body.cardPicture.replace(
+          /^data:image\/\w+;base64,/,
+          ""
+        );
+        fs.writeFileSync(tempFilePath, Buffer.from(base64Data, "base64"));
+        const image = await uploadToCloudinary(tempFilePath);
+        if (image.url) {
+          req.body.cardPicture = image.url;
+        } else {
+          throw new Error(image.error);
+        }
       }
       let updateUser = await User.findByIdAndUpdate(req.user._id, req.body);
       updateUser

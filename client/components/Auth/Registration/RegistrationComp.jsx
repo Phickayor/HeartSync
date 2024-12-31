@@ -30,7 +30,7 @@ function RegistrationComp({ children, onClose }) {
     // <RegContext.Provider value={{ RegState: state, RegDispatch: dispatch }}>
     <div className="bg-[#202020] text-white flex w-full h-screen">
       <div className="fixed flex flex-col top-0 left-0 overflow-hidden w-screen h-screen backdrop-blur-md bg-opacity-50">
-        <FaX className="absolute top-10 right-20 text-xl z-30 cursor-pointer hover:text-red-500 text-white" />
+        <FaX className="absolute top-10 right-10 text-xl z-30 cursor-pointer hover:text-red-500 text-white" />
         <div
           className={
             children.key != "preference"

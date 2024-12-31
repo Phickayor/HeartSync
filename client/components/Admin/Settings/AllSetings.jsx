@@ -45,26 +45,28 @@ function AllSetings() {
     }
   };
   return (
-    <div className="w-full lg:h-full overflow-auto max-h-[calc(100vh-3.5rem)] lg:max-h-screen flex lg:py-10 ">
+    <div className="w-full lg:h-full overflow-auto h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] lg:max-h-screen flex lg:py-10 ">
       <div className="mx-auto pb-6 lg:py-0 w-full md:w-10/12 lg:w-8/12 relative bg-[#1E1D1D] rounded-2xl overflow-auto">
         <div className="group rounded-xl flex py-4 flex-col sticky top-0 bg-[#232222] backdrop-blur gap-2">
-          <img
-            src={profile?.profilePicture}
-            alt="dp"
-            className="group-hover:opacity-40 w-24 h-24 self-center object-cover rounded-full border-2 border-btnColor"
-          />
-          <div className="absolute top-0 hidden group-hover:flex flex-col w-full h-full justify-center">
-            <div className="w-24 h-24 flex justify-center self-center">
-              <FaCamera
-                className="cursor-pointer self-center text-2xl text-white"
-                onClick={() => profilePic.current.click()}
-              />
-              <input
-                type="file"
-                onChange={handleProfilePicUpdate}
-                className="hidden"
-                ref={profilePic}
-              />
+          <div className="relative self-center">
+            <img
+              src={profile?.profilePicture}
+              alt="dp"
+              className="group-hover:opacity-40 w-24 h-24 self-center object-cover rounded-full border-2 border-btnColor"
+            />
+            <div className="absolute top-0 hidden group-hover:flex flex-col w-full h-full justify-center">
+              <div className="w-24 h-24 flex justify-center self-center">
+                <FaCamera
+                  className="cursor-pointer self-center text-2xl text-white"
+                  onClick={() => profilePic.current.click()}
+                />
+                <input
+                  type="file"
+                  onChange={handleProfilePicUpdate}
+                  className="hidden"
+                  ref={profilePic}
+                />
+              </div>
             </div>
           </div>
 
@@ -160,6 +162,23 @@ function AllSetings() {
               onKeyDown={(event) =>
                 event.key == "Enter" &&
                 handleEdit("Phone Number", "phoneNumber")
+              }
+              className="text-sm font-semibold underline cursor-pointer"
+            >
+              Edit
+            </span>
+          </div>
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
+            <div className="self-center">
+              <h3 className="lg:text-lg">School Name</h3>
+              <span className="lg:text-md text-sm text-[#717171]">
+                {profile.school?profile.school:"Not Required"}
+              </span>
+            </div>
+            <span
+              onClick={() => handleEdit("School Name", "school")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && handleEdit("School Name", "school")
               }
               className="text-sm font-semibold underline cursor-pointer"
             >

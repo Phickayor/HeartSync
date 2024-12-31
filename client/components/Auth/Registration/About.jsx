@@ -116,7 +116,7 @@ function About({ onNext, onPrev }) {
               type="text"
               required
               placeholder="Phone Number"
-              pattern="[0-9]{11}"
+              // pattern="[0-9]{11}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"

@@ -46,8 +46,10 @@ function Preference({ onPrev, action }) {
         icon: "error",
         timer: 5000
       });
+      setLoader(false);
       router.push("/auth/register");
     }
+    setLoader(false);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,7 +90,6 @@ function Preference({ onPrev, action }) {
       console.log(error);
       setLoader(false);
     }
-    setLoader(false);
   };
   const interests = [
     "Sports",

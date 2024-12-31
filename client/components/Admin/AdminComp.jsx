@@ -8,7 +8,22 @@ import PageLoader from "@/loader/PageLoader";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
-  const [initialState,setInitialState] = useState()
+  const [initialState, setInitialState] = useState({
+    _id: "",
+    email: "",
+    isEmailVerified: false,
+    userName: "",
+    fullName: "",
+    dob: "",
+    gender: "",
+    school: "",
+    shortBio: "",
+    longBio: "",
+    phoneNumber: 0,
+    profilePicture: "",
+    cardPicture: "",
+    preferences: []
+  });
   const router = useRouter();
   const userContext = useContext(UserContext);
   const reducer = (state, action) => {
@@ -16,13 +31,13 @@ function AdminComp({ navName, children }) {
       case "signIn":
         return { ...state, ...action.payload };
       case "signOut":
-        return { ...state, ...null };
+        return initialState;
       default:
         return state;
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, null);
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -30,12 +45,14 @@ function AdminComp({ navName, children }) {
           return dispatch({ type: "signIn", payload: result.user });
         });
       } catch (error) {
+        userContext.dispatch({ type: "signOut" });
+        Cookies.remove("token");
         router.push("/auth");
       }
       setIsAuthorizationChecked(true);
     };
     fetchDetails();
-  }, []); 
+  }, []);
 
   if (!isAuthorizationChecked) {
     return <PageLoader />;

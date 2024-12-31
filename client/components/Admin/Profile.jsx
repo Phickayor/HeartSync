@@ -47,18 +47,20 @@ function Profile({ userId }) {
     return;
   }
   return (
-    <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-3.5rem)] py-10 lg:h-screen gap-5 overflow-auto">
-      <div className="mx-auto row-span-4 py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-11/12">
+    <div className="grid h-[calc(100vh-3.5rem)] py-10 lg:min-h-screen gap-5 overflow-auto">
+      <div className="mx-auto py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-11/12 overflow-auto h-fit">
         <img
           src={profile?.profilePicture}
           alt=""
           className="mx-auto size-32 object-cover rounded-full"
         />
-        <h1 className="inline-flex justify-center gap-2 text-center font-semibold text-3xl lg:text-4xl">
+        <h1 className="inline-flex justify-center gap-2 text-center font-semibold text-3xl lg:text-4xl self-center ">
           {capitalize(profile?.userName)}
-          <span className="font-extralight text-sm text-[#A7A7A7] self-center">
-            ({capitalize(profile?.school)})
-          </span>
+          {profile.school && (
+            <span className="font-extralight text-sm text-[#A7A7A7] self-end pb-1">
+              ({capitalize(profile?.school)})
+            </span>
+          )}
         </h1>
         <p className="text-center">{profile?.longBio}</p>
 

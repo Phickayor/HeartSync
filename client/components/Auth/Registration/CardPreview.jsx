@@ -67,7 +67,7 @@ function CardPreview({ onNext, onPrev, action }) {
     }
   };
   return (
-    <div className="h-full flex flex-col justify-between py-5 gap-4 relative rounded-2xl bg-[#242424]">
+    <div className="h-[calc(100vh-3.5rem)] lg:h-screen max-h-screen flex flex-col justify-between py-5 gap-4 relative rounded-2xl bg-[#242424]">
       <div className="mx-auto p-4 space-y-4 bg-[#1B1B1B] rounded-xl w-96 flex flex-col h-full">
         <div className="group relative h-1/2 flex-1">
           <img
