@@ -87,13 +87,13 @@ function Home() {
     );
   }
   return (
-    <div className="flex flex-col gap-4 py-5 lg:h-screen h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] lg:max-h-screen overflow-y-hidden">
-      <div className="bg-[#202020] mx-auto w-96 text-white rounded-xl flex px-5">
-        <AiOutlineSearch className="self-center text-2xl text-slate-200" />
+    <div className="flex flex-col gap-2 md:gap-4 py-5 px-3 md:px-0 lg:h-screen h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] lg:max-h-screen overflow-y-hidden">
+      <div className="bg-[#202020] mx-auto md:w-96 w-full text-white rounded-xl flex px-5">
+        <AiOutlineSearch className="self-center text-xl md:text-2xl text-slate-200" />
         <input
           type="search"
           onChange={(e) => handleSearch(e.target.value)}
-          className="py-3 rounded-lg font-light bg-[#202020] px-5 w-full focus:outline-none"
+          className="py-3 rounded-lg font-light self-center bg-[#202020] px-2 md:px-5 w-full focus:outline-none"
           placeholder="Search here..."
         />
       </div>

@@ -37,12 +37,12 @@ function Contact() {
     <div className="px-5 w-full lg:h-screen h-[calc(100vh-3.5rem)] overflow-hidden max-w-screen max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
         <h1 className="text-xl">Messages</h1>
-        <div className="bg-[#202020] text-white rounded-xl flex px-5">
-          <AiOutlineSearch className="self-center text-2xl text-slate-200" />
+        <div className="bg-[#202020] mx-auto md:w-96 w-full text-white rounded-xl flex px-5 [&>*]:self-center">
+          <AiOutlineSearch className="self-center text-xl md:text-2xl text-slate-200" />
           <input
             type="search"
             onChange={(e) => handleSearch(e.target.value)}
-            className="py-4 rounded-lg font-light bg-[#202020] px-5 w-full focus:outline-none"
+            className="py-3 rounded-lg font-light bg-[#202020] px-2 md:px-5 w-full focus:outline-none"
             placeholder="Search here..."
           />
         </div>

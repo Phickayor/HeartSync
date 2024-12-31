@@ -19,31 +19,31 @@ import { toast, ToastContainer } from "react-toastify";
 export const UserText = ({ image, content }) => {
   return content ? (
     <div className="flex gap-2 justify-end self-end w-10/12">
-      <div className="bg-[#1E1D1D] rounded-l-3xl rounded-tr-3xl flex py-4 px-6 cursor-pointer gap-5 w-fit">
-        <span className="text-white">{content}</span>
+      <div className="bg-[#202020] rounded-l-3xl rounded-tr-3xl flex py-4 px-6 cursor-pointer gap-5 w-fit">
+        <span className="text-white text-sm md:text-base">{content}</span>
       </div>
-      <img src={image} className="w-12 h-12 rounded-full self-end" />
+      <img src={image} className="size-8 md:size-12 rounded-full self-end" />
     </div>
   ) : (
     <div className="flex gap-2 justify-end self-end w-10/12">
-      <div className="bg-slate-400 card-skeleton rounded-l-3xl rounded-tr-3xl flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
+      <div className="bg-[#202020] card-skeleton rounded-l-3xl rounded-tr-3xl flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white">{content}</h3>
       </div>
-      <div className="w-12 h-12 bg-slate-400 card-skeleton rounded-full self-end"></div>
+      <div className="size-10 md:size-12 bg-slate-400 card-skeleton rounded-full self-end"></div>
     </div>
   );
 };
 export const OtherUserText = ({ image, content }) => {
   return content ? (
     <div className="flex gap-2 w-10/12">
-      <img src={image} className="w-12 h-12 self-end rounded-full" />
-      <div className="bg-[#1E1D1D] rounded-r-3xl rounded-tl-3xl flex py-4 px-6 cursor-pointer gap-5 max-w-96">
-        <h3 className="text-white">{content}</h3>
+      <img src={image} className="size-8 md:size-12 self-end rounded-full" />
+      <div className="bg-[#202020] rounded-r-3xl rounded-tl-3xl flex py-4 px-6 cursor-pointer gap-5 max-w-96">
+        <h3 className="text-white text-sm md:text-base">{content}</h3>
       </div>
     </div>
   ) : (
     <div className="flex gap-2">
-      <div className="w-12 h-12 bg-slate-400 card-skeleton rounded-full self-end"></div>
+      <div className="size-10 md:size-12 bg-[#202020] card-skeleton rounded-full self-end"></div>
       <div className="bg-slate-400 card-skeleton rounded-l-full rounded-tr-full flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white">{content}</h3>
       </div>
@@ -147,16 +147,16 @@ function Message({ userId }) {
   }
 
   return (
-    <div className="px-5 lg:px-10 lg:py-4 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-3.5rem)]">
+    <div className="p-5 lg:px-10 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-3.5rem)]">
       <Link
         href={`/profile/${userId}`}
         className="lg:h-20 rounded-2xl flex p-3 cursor-pointer gap-4"
       >
         <img
           src={otherUser?.profilePicture}
-          className="w-12 h-12 rounded-full self-center"
+          className="size-10 md:size-12 rounded-full self-center"
         />
-        <h3 className="self-center text-xl text-[#131725]">
+        <h3 className="self-center text-xl text-white">
           {otherUser && capitalize(otherUser?.userName)}
         </h3>
       </Link>
@@ -190,10 +190,10 @@ function Message({ userId }) {
 
         <div ref={messagesEndRef} />
       </div>
-      <div className=" bg-[#1E1D1D] border border-white rounded-2xl flex py-5 px-8 cursor-pointer gap-5">
+      <div className="bg-[#202020] px-5 rounded-2xl flex cursor-pointer gap-5">
         <input
           type="text"
-          className="self-center bg-inherit text-white w-full focus:outline-none"
+          className="py-3 rounded-lg font-light bg-[#202020] px-2 w-full focus:outline-none"
           placeholder="Message"
           value={newMessageClient}
           onChange={(e) => setNewMessageClient(e.target.value)}

@@ -40,11 +40,11 @@ function Search() {
       <div className="pb-10 mx-auto lg:w-10/12">
         <div className="pt-10 sticky top-0 backdrop-blur">
           <div className="bg-[#202020] text-white rounded-xl flex px-5">
-            <AiOutlineSearch className="self-center text-2xl text-slate-200" />
+            <AiOutlineSearch className="self-center text-xl md:text-2xl text-slate-200" />
             <input
               type="search"
               onChange={(e) => handleSearch(e.target.value)}
-              className="py-4 rounded-lg font-light bg-[#202020] px-5 w-full focus:outline-none"
+              className="py-3 rounded-lg font-light bg-[#202020] self-center px-2 md:px-5 w-full focus:outline-none"
               placeholder="Search here..."
             />
           </div>
@@ -73,14 +73,14 @@ function Search() {
         </div>
 
         {!results && (
-          <h1 className="text-xl font-light text-center py-5">
+          <h1 className="md:text-xl font-light text-center py-5">
             Your search results appear here
           </h1>
         )}
         {searching && <SearchResultLoader />}
         {results?.length == 0 && (
-          <h1 className="text-xl lg:text-2xl text-center py-5">
-            No results Found
+          <h1 className="md:text-xl text-center py-5">
+            No results found
           </h1>
         )}
       </div>

@@ -188,7 +188,7 @@ function Register() {
           <button className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign up"}
           </button>
-          <div className="text-center w-full mx-auto md:hidden [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4">
+          <div className="text-center text-sm w-full mx-auto md:hidden [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4">
             <Link href="/auth/">Already have an account?</Link>
           </div>
         </form>

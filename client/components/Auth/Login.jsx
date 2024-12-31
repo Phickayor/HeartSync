@@ -150,7 +150,7 @@ function Login() {
           <button className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign in"}
           </button>
-          <div className="flex w-full mx-auto md:hidden justify-between [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4">
+          <div className="flex w-full mx-auto md:hidden justify-between [&>*]:self-center text-sm hover:[&>*]:scale-110 [&>*]:duration-150 py-4">
             <Link href="/auth/register">Create an account</Link>
             <Link href="/auth/forgot-password">Forgotten Password</Link>
           </div>
