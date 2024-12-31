@@ -9,7 +9,7 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
     <div
       className={`fixed top-0 left-0  bg-opacity-50 bg-black h-screen z-20 w-screen flex flex-col justify-center`}
     >
-      <div className="p-6 py-8 rounded-xl border bg-black mx-auto w-10/12 md:w-2/5">
+      <div className="p-6 py-8 rounded-xl bg-[#1B1B1B] mx-auto w-10/12 md:w-2/5">
         <div className="relative flex justify-center">
           <h1 className="text-center md:text-2xl text-lg self-center">
             Edit {name}
@@ -41,11 +41,11 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
               setValue(e.target.value);
             }}
             required
-            className="py-4 px-6 rounded-lg bg-[#1E1D1D] text-center md:text-start text-white focus:outline-none"
+            className="py-4 px-6 rounded-lg bg-[#202020] text-center md:text-start text-white focus:outline-none"
           />
           <button
             type="submit"
-            className="bg-[#584296]  text-white px-16 md:px-20 rounded-lg py-2 md:text-xl self-center md:mt-4"
+            className="bg-[#FFEBE4] hover:bg-[#F15A24] text-black duration-300 hover:text-white px-16 md:px-20 rounded-lg py-2 md:text-xl self-center md:mt-4"
           >
             {loader ? <FaSpinner className="mx-auto animate-spin" /> : "Next"}
           </button>

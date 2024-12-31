@@ -52,7 +52,7 @@ function Profile({ userId }) {
         <img
           src={profile?.profilePicture}
           alt=""
-          className="mx-auto w-32 h-32 rounded-full"
+          className="mx-auto size-32 object-cover rounded-full"
         />
         <h1 className="text-center font-semibold text-3xl lg:text-4xl">
           {capitalize(profile?.userName)}
@@ -60,13 +60,7 @@ function Profile({ userId }) {
         <p className="text-center">{profile?.longBio}</p>
 
         <div className="mx-auto lg:w-10/12 flex justify-center flex-wrap gap-3">
-          {/* <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
-            {profile.weight}
-          </div> */}
-          <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
-            {profile.height}
-          </div>
-          <div className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5">
+          <div className="py-3  bg-[#383838] rounded-full text-white lg:px-8 px-5">
             {profile.gender}
           </div>
           {profile?.preferences?.map((preference) => {
@@ -76,7 +70,7 @@ function Profile({ userId }) {
               return (
                 <div
                   key={preference}
-                  className="py-3 lg:py-5 bg-[#131725] rounded-full text-white lg:px-8 px-5"
+                  className="py-3  bg-[#383838] rounded-full text-white lg:px-8 px-5"
                 >
                   {preference}
                 </div>

@@ -27,6 +27,7 @@ function Login() {
       });
       const data = await res.json();
       if (res.ok) {
+        const setToken = Cookies.set("token", JSON.stringify(data.token));
         Swal.fire({
           title: "Success!",
           text: "Login Successful",
@@ -34,7 +35,6 @@ function Login() {
           confirmButtonColor: "#F15A24"
         }).then(async (result) => {
           if (result.isConfirmed) {
-            const setToken = Cookies.set("token", JSON.stringify(data.token));
             setToken && router.push("/admin");
           }
         });
@@ -77,7 +77,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               required
-              className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
+              className="bg-[#1A1818] focus:border py-2 px-4 focus:outline-none rounded-md"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -87,7 +87,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               required
-              className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md"
+              className="bg-[#1A1818] py-2 px-4 focus:outline-none focus:border rounded-md"
             />
           </div>
           <button className="auth-btn">

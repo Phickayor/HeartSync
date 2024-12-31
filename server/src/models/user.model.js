@@ -45,10 +45,7 @@ const profileSchema = new mongoose.Schema(
     gender: {
       type: String
     },
-    height: {
-      type: String
-    },
-    weight: {
+    school: {
       type: String
     },
     shortBio: {

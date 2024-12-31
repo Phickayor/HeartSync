@@ -6,9 +6,9 @@ import { capitalize } from "@/utilities/firstLetterCaps";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
-import { FaSpinner } from "react-icons/fa";
+import { FaAngleLeft, FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
-function CardPreview({ onNext, action }) {
+function CardPreview({ onNext, onPrev, action }) {
   const regContext = useContext(RegContext);
   const userContext = useContext(UserContext);
   const [shortBio, setShortBio] = useState("");
@@ -67,8 +67,8 @@ function CardPreview({ onNext, action }) {
     }
   };
   return (
-    <div className="">
-      <div className="mx-auto p-4 space-y-4 border-2 rounded-xl w-96 flex flex-col h-full">
+    <div className="h-full flex flex-col justify-between py-5 gap-4 relative rounded-2xl bg-[#242424]">
+      <div className="mx-auto p-4 space-y-4 bg-[#1B1B1B] rounded-xl w-96 flex flex-col h-full">
         <div className="group relative h-1/2 flex-1">
           <img
             src={cardPicture}
@@ -126,7 +126,7 @@ function CardPreview({ onNext, action }) {
           </div>
         </div>
         <button onClick={handleSubmit} className="auth-btn">
-          {loader?<FaSpinner className="mx-auto animate-spin"/>:"Save"}
+          {loader ? <FaSpinner className="mx-auto animate-spin" /> : "Save"}
         </button>
       </div>
     </div>

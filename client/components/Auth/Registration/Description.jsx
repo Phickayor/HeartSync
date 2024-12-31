@@ -2,39 +2,49 @@ import React, { useContext, useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
-
-function Description({ onNext }) {
-  const [gender, setGender] = useState(null);
-  const [inSchool, setInSchool] = useState("");
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+function Description({ onNext, onPrev }) {
+  const regContext = useContext(RegContext);
+  const [gender, setGender] = useState(regContext?.RegState?.gender || null);
+  const [school, setSchool] = useState(regContext?.RegState?.school || null);
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const regContext = useContext(RegContext);
-
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-
-    if (gender == null) {
+    if (!gender) {
       setErrorMessage("What is your gender? ");
-    } else if (!inSchool.trim()) {
-      setErrorMessage("Are you in school?");
+      setLoader(false);
     } else {
-      const payload = { gender, inSchool };
+      const payload = { gender, school };
       regContext.RegDispatch({ type: "update", payload });
       onNext();
     }
     setLoader(false);
   };
-
+  const handleNext = () => {
+    if (!gender) {
+      return setErrorMessage("Kindly select a gender before proceeding");
+    }
+    onNext();
+  };
   return (
-    <div className="">
-      <img src="/images/logo.svg" className="mx-auto lg:hidden" alt="" />
-      <div className="p-5 px-10 rounded-xl">
-        <div className="text-center py-5">
+    <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B] md:w-fit w-11/12">
+      <div className="p-5 md:px-10 rounded-xl">
+        <div className="flex justify-between">
+          <FaAngleLeft
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={() => onPrev()}
+          />
+          <FaAngleRight
+            className="text-3xl font-extralight cursor-pointer"
+            onClick={handleNext}
+          />
+        </div>
+        <div className="text-center py-5 space-y-4">
           <h1 className="auth-header">We'll like to know more</h1>
           <p className="text-sm font-extralight">
-            This information would help us
-            <br /> match you better
+            This information would help us match you better
           </p>
         </div>
         {errorMessage && (
@@ -43,33 +53,41 @@ function Description({ onNext }) {
             <span className="text-center text-red-500">{errorMessage}</span>
           </div>
         )}
-        <form className="grid gap-3 md:gap-5" onSubmit={HandleSubmit}>
+        <form className="grid gap-5" onSubmit={HandleSubmit}>
+          <label className="font-light text-center">Select your gender</label>
           <div className="grid grid-cols-2 gap-3 md:gap-5">
-            {["Male", "Female"].map((option) => (
-              <div
-                key={option}
-                className={`description-item ${gender === option ? 'bg-btnColor' : 'bg-[#131725]'}`}
-                onClick={() => setGender(option)}
-                onKeyDown={(event) => event.key === "Enter" && setGender(option)}
-                tabIndex={0}
-              >
-                {option}
-              </div>
-            ))}
+            <div
+              className={
+                gender == "Male"
+                  ? "description-item   bg-white text-black"
+                  : "description-item bg-[#202020]"
+              }
+              onClick={() => setGender("Male")}
+              onKeyDown={(event) => event.key == "Enter" && setGender("Male")}
+            >
+              Male
+            </div>
+            <div
+              className={
+                gender == "Female"
+                  ? "description-item bg-white text-black "
+                  : "description-item bg-[#202020]"
+              }
+              onClick={() => setGender("Female")}
+            >
+              Female
+            </div>
           </div>
-          <div className=" flex flex-col mt-4 gap-2 font-medium text-lg">
-            <label htmlFor="inSchool" className="font-medium text-lg">
-              Are you in school? (Optional)
-            </label>
-            <input
-              id="inSchool"
-              type="text"
-              value={inSchool}
-              onChange={(e) => setInSchool(e.target.value)}
-              className="bg-inherit border py-2 px-4 focus:outline-none focus:border-dashed rounded-md w-full"
-              placeholder="Eg. University of Lagos"
-            />
-          </div>
+          <label className="font-light text-center">
+            Are you in School? (optional)
+          </label>
+          <input
+            className="py-2 rounded-lg font-light bg-[#202020] px-5 focus:outline-none focus:border"
+            type="text"
+            onChange={(e) => setSchool(e.target.value)}
+            value={school}
+            placeholder="E.g University of Lagos"
+          />
           <button type="submit" className="auth-btn">
             {loader ? <ButtonLoader /> : "Save"}
           </button>

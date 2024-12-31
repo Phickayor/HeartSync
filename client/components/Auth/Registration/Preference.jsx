@@ -1,28 +1,35 @@
 "use client";
 import React, { useEffect, useContext, useState } from "react";
 import ButtonLoader from "../../Loaders/ButtonLoader";
-import { EditUser } from "../../Controllers/UserController";
+import { EditUser, GetUser } from "../../Controllers/UserController";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { RegContext } from "@/contexts/RegContext";
 import { createUser } from "@/components/Controllers/AuthController";
-function Preference({ action }) {
+import { FaAngleLeft } from "react-icons/fa";
+function Preference({ onPrev, action }) {
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
-  let chosenPreference = [];
+  const router = useRouter();
+  const [chosenPreference, setChosenPreferences] = useState([]);
   const regContext = useContext(RegContext);
   const setActive = (e) => {
     e.preventDefault();
-    let position = chosenPreference.indexOf(e.target.innerText);
-    if (position == -1) {
-      chosenPreference.push(e.target.innerText);
+    let preference = chosenPreference.find(
+      (item) => item == e.target.innerText
+    );
+    console.log("preference ", preference);
+    console.log("Text", e.target.innerText);
+    if (!preference) {
+      setChosenPreferences([...chosenPreference, e.target.innerText]);
     } else {
-      chosenPreference.splice(position, 1);
+      let filter = chosenPreference.filter(
+        (item) => item != e.target.innerText
+      );
+      setChosenPreferences(filter);
     }
-    e.target.classList.toggle("active-preference-item");
-    e.target.classList.toggle("preference-item");
+    console.log(chosenPreference);
   };
-
   const handleRegistration = async () => {
     const response = await createUser(regContext.RegState);
     if (response.ok) {
@@ -42,19 +49,18 @@ function Preference({ action }) {
       router.push("/auth/register");
     }
   };
-  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoader(true);
     try {
+      setLoader(true);
       if (chosenPreference.length == 0) {
-        Swal.fire({
+        setLoader(false);
+        return Swal.fire({
           title: "No Interest Selected",
           text: "It is important to pick at least one interest, it help us match you with the right people",
           timer: 5000,
           icon: "error"
         });
-        return;
       }
 
       if (action == "edit") {
@@ -80,9 +86,46 @@ function Preference({ action }) {
       }
     } catch (error) {
       console.log(error);
+      setLoader(false);
     }
     setLoader(false);
   };
+  const interests = [
+    "Sports",
+    "Movies and Television",
+    "Fashion",
+    "Fitness",
+    "Music",
+    "Food & Cooking",
+    "Technology",
+    "Gaming"
+  ];
+  const traits = [
+    "Introvert",
+    "Extrovert",
+    "Independent",
+    "Dependent",
+    "Creative",
+    "Timid",
+    "Bold",
+    "Kind",
+    "Muslim",
+    "Christian",
+    "Reserved",
+    "Outspoken",
+    "Easy going",
+    "Empathetic"
+  ];
+  useEffect(() => {
+    if (action == "edit") {
+      const fetchPreviousPreferences = async () => {
+        const { user } = await GetUser();
+        setChosenPreferences(user.preferences);
+      };
+      fetchPreviousPreferences();
+    }
+  }, []);
+
   useEffect(() => {
     if (createAccount) {
       handleRegistration();
@@ -91,202 +134,130 @@ function Preference({ action }) {
   }, [createAccount]);
 
   return (
-    <div className="pt-5 h-[600px] overflow-auto">
-      <span className="mx-auto w-11/12 my-1 p-3 text-white font-extralight text-sm rounded-2xl bg-btnColor block  ">
+    <div
+      className={
+        action == "creation"
+          ? "pb-20 h-screen overflow-auto text-white bg-[#1B1B1B]"
+          : "pb-20 h-screen overflow-auto text-white"
+      }
+    >
+      {/* <span className="mx-auto w-11/12 my-1 p-3 text-white font-extralight text-sm rounded-2xl bg-btnColor block  ">
         🙂🙂 You can select more than one button , what you select would decide
         people you see on your profile
-      </span>
-      
+      </span> */}
+      {action == "creation" && (
+        <div className="sticky top-0 mx-auto w-11/12 xl:w-4/5 py-6 backdrop-blur">
+          <FaAngleLeft
+            className="text-3xl  font-extralight cursor-pointer"
+            onClick={() => onPrev()}
+          />
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
-        className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8"
+        className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8 pt-5"
       >
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Choose your interests</h3>
-          <div className="grid grid-cols-3 md:grid-cols-4 [&>*]:w-full gap-3 md:gap-5">
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Sports
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Fashion
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Music
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Stoner
-            </div>
-
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Tequila
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Weeb
-            </div>
-            <div className="col-span-3 md:col-span-2 flex gap-5 [&>*]:w-full">
+          <div className="flex flex-wrap gap-4 md:gap-6">
+            {interests.map((interest) => (
               <div
-                onClick={setActive}
-                onKeyDown={(event) => event.key == "Enter" && setActive}
-                className=" preference-item"
+                key={interest}
+                onClick={(e) => setActive(e)}
+                className={
+                  chosenPreference?.includes(interest)
+                    ? "active-preference-item"
+                    : "preference-item"
+                }
               >
-                I am a Techie
+                {interest}
               </div>
-              <div
-                onClick={setActive}
-                onKeyDown={(event) => event.key == "Enter" && setActive}
-                className="preference-item"
-              >
-                I am a Gamer
-              </div>
-            </div>
+            ))}
           </div>
         </div>
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Gender Of Interest</h3>
-          <div className="flex justify-between [&>*]:w-full gap-3 md:gap-5 ">
+          <div className="flex justify-around md:w-10/12 [&>*]:w-full gap-3 md:gap-6 ">
             <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
+              onClick={(e) => setActive(e)}
+              className={
+                chosenPreference?.includes("Male")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Male
             </div>
             <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
+              onClick={(e) => setActive(e)}
+              className={
+                chosenPreference?.includes("Female")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Female
             </div>
-            <div
+            {/* <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
               className="preference-item"
             >
-              Male & Female
-            </div>
+              Both male & female
+            </div> */}
           </div>
         </div>
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Personality Traits</h3>
-          <div className="grid grid-cols-3 md:grid-cols-4 [&>*]:w-full gap-2 md:gap-5">
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Introvert
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Extrovert
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Creative
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Timid
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Bold
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Kind
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Christian
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Muslim
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Reserved
-            </div>
-            <div
-              onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
-            >
-              Outspoken
-            </div>
+          <div className="flex flex-wrap gap-4 md:gap-6">
+            {traits.map((trait) => (
+              <div
+                key={trait}
+                onClick={(e) => setActive(e)}
+                className={
+                  chosenPreference?.includes(trait)
+                    ? "active-preference-item"
+                    : "preference-item"
+                }
+              >
+                {trait}
+              </div>
+            ))}
           </div>
         </div>
         <div className="flex flex-col gap-6 ">
           <h3 className="font-medium text-xl">Why did you join us</h3>
-          <div className="grid grid-cols-3 gap-3 md:gap-5 ">
+          <div className="flex flex-wrap gap-4 md:gap-6 ">
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
+              className={
+                chosenPreference?.includes("Make friends")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Make friends
             </div>
             <div
               onClick={setActive}
               onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item em"
+              className={
+                chosenPreference?.includes("Relationships")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Relationships
             </div>
             <div
               onClick={setActive}
-              onKeyDown={(event) => event.key == "Enter" && setActive}
-              className="preference-item"
+              className={
+                chosenPreference?.includes("Fun Buddies")
+                  ? "active-preference-item"
+                  : "preference-item"
+              }
             >
               Fun Buddies
             </div>
@@ -295,7 +266,7 @@ function Preference({ action }) {
 
         <button
           type="submit"
-          className="auth-btn"
+          className="bg-[#FFEBE4] hover:bg-[#F15A24] text-black duration-300 hover:text-white  mx-auto md:mx-0 w-fit px-16 rounded-lg py-3 md:text-xl"
         >
           {loader ? <ButtonLoader /> : "Save"}
         </button>
