@@ -6,6 +6,7 @@ import { UserContext } from "@/contexts/UserContext";
 import ChatLoader from "@/loader/ChatLoader";
 import { getAllChats } from "@/components/Controllers/ChatController";
 import { capitalize } from "@/utilities/firstLetterCaps";
+import Cookies from "js-cookie";
 function Contact() {
   const userContext = useContext(UserContext);
   const [chats, setChats] = useState(null);
@@ -13,20 +14,18 @@ function Contact() {
 
   const handleSearch = (input) => {
     if (input) {
-      // setSearching(true);
       let filter = chats?.filter((result) =>
         result.chat.users[1].userName.includes(input.toLowerCase())
       );
-      console.log("filter ", filter);
       setFilteredChats(filter);
-      // setSearching(false);
     } else {
       setFilteredChats(chats);
     }
   };
   useEffect(() => {
     const fetchChats = async () => {
-      const { chats } = await getAllChats();
+      const token = Cookies.get("token");
+      const { chats } = await getAllChats(token);
       setChats(chats);
       setFilteredChats(chats);
     };

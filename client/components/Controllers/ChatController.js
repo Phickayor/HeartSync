@@ -1,32 +1,30 @@
 const baseUrl = require("@/config/server");
-const Cookies = require("js-cookie");
-const token = Cookies.get("token");
 
-const AccessChat = async (userId) => {
-  try {
-    if (token) {
-      const res = await fetch(`${baseUrl}/chat/${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(token)}`
-        }
-      });
-      const data = await res.json();
+const AccessChat = async (userId, token) => {
+  if (token) {
+    if (!userId) {
+      return { message: "no user" };
+    }
+    const res = await fetch(`${baseUrl}/chat/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    });
+    const data = await res.json();
+    if (res.ok) {
       return data;
     } else {
-      return {
-        unauthorized: true,
-        message: "No token"
-      };
+      throw new Error(data.error);
     }
-  } catch (error) {
-    console.log(error);
+  } else {
+    throw new Error("Unauthorized");
   }
 };
 
-const getAllChats = async () => {
-  try {
+const getAllChats = async (token) => {
+  if (token) {
     const res = await fetch(`${baseUrl}/chat/`, {
       method: "GET",
       headers: {
@@ -35,9 +33,13 @@ const getAllChats = async () => {
       }
     });
     const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error.message);
+    if (!res.ok) {
+      throw new Error(data.error);
+    } else {
+      return data;
+    }
+  } else {
+    throw new Error("Unauthorized");
   }
 };
 module.exports = {

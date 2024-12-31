@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/loader/PageLoader";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
@@ -41,13 +43,24 @@ function AdminComp({ navName, children }) {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        await GetUser().then((result) => {
+        const token = Cookies.get("token");
+        await GetUser(token).then((result) => {
           return dispatch({ type: "signIn", payload: result.user });
         });
       } catch (error) {
-        userContext.dispatch({ type: "signOut" });
-        Cookies.remove("token");
-        router.push("/auth");
+        Swal.fire(
+          "Oops!",
+          error.message
+            ? error.message
+            : "Check your internet connection and try again.",
+          "error"
+        ).then(() => {
+          if (error.message == "Unauthorized") {
+            userContext?.dispatch({ type: "signOut" });
+            Cookies.remove("token");
+            router.push("/auth");
+          }
+        });
       }
       setIsAuthorizationChecked(true);
     };

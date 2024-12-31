@@ -15,6 +15,7 @@ import {
 import { capitalize } from "@/utilities/firstLetterCaps";
 import MessageLoader from "@/loader/MessageLoader";
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 export const UserText = ({ image, content }) => {
   return content ? (
@@ -50,6 +51,7 @@ export const OtherUserText = ({ image, content }) => {
     </div>
   );
 };
+let socket = io(baseUrl);
 
 function Message({ userId }) {
   const userContext = useContext(UserContext);
@@ -61,41 +63,52 @@ function Message({ userId }) {
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [loader, setLoader] = useState(false);
-  let socket = io(baseUrl);
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (!chatId) return; // Prevent fetching if chatId is null
+      try {
+        const token = Cookies.get("token");
+        const { messages } = await getAllMessages(chatId, token);
+        if (messages) {
+          setMessages(messages); // Ensure proper message structure
+        }
+      } catch (error) {
+        console.error("Error fetching messages:", error.message);
+      }
+    };
+
+    fetchMessages();
+  }, [chatId]); // Add chatId as a dependency
+
   useEffect(() => {
     const scrollToBottom = () => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
-    const fetchMessages = async () => {
-      try {
-        if (chatId) {
-          const { messages } = await getAllMessages(chatId);
-          if (messages) {
-            setMessages([...messages]);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchMessages();
+
     scrollToBottom();
-  }, [chatId, messages]);
+  }, [messages]); // Scroll whenever messages change
+
   useEffect(() => {
     const fetchOtherUserDetails = async () => {
       setLoader(true);
-      const { chat, message } = await AccessChat(userId);
-      if (chat) {
-        setChatId(chat._id);
-      } else {
-        console.log(message);
+      const token = Cookies.get("token");
+      try {
+        const data = await AccessChat(userId, token);
+        if (data?.chat) {
+          setChatId(data.chat._id);
+        }
+        if (data?.message !== "no user") {
+          const { profile } = await GetSpecificUser(userId);
+          setOtherUser(profile);
+        }
+      } catch (error) {
+        console.error("Error fetching other user details:", error.message);
+      } finally {
+        setLoader(false);
       }
-      const { profile } = await GetSpecificUser(userId);
-      setOtherUser(profile);
-      setLoader(false);
     };
 
-    fetchOtherUserDetails();
+    if (userId) fetchOtherUserDetails();
   }, [userId]);
 
   useEffect(() => {
@@ -103,33 +116,33 @@ function Message({ userId }) {
       socket.emit("setup", userContext.userState);
       socket.on("connected", () => setSocketConnected(true));
       socket.emit("join chat", chatId);
+
+      const handleMessageReceived = async (newMessageReceived) => {
+        if (chatId === newMessageReceived.chat._id) {
+          await markAsRead(newMessageReceived._id);
+          setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
+        }
+      };
+
+      socket.on("message received", handleMessageReceived);
+
+      return () => {
+        socket.off("message received", handleMessageReceived);
+        socket.off("connected");
+      };
     }
   }, [chatId, userContext]);
-  // useEffect(() => {
-  //   try {
-  //     socket.on("message received", async (newMessageReceived) => {
-  //       if (chatId === newMessageReceived.chat._id) {
-  //         await markAsRead(newMessageReceived._id);
-  //         setMessages([...messages, newMessageReceived]);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // });
 
   const handleSendMessage = async () => {
     try {
       let newMessage = newMessageClient;
       setNewMessageClient("");
       if (newMessage) {
-        const data = await sendMessage(newMessage, chatId);
-        if (data.newMessage) {
+        const token = Cookies.get("token");
+        await sendMessage(newMessage, chatId, token).then((data) => {
           socket.emit("new message", data.newMessage);
           setMessages([...messages, data.newMessage]);
-        } else {
-          console.log(data.message);
-        }
+        });
       }
     } catch (error) {
       console.error(error.message);

@@ -10,8 +10,6 @@ import {
 import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
-import { GetUser } from "../Controllers/UserController";
-import PageLoader from "@/loader/PageLoader";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 function ActivityBar({ activeBar }) {

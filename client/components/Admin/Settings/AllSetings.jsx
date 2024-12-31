@@ -6,6 +6,7 @@ import EditProfile from "./EditProfile";
 import { EditUser } from "@/components/Controllers/UserController";
 import Swal from "sweetalert2";
 import { FaCamera } from "react-icons/fa";
+import Cookies from "js-cookie";
 function AllSetings() {
   const userContext = useContext(UserContext);
   const profile = userContext.userState;
@@ -26,7 +27,8 @@ function AllSetings() {
     const payload = {
       [keyName]: value
     };
-    const data = await EditUser(payload);
+    const token = Cookies.get("token");
+    const data = await EditUser(payload, token);
     Swal.fire({
       text: data.message
     });
@@ -172,7 +174,7 @@ function AllSetings() {
             <div className="self-center">
               <h3 className="lg:text-lg">School Name</h3>
               <span className="lg:text-md text-sm text-[#717171]">
-                {profile.school?profile.school:"Not Required"}
+                {profile.school ? profile.school : "Not Required"}
               </span>
             </div>
             <span

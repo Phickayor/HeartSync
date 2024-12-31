@@ -245,12 +245,12 @@ const checkAuth = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {
-      res.status(401).json({ unauthorized: true, message: error.message });
+      res.status(401).json({ unauthorized: true, message: "Unauthorized" });
     }
   }
 
   if (!token) {
-    res.status(401).json({ unauthorized: true, message: "User not logged in" });
+    res.status(401).json({ unauthorized: true, message: "Unauthorized" });
   }
 };
 module.exports = {

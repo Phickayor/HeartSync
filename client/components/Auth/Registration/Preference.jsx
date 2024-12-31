@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { RegContext } from "@/contexts/RegContext";
 import { createUser } from "@/components/Controllers/AuthController";
 import { FaAngleLeft } from "react-icons/fa";
+import Cookies from "js-cookie";
 function Preference({ onPrev, action }) {
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -69,7 +70,9 @@ function Preference({ onPrev, action }) {
         const values = {
           preferences: chosenPreference
         };
-        let profile = await EditUser(values);
+        
+        const token = Cookies.get("token");
+        let profile = await EditUser(values,token);
         profile.success
           ? router.back()
           : Swal.fire({
@@ -120,7 +123,8 @@ function Preference({ onPrev, action }) {
   useEffect(() => {
     if (action == "edit") {
       const fetchPreviousPreferences = async () => {
-        const { user } = await GetUser();
+        const token = Cookies.get("token")
+        const { user } = await GetUser(token);
         setChosenPreferences(user.preferences);
       };
       fetchPreviousPreferences();

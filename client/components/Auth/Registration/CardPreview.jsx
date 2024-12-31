@@ -52,7 +52,8 @@ function CardPreview({ onNext, onPrev, action }) {
           Swal.fire({ text: "Kindly add a Display Picture to proceed" });
         }
       } else if (action == "edit") {
-        let profile = await EditUser(payload);
+        const token = Cookies.get("token");
+        let profile = await EditUser(payload,token);
         profile.success
           ? router.push("/admin/settings")
           : Swal.fire({

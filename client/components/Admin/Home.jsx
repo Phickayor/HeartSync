@@ -6,6 +6,7 @@ import Link from "next/link";
 import HomeLoader from "@/loader/HomeLoader";
 import { AiOutlineSearch } from "react-icons/ai";
 import Slider from "react-slick";
+import Cookies from "js-cookie";
 function Home() {
   const [matches, setMatches] = useState(null);
   const [filteredMatches, setFilteredMatches] = useState(null);
@@ -49,9 +50,8 @@ function Home() {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        console.log("start");
-        await getMatches().then((result) => {
-          console.log(matches);
+        const token = Cookies.get("token");
+        await getMatches(token).then((result) => {
           setMatches(
             result.matches.sort((a, b) => b.matchCount - a.matchCount)
           );
@@ -59,13 +59,11 @@ function Home() {
             result.matches.sort((a, b) => b.matchCount - a.matchCount)
           );
         });
-        console.log("end");
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchMatches();
-    console.log(matches);
   }, []);
   if (!matches) {
     return <HomeLoader />;
@@ -117,7 +115,10 @@ function Home() {
                   <p className="px-5">Bio: {match.user.shortBio}</p>
                   <div className="flex justify-center gap-2 flex-wrap">
                     {match.user.preferences.slice(-3).map((preference) => (
-                      <div className="bg-[#202020] text-white px-4 py-2 rounded-full text-xs ">
+                      <div
+                        key={preference}
+                        className="bg-[#202020] text-white px-4 py-2 rounded-full text-xs "
+                      >
                         {preference}
                       </div>
                     ))}

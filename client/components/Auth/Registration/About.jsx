@@ -1,5 +1,5 @@
 "use client";
-import { getUsers, searchUser } from "@/components/Controllers/UserController";
+import { searchUser } from "@/components/Controllers/UserController";
 import ButtonLoader from "@/components/Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";

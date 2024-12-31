@@ -5,10 +5,11 @@ import { getUsers, searchUser } from "../Controllers/UserController";
 import Link from "next/link";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import SearchResultLoader from "@/loader/SearchResultLoader";
+import Cookies from "js-cookie";
 function Search() {
   const [results, setResults] = useState(null);
   const [users, setUsers] = useState(null);
-  const [searching, setSearching] = useState(false);
+  const [searching, setSearching] = useState(true);
   const handleSearch = (input) => {
     if (input) {
       setSearching(true);
@@ -17,7 +18,6 @@ function Search() {
           user.userName.includes(input.toLowerCase()) ||
           user.fullName.toLowerCase().includes(input.toLowerCase())
       );
-      console.log("filter ", filter);
       setResults(filter);
       setSearching(false);
     } else {
@@ -27,8 +27,10 @@ function Search() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { allUsers } = await getUsers();
+        const token = Cookies.get("token");
+        const { allUsers } = await getUsers(token);
         allUsers && setUsers(allUsers);
+        setSearching(false);
       } catch (error) {
         console.log(error);
       }
@@ -72,16 +74,14 @@ function Search() {
             ))}
         </div>
 
-        {!results && (
+        {searching && <SearchResultLoader />}
+        {!results && !searching && (
           <h1 className="md:text-xl font-light text-center py-5">
             Your search results appear here
           </h1>
         )}
-        {searching && <SearchResultLoader />}
         {results?.length == 0 && (
-          <h1 className="md:text-xl text-center py-5">
-            No results found
-          </h1>
+          <h1 className="md:text-xl text-center py-5">No results found</h1>
         )}
       </div>
     </div>

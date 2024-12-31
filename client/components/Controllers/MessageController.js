@@ -1,8 +1,7 @@
 const baseUrl = require("@/config/server");
-const Cookies = require("js-cookie");
-const token = Cookies.get("token");
-const sendMessage = async (content, chatId) => {
-  try {
+
+const sendMessage = async (content, chatId, token) => {
+  if (token) {
     const res = await fetch(`${baseUrl}/message`, {
       method: "POST",
       headers: {
@@ -12,13 +11,17 @@ const sendMessage = async (content, chatId) => {
       body: JSON.stringify({ content, chatId })
     });
     const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error.message);
+    if (res.ok) {
+      return data;
+    } else {
+      throw new Error(data.error);
+    }
+  } else {
+    throw new Error("Unauthorized");
   }
 };
-const getAllMessages = async (chatId) => {
-  try {
+const getAllMessages = async (chatId, token) => {
+  if (token) {
     const res = await fetch(`${baseUrl}/message/${chatId}`, {
       method: "GET",
       headers: {
@@ -27,9 +30,13 @@ const getAllMessages = async (chatId) => {
       }
     });
     const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error.message);
+    if (res.ok) {
+      return data;
+    } else {
+      throw new Error(data.error);
+    }
+  } else {
+    throw new Error("Unauthorized");
   }
 };
 const markAsRead = async (messageId) => {

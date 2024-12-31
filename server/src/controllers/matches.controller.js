@@ -28,9 +28,9 @@ const userMatches = async (req, res) => {
         }
       }
     });
-    res.json({ matches });
+    res.status(200).json({ matches });
   } catch (error) {
-    res.status(501).json({ message: error.message });
+    res.status(501).json({ error: error.message });
   }
 };
 
