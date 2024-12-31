@@ -21,7 +21,7 @@ function About({ onNext, onPrev }) {
   const [dob, setDob] = useState(regContext?.RegState?.dob || "");
   const [maxDate, setMaxDate] = useState(null);
   const [loader, setLoader] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const handleMaxDate = () => {
     const today = new Date();
     const maxDate = new Date(

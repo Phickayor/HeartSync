@@ -20,7 +20,8 @@ const userMatches = async (req, res) => {
               userName: user.userName,
               shortBio: user.shortBio,
               preferences: user.preferences,
-              cardPicture: user.cardPicture
+              cardPicture: user.cardPicture,
+              school: user.school
             }
           };
           matches.push(userMatchDetails);

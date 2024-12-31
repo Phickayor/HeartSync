@@ -49,27 +49,10 @@ function ActivityBar({ activeBar }) {
       }
     });
   };
-  useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        const { user } = await GetUser();
-        userContext.userDispatch({ type: "signIn", payload: user });
-      } catch (error) {
-        router.push("/auth");
-      }
-    };
-    fetchDetails();
-  }, []);
-  if (!userContext.userState) {
-    return (
-      <div className="w-screen h-screen fixed top-0 left-0 bg-white">
-        <PageLoader />
-      </div>
-    );
-  }
+
   return (
-    <div className="bg-[#0D0D0D] text-white lg:h-full lg:flex flex-col justify-between lg:py-12 py-1 px-2">
-      <div className="grid grid-cols-5 lg:flex flex-col justify-around gap-4 ">
+    <div className="bg-[#0D0D0D] text-white lg:h-full lg:flex h-[3.5rem] flex-col justify-between lg:py-12 py-1 px-2">
+      <div className="grid grid-cols-5 lg:flex flex-col lg:flex-initial flex-1 h-full lg:h-fit justify-around gap-4 ">
         <Link
           href="/admin/"
           className={

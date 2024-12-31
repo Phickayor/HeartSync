@@ -48,19 +48,22 @@ function Profile({ userId }) {
   }
   return (
     <div className="grid lg:grid-rows-1 grid-rows-5 h-[calc(100vh-3.5rem)] py-10 lg:h-screen gap-5 overflow-auto">
-      <div className="mx-auto row-span-4 py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-10/12">
+      <div className="mx-auto row-span-4 py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-11/12">
         <img
           src={profile?.profilePicture}
           alt=""
           className="mx-auto size-32 object-cover rounded-full"
         />
-        <h1 className="text-center font-semibold text-3xl lg:text-4xl">
+        <h1 className="inline-flex justify-center gap-2 text-center font-semibold text-3xl lg:text-4xl">
           {capitalize(profile?.userName)}
+          <span className="font-extralight text-sm text-[#A7A7A7] self-center">
+            ({capitalize(profile?.school)})
+          </span>
         </h1>
         <p className="text-center">{profile?.longBio}</p>
 
-        <div className="mx-auto lg:w-10/12 flex justify-center flex-wrap gap-3">
-          <div className="py-3  bg-[#383838] rounded-full text-white lg:px-8 px-5">
+        <div className="mx-auto lg:w-10/12 flex justify-center flex-wrap gap-3 lg:gap-5">
+          <div className="py-3  bg-[#202020] rounded-full text-white lg:px-8 px-5">
             {profile.gender}
           </div>
           {profile?.preferences?.map((preference) => {
@@ -70,7 +73,7 @@ function Profile({ userId }) {
               return (
                 <div
                   key={preference}
-                  className="py-3  bg-[#383838] rounded-full text-white lg:px-8 px-5"
+                  className="py-3  bg-[#202020] rounded-full text-white lg:px-8 px-5"
                 >
                   {preference}
                 </div>
@@ -86,7 +89,7 @@ function Profile({ userId }) {
           )}
           <button
             onClick={handleShareClick}
-            className=" block text-center font-semibold underline cursor-pointer"
+            className=" block text-center font-semibold underline cursor-pointer py-4"
           >
             Share Profile
           </button>

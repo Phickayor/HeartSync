@@ -36,39 +36,45 @@ function Search() {
     fetchUsers();
   }, []);
   return (
-    <div className="px-5 mx-auto w-full lg:w-10/12 lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-h-screen">
-      <div className="space-y-8 pt-10 sticky top-0  backdrop-blur">
-        <div className="bg-[#131725] text-white py-4 rounded-xl flex px-5">
-          <AiOutlineSearch className="self-center text-2xl text-slate-200" />
-          <input
-            type="search"
-            onChange={(e) => handleSearch(e.target.value)}
-            className="self-center bg-inherit w-full px-2 focus:outline-none"
-            placeholder="Search here..."
-          />
+    <div className="px-5 mx-auto w-full lg:h-screen h-[calc(100vh-3.5rem)] overflow-auto max-h-screen">
+      <div className="pb-10 mx-auto lg:w-10/12">
+        <div className="pt-10 sticky top-0 backdrop-blur">
+          <div className="bg-[#202020] text-white rounded-xl flex px-5">
+            <AiOutlineSearch className="self-center text-2xl text-slate-200" />
+            <input
+              type="search"
+              onChange={(e) => handleSearch(e.target.value)}
+              className="py-4 rounded-lg font-light bg-[#202020] px-5 w-full focus:outline-none"
+              placeholder="Search here..."
+            />
+          </div>
         </div>
-        {results?.length > 0 &&
-          results?.map((result) => (
-            <Link
-              href={`/profile/${result._id}`}
-              key={result._id}
-              className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5 border-dashed hover:border-2 "
-            >
-              <div className="flex gap-4 py-3">
-                <img
-                  src={result.profilePicture}
-                  className="w-12 h-12 rounded-full self-center"
-                />
-                <div className="self-center gap-3">
-                  <h3 className="text-lg">{capitalize(result.userName)}</h3>
-                  <span>{result.fullName}</span>
+
+        <div className="flex flex-col gap-6 py-5 overflow-auto">
+          {results?.length > 0 &&
+            results?.map((result) => (
+              <Link
+                href={`/profile/${result._id}`}
+                key={result._id}
+                className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5 bg-[#202020] hover:border "
+              >
+                <div className="flex gap-4 py-3">
+                  <img
+                    src={result.profilePicture}
+                    className="w-12 h-12 rounded-full self-center"
+                  />
+                  <div className="self-center gap-3">
+                    <h3 className="">{capitalize(result.userName)}</h3>
+                    <span className="text-sm">{result.fullName}</span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+        </div>
+
         {!results && (
-          <h1 className="text-xl lg:text-2xl text-center py-5">
-            Your search result appears here
+          <h1 className="text-xl font-light text-center py-5">
+            Your search results appear here
           </h1>
         )}
         {searching && <SearchResultLoader />}

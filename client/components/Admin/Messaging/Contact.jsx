@@ -9,34 +9,49 @@ import { capitalize } from "@/utilities/firstLetterCaps";
 function Contact() {
   const userContext = useContext(UserContext);
   const [chats, setChats] = useState(null);
+  const [filteredChats, setFilteredChats] = useState(null);
 
-  const fetchChats = async () => {
-    const { chats } = await getAllChats();
-    setChats(chats);
+  const handleSearch = (input) => {
+    if (input) {
+      // setSearching(true);
+      let filter = chats?.filter((result) =>
+        result.chat.users[1].userName.includes(input.toLowerCase())
+      );
+      console.log("filter ", filter);
+      setFilteredChats(filter);
+      // setSearching(false);
+    } else {
+      setFilteredChats(chats);
+    }
   };
-
   useEffect(() => {
+    const fetchChats = async () => {
+      const { chats } = await getAllChats();
+      setChats(chats);
+      setFilteredChats(chats);
+    };
     fetchChats();
   }, []);
 
   return (
-    <div className="px-5 w-full lg:h-screen h-[calc(100vh-5rem)] overflow-hidden max-w-screen max-h-screen">
+    <div className="px-5 w-full lg:h-screen h-[calc(100vh-3.5rem)] overflow-hidden max-w-screen max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">
         <h1 className="text-xl">Messages</h1>
-        <div className="bg-white/10 text-white py-4 rounded-xl flex px-5">
+        <div className="bg-[#202020] text-white rounded-xl flex px-5">
           <AiOutlineSearch className="self-center text-2xl text-slate-200" />
           <input
             type="search"
-            className="self-center bg-transparent w-full px-2 focus:outline-none"
+            onChange={(e) => handleSearch(e.target.value)}
+            className="py-4 rounded-lg font-light bg-[#202020] px-5 w-full focus:outline-none"
             placeholder="Search here..."
           />
         </div>
       </div>
 
-      {chats ? (
-        chats.length > 0 ? (
-          <div className="flex flex-col gap-2 py-8">
-            {chats.map((chat) => {
+      {filteredChats ? (
+        filteredChats.length > 0 ? (
+          <div className="flex flex-col gap-4 py-8">
+            {filteredChats.map((chat) => {
               try {
                 for (let i = 0; i < chat.chat.users.length; i++) {
                   if (chat.chat.users[i]._id != userContext.userState?._id) {
@@ -47,7 +62,7 @@ function Contact() {
                       <Link
                         key={chat.chat._id}
                         href={`/admin/messaging/?userId=${chat.chat.users[i]._id}`}
-                        className="rounded-2xl flex justify-between px-4 cursor-pointer bg-[#131313] border-dashed hover:border-2 gap-5 "
+                        className="rounded-2xl flex justify-between px-4 cursor-pointer bg-[#202020] hover:border gap-5 "
                       >
                         <div className="flex gap-4 py-3 ">
                           <img
@@ -55,10 +70,12 @@ function Contact() {
                             className="size-12 rounded-full self-center"
                           />
                           <div className="self-center space-y-3 max-w-72 md:max-w-96 lg:max-w-60 truncate overflow-hidden">
-                            <h3 className="text-lg">
+                            <h3 className="">
                               {capitalize(chat.chat.users[i].userName)}
                             </h3>
-                            <span className="font-extralight text-sm">{chat.chat.latestMessage.content}</span>
+                            <span className="font-extralight text-sm">
+                              {chat.chat.latestMessage.content}
+                            </span>
                           </div>
                         </div>
                         {unread > 0 && (

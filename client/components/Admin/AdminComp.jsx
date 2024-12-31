@@ -1,6 +1,6 @@
 "use client";
 import ActivityBar from "@/components/Admin/ActivityBar";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
@@ -8,20 +8,9 @@ import PageLoader from "@/loader/PageLoader";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
+  const [initialState,setInitialState] = useState()
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        await GetUser();
-      } catch (error) {
-        router.push("/auth");
-      }
-      setIsAuthorizationChecked(true);
-    };
-    fetchDetails();
-  }, []);
-
+  const userContext = useContext(UserContext);
   const reducer = (state, action) => {
     switch (action.type) {
       case "signIn":
@@ -34,6 +23,19 @@ function AdminComp({ navName, children }) {
   };
 
   const [state, dispatch] = useReducer(reducer, null);
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        await GetUser().then((result) => {
+          return dispatch({ type: "signIn", payload: result.user });
+        });
+      } catch (error) {
+        router.push("/auth");
+      }
+      setIsAuthorizationChecked(true);
+    };
+    fetchDetails();
+  }, []); 
 
   if (!isAuthorizationChecked) {
     return <PageLoader />;

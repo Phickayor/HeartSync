@@ -45,7 +45,7 @@ function AllSetings() {
     }
   };
   return (
-    <div className="w-full lg:h-full overflow-auto max-h-screen flex py-10 ">
+    <div className="w-full lg:h-full overflow-auto max-h-[calc(100vh-3.5rem)] lg:max-h-screen flex lg:py-10 ">
       <div className="mx-auto pb-6 lg:py-0 w-full md:w-10/12 lg:w-8/12 relative bg-[#1E1D1D] rounded-2xl overflow-auto">
         <div className="group rounded-xl flex py-4 flex-col sticky top-0 bg-[#232222] backdrop-blur gap-2">
           <img

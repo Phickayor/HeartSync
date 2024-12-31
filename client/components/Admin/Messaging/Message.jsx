@@ -140,14 +140,14 @@ function Message({ userId }) {
   }
   if (!userId) {
     return (
-      <div className="flex flex-col justify-center lg:h-screen h-[calc(100vh-5rem)] text-center text-2xl lg:text-3xl">
+      <div className="flex flex-col justify-center lg:h-screen h-[calc(100vh-3.5rem)] text-center text-2xl lg:text-3xl">
         <h1>Your Messages would appear here</h1>
       </div>
     );
   }
 
   return (
-    <div className="px-5 lg:px-10 lg:py-4 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-5rem)]">
+    <div className="px-5 lg:px-10 lg:py-4 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-3.5rem)]">
       <Link
         href={`/profile/${userId}`}
         className="lg:h-20 rounded-2xl flex p-3 cursor-pointer gap-4"
@@ -183,7 +183,7 @@ function Message({ userId }) {
             }
           })
         ) : (
-          <div className="flex flex-col justify-center lg:h-screen h-[calc(100vh-5rem)] text-center text-2xl lg:text-3xl">
+          <div className="flex flex-col justify-center lg:h-screen h-[calc(100vh-3.5rem)] text-center text-2xl lg:text-3xl">
             <h1>No Messages so far. Your Messages would appear here</h1>
           </div>
         )}
