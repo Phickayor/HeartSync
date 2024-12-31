@@ -1,39 +1,71 @@
 "use client";
 import ActivityBar from "@/components/Admin/ActivityBar";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/loader/PageLoader";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
+  const [initialState, setInitialState] = useState({
+    _id: "",
+    email: "",
+    isEmailVerified: false,
+    userName: "",
+    fullName: "",
+    dob: "",
+    gender: "",
+    school: "",
+    shortBio: "",
+    longBio: "",
+    phoneNumber: 0,
+    profilePicture: "",
+    cardPicture: "",
+    preferences: []
+  });
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        await GetUser();
-      } catch (error) {
-        router.push("/auth");
-      }
-      setIsAuthorizationChecked(true);
-    };
-    fetchDetails();
-  }, []);
-
+  const userContext = useContext(UserContext);
   const reducer = (state, action) => {
     switch (action.type) {
       case "signIn":
         return { ...state, ...action.payload };
       case "signOut":
-        return { ...state, ...null };
+        return initialState;
       default:
         return state;
     }
   };
 
-  const [state, dispatch] = useReducer(reducer, null);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const token = Cookies.get("token");
+        await GetUser(token).then((result) => {
+          return dispatch({ type: "signIn", payload: result.user });
+        });
+      } catch (error) {
+        Swal.fire(
+          "Oops!",
+          error.message
+            ? error.message
+            : "Check your internet connection and try again.",
+          "error"
+        ).then(() => {
+          if (error.message == "Unauthorized") {
+            userContext?.dispatch({ type: "signOut" });
+            Cookies.remove("token");
+            router.push("/auth");
+          }
+        });
+      }
+      setIsAuthorizationChecked(true);
+    };
+    fetchDetails();
+  }, []);
 
   if (!isAuthorizationChecked) {
     return <PageLoader />;

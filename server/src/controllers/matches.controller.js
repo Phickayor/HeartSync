@@ -20,16 +20,17 @@ const userMatches = async (req, res) => {
               userName: user.userName,
               shortBio: user.shortBio,
               preferences: user.preferences,
-              cardPicture: user.cardPicture
+              cardPicture: user.cardPicture,
+              school: user.school
             }
           };
           matches.push(userMatchDetails);
         }
       }
     });
-    res.json({ matches });
+    res.status(200).json({ matches });
   } catch (error) {
-    res.status(501).json({ message: error.message });
+    res.status(501).json({ error: error.message });
   }
 };
 

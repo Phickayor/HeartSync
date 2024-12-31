@@ -1,9 +1,12 @@
+const fs = require("fs");
+const path = require("path");
 const transporter = require("../config/transporter.config");
 const User = require("../models/user.model");
 const { accessPayload, signPayload } = require("../utilities/auth");
 const { handleEncryption, comparePassword } = require("../utilities/encrypt");
 const generateOtp = require("../utilities/generateOtp");
 const VerificationMail = require("../utilities/mail");
+const { uploadToCloudinary } = require("../utilities/getImageUrl");
 
 const CheckExistingUser = async (req, res) => {
   try {
@@ -49,6 +52,43 @@ const registerAUser = async (req, res) => {
         message: "Account already exist"
       });
     } else {
+      if (profilePicture) {
+        const uploadDir = path.join(__dirname, "uploads"); // Directory for uploads
+        const tempFilePath = path.join(uploadDir, "temp-image.png"); // Temporary path
+
+        // Ensure the directory exists
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        const base64Data = profilePicture.replace(
+          /^data:image\/\w+;base64,/,
+          ""
+        );
+        fs.writeFileSync(tempFilePath, Buffer.from(base64Data, "base64"));
+        const image = await uploadToCloudinary(tempFilePath);
+        if (image.url) {
+          profilePicture = image.url;
+        } else {
+          throw new Error(image.error);
+        }
+      }
+      if (cardPicture) {
+        const uploadDir = path.join(__dirname, "uploads"); // Directory for uploads
+        const tempFilePath = path.join(uploadDir, "temp-image.png"); // Temporary path
+
+        // Ensure the directory exists
+        if (!fs.existsSync(uploadDir)) {
+          fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        const base64Data = cardPicture.replace(/^data:image\/\w+;base64,/, "");
+        fs.writeFileSync(tempFilePath, Buffer.from(base64Data, "base64"));
+        const image = await uploadToCloudinary(tempFilePath);
+        if (image.url) {
+          cardPicture = image.url;
+        } else {
+          throw new Error(image.error);
+        }
+      }
       const createAccount = await User.create({
         email: email.toLowerCase(),
         password: hashedPassword,
@@ -205,12 +245,12 @@ const checkAuth = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {
-      res.status(401).json({ unauthorized: true, message: error.message });
+      res.status(401).json({ unauthorized: true, message: "Unauthorized" });
     }
   }
 
   if (!token) {
-    res.status(401).json({ unauthorized: true, message: "User not logged in" });
+    res.status(401).json({ unauthorized: true, message: "Unauthorized" });
   }
 };
 module.exports = {

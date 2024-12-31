@@ -13,7 +13,7 @@ function RegCardPreview({ onNext, onPrev }) {
   const [shortBio, setShortBio] = useState("");
   const [loader, setLoader] = useState(false);
   const pic = useRef(null);
-  const [cardPicture, setCardPicture] = useState("/images/displayPic.png");
+  const [cardPicture, setCardPicture] = useState("");
   const router = useRouter();
   const handleImageDisplay = (e) => {
     const file = e.target.files[0];
@@ -64,13 +64,18 @@ function RegCardPreview({ onNext, onPrev }) {
         />
       </div>
       <div className="group relative h-1/2 flex-1">
-        <img
-          src={cardPicture}
-          alt=""
-          className="rounded-2xl mx-auto w-full h-full object-cover group-hover:opacity-40"
-        />
+        {cardPicture && (
+          <img
+            src={cardPicture}
+            alt=""
+            className="rounded-2xl mx-auto w-full aspect-square object-cover group-hover:opacity-40"
+          />
+        )}
+        {!cardPicture && (
+          <div className="aspect-square bg-[#202020] rounded-2xl mx-auto w-10/12"></div>
+        )}
         <div className="absolute text-white flex flex-col justify-center h-full left-0 mx-auto w-full top-0">
-          <div className="hidden py-20 group-hover:flex justify-center w-full h-full">
+          <div className={`${!cardPicture?"flex":"hidden"} py-20 group-hover:flex justify-center w-full h-full`}>
             <AiOutlineCamera
               onClick={() => {
                 pic.current.click();

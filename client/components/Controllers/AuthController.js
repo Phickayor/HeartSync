@@ -1,7 +1,4 @@
 const baseUrl = require("@/config/server");
-const Cookies = require("js-cookie");
-
-const token = Cookies.get("token");
 
 const checkExistingUser = async (email) => {
   const res = await fetch(`${baseUrl}/auth/search-users/${email}`);

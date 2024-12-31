@@ -1,19 +1,21 @@
 const baseUrl = require("@/config/server");
-const Cookies = require("js-cookie");
-const token = Cookies.get("token");
-const GetUser = async () => {
-  const res = await fetch(`${baseUrl}/user`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.parse(token)}`
+const GetUser = async (token) => {
+  if (token) {
+    const res = await fetch(`${baseUrl}/user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error);
     }
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
+    return data;
+  } else {
+    throw new Error("Unauthorized");
   }
-  return data;
 };
 
 const GetSpecificUser = async (userId) => {
@@ -25,24 +27,28 @@ const GetSpecificUser = async (userId) => {
     console.log(error);
   }
 };
-const getUsers = async () => {
-  const res = await fetch(`${baseUrl}/user/all`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${JSON.parse(token)}`
+const getUsers = async (token) => {
+  if (token) {
+    const res = await fetch(`${baseUrl}/user/all`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(token)}`
+      }
+    });
+    const data = await res.json();
+    if (res.ok) {
+      return data;
+    } else {
+      throw new Error(data.error);
     }
-  });
-  const data = await res.json();
-  if (res.ok) {
-    return data;
   } else {
-    throw new Error(data.error);
+    throw new Error("Unauthorized");
   }
 };
 
-const EditUser = async (payload) => {
-  try {
+const EditUser = async (payload, token) => {
+  if (token) {
     const res = await fetch(`${baseUrl}/user/edit`, {
       method: "PATCH",
       headers: {
@@ -52,9 +58,13 @@ const EditUser = async (payload) => {
       body: JSON.stringify(payload)
     });
     const data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
+    if (res.ok) {
+      return data;
+    } else {
+      throw new Error(data.error);
+    }
+  } else {
+    throw new Error("Unauthorized");
   }
 };
 const searchUser = async (userName) => {

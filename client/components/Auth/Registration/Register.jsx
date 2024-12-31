@@ -192,6 +192,9 @@ function Register() {
           <button className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign up"}
           </button>
+          <div className="flex w-full mx-auto md:hidden justify-between [&>*]:self-center text-sm hover:[&>*]:scale-110 [&>*]:duration-150 py-4">
+            <Link href="/auth/">Already have an account?</Link>
+          </div>
         </form>
       </div>
     </div>

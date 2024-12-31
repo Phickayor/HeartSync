@@ -1,5 +1,5 @@
 "use client";
-import { getUsers, searchUser } from "@/components/Controllers/UserController";
+import { searchUser } from "@/components/Controllers/UserController";
 import ButtonLoader from "@/components/Loaders/ButtonLoader";
 import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";
@@ -21,7 +21,7 @@ function About({ onNext, onPrev }) {
   const [dob, setDob] = useState(regContext?.RegState?.dob || "");
   const [maxDate, setMaxDate] = useState(null);
   const [loader, setLoader] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const handleMaxDate = () => {
     const today = new Date();
     const maxDate = new Date(
@@ -116,7 +116,7 @@ function About({ onNext, onPrev }) {
               type="text"
               required
               placeholder="Phone Number"
-              pattern="[0-9]{11}"
+              // pattern="[0-9]{11}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"

@@ -1,12 +1,12 @@
 import React from "react";
 
 function SearchResultLoader() {
-  const loaderArray = ["ran", "dom"];
+  const loaderArray = ["", ""];
   return (
-    <div className="py-10">
-      {loaderArray.map((value) => (
+    <div className="">
+      {loaderArray.map((_, index) => (
         <div
-          key={value}
+          key={index}
           className="rounded-2xl flex justify-between px-4 cursor-pointer gap-5"
         >
           <div className="flex gap-4 py-4">
