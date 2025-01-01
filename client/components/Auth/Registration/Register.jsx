@@ -200,6 +200,9 @@ function Register() {
           </div>
         </form>
       </div>
+      <div className="hidden w-4/6 mx-auto md:block [&>*]:self-center  text-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
+        <Link href="/auth/">Already have an account?</Link>
+      </div>
 
       {/* Modal Display */}
       {showModal && (
