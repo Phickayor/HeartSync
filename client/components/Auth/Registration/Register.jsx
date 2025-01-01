@@ -32,22 +32,22 @@ function Register() {
   const [showModal, setShowModal] = useState(false);
 
   const handleNext = () => {
-    setCounter(++counter);
+    setCounter((prev) => prev + 1);
   };
 
   const handlePrev = () => {
-    if (counter == 0) {
-      setShowModal(false);
+    if (counter === 0) {
+      setShowModal(false); // Close the modal if on the first step
     } else {
-      setCounter(--counter);
+      setCounter((prev) => prev - 1);
     }
   };
 
   const components = [
-    <About key="about" onNext={handleNext} onPrev={handlePrev} />, 
-    <Description key="description" onNext={handleNext} onPrev={handlePrev} />, 
-    <ProfileSection key="profile" onNext={handleNext} onPrev={handlePrev} />, 
-    <RegCardPreview key="cardPreview" onNext={handleNext} onPrev={handlePrev} />, 
+    <About key="about" onNext={handleNext} onPrev={handlePrev} />,
+    <Description key="description" onNext={handleNext} onPrev={handlePrev} />,
+    <ProfileSection key="profile" onNext={handleNext} onPrev={handlePrev} />,
+    <RegCardPreview key="cardPreview" onNext={handleNext} onPrev={handlePrev} />,
     <Preference key="preference" action={"creation"} onPrev={handlePrev} />
   ];
 
@@ -56,8 +56,10 @@ function Register() {
     try {
       setLoader(true);
 
+      // Validation checks
       if (!emailRegex.test(email)) {
         setErrorMessage("Invalid email format");
+        setShowModal(true); // Show modal with error
         setLoader(false);
         return;
       }
@@ -83,6 +85,8 @@ function Register() {
 
       const payload = { email, password: pswd1 };
       regContext.RegDispatch({ type: "update", payload });
+
+      // Show modal and initialize counter
       setShowModal(true);
       setLoader(false);
     } catch (error) {
@@ -90,7 +94,6 @@ function Register() {
       setErrorMessage(error.message);
       console.error(error);
     }
-    setLoader(false);
   };
 
   return (
@@ -192,11 +195,23 @@ function Register() {
           <button className="auth-btn">
             {loader ? <ButtonLoader /> : "Sign up"}
           </button>
-          <div className="flex w-full mx-auto md:hidden justify-between [&>*]:self-center text-sm hover:[&>*]:scale-110 [&>*]:duration-150 py-4">
+          <div className="text-center text-sm w-full mx-auto md:hidden [&>*]:self-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4">
             <Link href="/auth/">Already have an account?</Link>
           </div>
         </form>
       </div>
+
+      {/* Modal Display */}
+      {showModal && (
+        <RegistrationComp
+          onClose={() => {
+            setCounter(0);
+            setShowModal(false);
+          }}
+        >
+          {components[counter]}
+        </RegistrationComp>
+      )}
     </div>
   );
 }

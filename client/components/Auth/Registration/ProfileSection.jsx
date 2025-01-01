@@ -4,47 +4,86 @@ import ButtonLoader from "../../Loaders/ButtonLoader";
 import { AiFillInfoCircle, AiOutlineCamera } from "react-icons/ai";
 import { RegContext } from "@/contexts/RegContext";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+
 function ProfileSection({ onNext, onPrev }) {
   const regContext = useContext(RegContext);
   const pic = useRef(null);
-  const [image, setImage] = useState(
-    regContext?.RegState?.profilePicture || null
-  );
+  const [image, setImage] = useState(regContext?.RegState?.profilePicture || null);
   const [longBio, setLongBio] = useState(regContext?.RegState?.longBio || "");
   const [loader, setLoader] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errors, setErrors] = useState([]); // Combined errors
+
+  // Regex for bio validation (e.g., at least 20 characters and no special characters)
+  const bioRegex = /^[a-zA-Z0-9\s,.'-]{20,}$/;  // Allow letters, numbers, spaces, and some common punctuation
+
+  // Regex for image validation (only .jpg, .jpeg, .png files)
+  const imageRegex = /(\.jpg|\.jpeg|\.png)$/i;
+
   const handleImageDisplay = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const fileName = file.name;
+      if (!imageRegex.test(fileName)) {
+        setErrors((prevErrors) => [
+          ...prevErrors,
+          "Please upload a valid image file (.jpg, .jpeg, .png).",
+        ]);
+        return;
+      }
       const reader = new FileReader();
       reader.onload = function (e) {
         setImage(e.target.result);
+        setErrors((prevErrors) => prevErrors.filter((error) => error !== "Please upload a valid image file (.jpg, .jpeg, .png)."));
       };
       reader.readAsDataURL(file);
     }
   };
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
+    let formErrors = [];
+
+    // Skip image validation if image is already displayed
+    if (!image) formErrors.push("Please upload a profile picture.");
+
+    // Validate bio using regex
+    if (!longBio) formErrors.push("Please provide a bio.");
+    if (longBio && !bioRegex.test(longBio)) formErrors.push("Bio should be at least 20 characters long and contain only letters, numbers, and basic punctuation.");
+
+    if (formErrors.length > 0) {
+      setErrors(formErrors);
+      setLoader(false);
+      return;
+    }
+
     try {
-      if (image) {
-        const payload = { profilePicture: image, longBio };
-        regContext.RegDispatch({ type: "update", payload });
-        onNext();
-      } else {
-        setErrorMessage("Kindly upload profile picture ");
-      }
+      const payload = { profilePicture: image, longBio };
+      regContext.RegDispatch({ type: "update", payload });
+      onNext();
     } catch (error) {
       console.log(error.message);
+      setErrors(["An unexpected error occurred. Please try again."]);
     }
     setLoader(false);
   };
+
   const handleNext = () => {
-    if (!image || !longBio) {
-      return setErrorMessage("Kindly fill all fields before proceeding");
+    let formErrors = [];
+
+    // Validate image and bio before moving to the next section
+    if (!image) formErrors.push("Please upload a profile picture.");
+    if (!longBio) formErrors.push("Please provide a bio.");
+    if (longBio && !bioRegex.test(longBio)) formErrors.push("Bio should be at least 20 characters long and contain only letters, numbers, and basic punctuation.");
+
+    if (formErrors.length > 0) {
+      setErrors(formErrors);
+      return;
     }
+
     onNext();
   };
+
   return (
     <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B]">
       <div className="p-5 px-10 rounded-xl">
@@ -58,32 +97,35 @@ function ProfileSection({ onNext, onPrev }) {
             onClick={handleNext}
           />
         </div>
-        {errorMessage ? (
-          <div className="flex justify-center gap-2 py-5 [&>*]:self-center">
-            <AiFillInfoCircle />
-            <span className="text-center text-red-500">{errorMessage}</span>
+
+        {errors.length > 0 && (
+          <div className="flex flex-col gap-2 py-5">
+            {errors.map((error, index) => (
+              <div key={index} className="flex justify-center gap-2 [&>*]:self-center">
+                <AiFillInfoCircle />
+                <span className="text-center text-red-500 text-sm md:text-base xl:text-lg">{error}</span>
+              </div>
+            ))}
           </div>
-        ) : (
-          <></>
         )}
+
         <div className="flex justify-between gap-5">
           <div className="space-y-2 py-5">
-            <h1 className=" text-2xl md:text-3xl xl:text-4xl font-medium">
+            <h1 className="text-2xl md:text-3xl xl:text-4xl font-medium">
               Profile Section
             </h1>
             <p className="font-extralight text-sm w-9/12">
-              All details here would show on your public feed
+              All details here will show on your public feed
             </p>
           </div>
           <div className="flex mx-auto w-fit gap-2 md:gap-5 [&>*]:self-center [&>*]:cursor-pointer">
             <div className="cursor-pointer group relative">
-              {image && (
+              {image ? (
                 <img
                   src={image}
                   className="border-2 border-btnColor rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
                 />
-              )}
-              {!image && (
+              ) : (
                 <div className="border-2 border-btnColor rounded-full size-20 flex flex-col justify-center place-content-center group-hover:opacity-0">
                   <img
                     src="/images/camera.png"
@@ -98,12 +140,11 @@ function ProfileSection({ onNext, onPrev }) {
                   }}
                   className="self-center text-3xl text-white"
                 />
-
                 <input
                   type="file"
                   name="profilePicture"
                   onChange={handleImageDisplay}
-                  alt=""
+                  alt="Profile"
                   ref={pic}
                   className="hidden"
                 />
@@ -111,6 +152,7 @@ function ProfileSection({ onNext, onPrev }) {
             </div>
           </div>
         </div>
+
         <form
           className="flex flex-col gap-5 py-5 mx-auto"
           onSubmit={HandleSubmit}
@@ -120,6 +162,7 @@ function ProfileSection({ onNext, onPrev }) {
             type="text"
             onChange={(e) => {
               setLongBio(e.target.value);
+              setErrors((prevErrors) => prevErrors.filter((error) => error !== "Bio should be at least 20 characters long and contain only letters, numbers, and basic punctuation.")); // Clear bio error when user types
             }}
             value={longBio}
             required
