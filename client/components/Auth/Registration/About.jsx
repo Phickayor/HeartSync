@@ -5,7 +5,6 @@ import { RegContext } from "@/contexts/RegContext";
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillInfoCircle } from "react-icons/ai";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import Swal from "sweetalert2";
 
 function About({ onNext, onPrev }) {
   const regContext = useContext(RegContext);
@@ -21,7 +20,8 @@ function About({ onNext, onPrev }) {
   const [dob, setDob] = useState(regContext?.RegState?.dob || "");
   const [maxDate, setMaxDate] = useState(null);
   const [loader, setLoader] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState([]);
+
   const handleMaxDate = () => {
     const today = new Date();
     const maxDate = new Date(
@@ -32,14 +32,36 @@ function About({ onNext, onPrev }) {
     const formattedMaxDate = maxDate.toISOString().split("T")[0];
     setMaxDate(formattedMaxDate);
   };
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
+    let errors = [];
+
+    if (!/^[A-Za-z ]{3,50}$/.test(fullName)) {
+      errors.push("Full name must be 3-50 alphabetic characters.");
+    }
+    if (!/^[0-9]{10,15}$/.test(phoneNumber)) {
+      errors.push("Phone number must be 10-15 digits.");
+    }
+    if (!/^[a-zA-Z0-9_]{3,10}$/.test(userName)) {
+      errors.push("Username must be 3-10 alphanumeric characters.");
+    }
+    if (!dob) {
+      errors.push("Date of birth is required.");
+    }
+
+    if (errors.length > 0) {
+      setErrorMessage(errors);
+      return;
+    }
+
     try {
       setLoader(true);
       const { user } = await searchUser(userName);
       if (user) {
         setLoader(false);
-        return Swal.fire({ icon: "error", text: "Username is already taken" });
+        setErrorMessage(["Username is already taken."]);
+        return;
       } else {
         const payload = { fullName, phoneNumber, userName, dob };
         regContext.RegDispatch({ type: "update", payload });
@@ -48,20 +70,14 @@ function About({ onNext, onPrev }) {
       }
     } catch (error) {
       setLoader(false);
-      Swal.fire("Oops!", error.message, "error");
+      setErrorMessage([error.message]);
     }
   };
+
   useEffect(() => {
     handleMaxDate();
   });
-  const handleNext = () => {
-    if (!fullName || !dob || !phoneNumber || !userName) {
-      return setErrorMessage(
-        "Kindly fill and save all fields before proceeding"
-      );
-    }
-    onNext();
-  };
+
   return (
     <div className="flex flex-col justify-center rounded-xl mx-auto bg-[#1B1B1B] md:w-fit w-11/12">
       <div className=" md:px-10 p-5 rounded-xl flex flex-col gap-5">
@@ -72,23 +88,24 @@ function About({ onNext, onPrev }) {
           />
           <FaAngleRight
             className="text-3xl font-extralight cursor-pointer"
-            onClick={handleNext}
+            onClick={() => onNext()}
           />
         </div>
         <h1 className="text-2xl md:text-3xl text-center font-medium">
           Tell us about your self
         </h1>
-        {errorMessage ? (
+        {errorMessage.length > 0 && (
           <div className="flex justify-center pb-4 gap-2 [&>*]:self-center">
-            <AiFillInfoCircle />
-            <span className="text-center text-red-500">{errorMessage}</span>
+            <AiFillInfoCircle className="text-lg md:text-xl" />
+            {errorMessage.map((msg, index) => (
+              <span key={index} className="text-center text-red-500 text-sm md:text-base">
+                {msg}
+              </span>
+            ))}
           </div>
-        ) : (
-          <></>
         )}
         <form className="grid grid-cols-2 gap-5 py-5" onSubmit={HandleSubmit}>
           <div className="flex flex-col gap-2">
-            {/* <label className="font-normal">Full name</label> */}
             <input
               type="text"
               required
@@ -99,7 +116,6 @@ function About({ onNext, onPrev }) {
             />
           </div>
           <div className="flex flex-col gap-2">
-            {/* <label className="font-normal">Date of birth</label> */}
             <input
               type="date"
               required
@@ -111,24 +127,19 @@ function About({ onNext, onPrev }) {
             />
           </div>
           <div className="flex flex-col gap-2">
-            {/* <label className="font-normal">Phone Number</label> */}
             <input
               type="text"
               required
               placeholder="Phone Number"
-              // pattern="[0-9]{11}"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               className="bg-[#1A1818] py-2 focus:outline-none px-2 md:px-5 rounded-lg focus:border"
             />
           </div>
           <div className="flex flex-col gap-2">
-            {/* <label className="font-normal">Username</label> */}
             <input
               type="text"
               required
-              minLength={3}
-              maxLength={10}
               value={userName}
               placeholder="Username"
               onChange={(e) => setUserName(e.target.value)}
