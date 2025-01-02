@@ -12,6 +12,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { handleLogoutFromSocket } from "@/config/socket";
 function ActivityBar({ activeBar }) {
   const userContext = useContext(UserContext);
   const router = useRouter();
@@ -33,6 +34,7 @@ function ActivityBar({ activeBar }) {
             icon: "success",
             timer: 2000
           }).then(() => {
+            handleLogoutFromSocket()
             userContext.userDispatch({type:"signOut"});
             Cookies.remove("token");
             router.push("/auth");

@@ -3,12 +3,12 @@ const { checkAuth } = require("../controllers/auth.controller");
 const {
   sendMessage,
   allMessages,
-  readMessage
+  readAllMessagesInChat
 } = require("../controllers/messages.controller");
 const messageRouter = express();
 
 messageRouter.get("/:chatId", checkAuth, allMessages);
 messageRouter.post("/", checkAuth, sendMessage);
-messageRouter.post("/toggle-read/:messageId", checkAuth, readMessage);
+messageRouter.post("/toggle-read/:chatId", checkAuth, readAllMessagesInChat);
 
 module.exports = messageRouter;

@@ -47,7 +47,7 @@ function Login() {
         Cookies.set("token", JSON.stringify(data.token));
         router.push("/admin");
       } else {
-        setErrorMessage(data.message);
+        setErrorMessage(data.error);
       }
     } catch (error) {
       console.log(error.message);

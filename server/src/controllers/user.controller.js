@@ -13,6 +13,12 @@ const editUser = async (req, res) => {
       }
       if (req.body.userName) {
         req.body.userName = req.body.userName.toLowerCase();
+        const findUser = await User.findOne({ userName: req.body.userName });
+        if (findUser) {
+          return res.status(403).json({
+            error: "Username taken , Kindly use another username "
+          });
+        }
       }
       if (req.body.profilePicture) {
         const uploadDir = path.join(__dirname, "uploads"); // Directory for uploads

@@ -13,7 +13,7 @@ const accessChat = async (req, res) => {
     const verifyUserId = await User.findById(userId);
     let userIds = [req.user._id, userId];
     if (!verifyUserId) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
     const chat = await Chat.findOne({ users: { $all: userIds } });
     if (!chat) {
@@ -23,7 +23,7 @@ const accessChat = async (req, res) => {
       res.status(200).json({ chat });
     }
   } catch (error) {
-    res.status(501).json({ message: error.message });
+    res.status(501).json({ "error": error.message });
   }
 };
 

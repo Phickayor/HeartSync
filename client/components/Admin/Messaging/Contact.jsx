@@ -7,7 +7,8 @@ import ChatLoader from "@/loader/ChatLoader";
 import { getAllChats } from "@/components/Controllers/ChatController";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import Cookies from "js-cookie";
-function Contact() {
+import { createConnection } from "@/config/socket";
+function Contact({ notifications }) {
   const userContext = useContext(UserContext);
   const [chats, setChats] = useState(null);
   const [filteredChats, setFilteredChats] = useState(null);
@@ -24,14 +25,20 @@ function Contact() {
   };
   useEffect(() => {
     const fetchChats = async () => {
-      const token = Cookies.get("token");
-      const { chats } = await getAllChats(token);
-      setChats(chats);
-      setFilteredChats(chats);
+      try {
+        const token = Cookies.get("token");
+        const { chats } = await getAllChats(token);
+        setChats(chats);
+        setFilteredChats(chats);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchChats();
-  }, []);
-
+  }, [notifications]);
+  useEffect(() => {
+    createConnection();
+  });
   return (
     <div className="px-5 w-full lg:h-screen h-[calc(100vh-3.5rem)] overflow-hidden max-w-screen max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">

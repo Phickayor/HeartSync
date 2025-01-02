@@ -23,8 +23,9 @@ function EditProfile({ onClose, name, keyName, onSubmit }) {
           className="flex flex-col gap-5 py-5 md:pt-10"
           onSubmit={(e) => {
             setLoader(true);
-            onSubmit(e, keyName, value);
-            // setLoader(false);
+            onSubmit(e, keyName, value).then(() => {
+              setLoader(false);
+            });
           }}
         >
           <input

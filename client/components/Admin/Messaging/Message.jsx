@@ -53,7 +53,7 @@ export const OtherUserText = ({ image, content }) => {
 };
 let socket = io(baseUrl);
 
-function Message({ userId }) {
+function Message({ userId, setNotifications }) {
   const userContext = useContext(UserContext);
   const messagesEndRef = useRef();
   const [chatId, setChatId] = useState(null);
@@ -65,7 +65,7 @@ function Message({ userId }) {
   const [loader, setLoader] = useState(false);
   useEffect(() => {
     const fetchMessages = async () => {
-      if (!chatId) return; // Prevent fetching if chatId is null
+      if (!chatId) return;
       try {
         const token = Cookies.get("token");
         const { messages } = await getAllMessages(chatId, token);
@@ -78,7 +78,7 @@ function Message({ userId }) {
     };
 
     fetchMessages();
-  }, [chatId]); // Add chatId as a dependency
+  }, [chatId]);
 
   useEffect(() => {
     const scrollToBottom = () => {
@@ -96,8 +96,6 @@ function Message({ userId }) {
         const data = await AccessChat(userId, token);
         if (data?.chat) {
           setChatId(data.chat._id);
-        }
-        if (data?.message !== "no user") {
           const { profile } = await GetSpecificUser(userId);
           setOtherUser(profile);
         }
@@ -113,13 +111,18 @@ function Message({ userId }) {
 
   useEffect(() => {
     if (userContext.userState && chatId) {
-      socket.emit("setup", userContext.userState);
-      socket.on("connected", () => setSocketConnected(true));
+      socket.emit("setup", userContext.userState._id);
+      socket.on("connected", async () => {
+        setSocketConnected(true);
+        const token = Cookies.get("token");
+        await markAsRead(chatId, token);
+      });
       socket.emit("join chat", chatId);
 
       const handleMessageReceived = async (newMessageReceived) => {
         if (chatId === newMessageReceived.chat._id) {
-          await markAsRead(newMessageReceived._id);
+          const token = Cookies.get("token");
+          await markAsRead(newMessageReceived.chat._id, token);
           setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
         }
       };
@@ -132,7 +135,15 @@ function Message({ userId }) {
       };
     }
   }, [chatId, userContext]);
+  useEffect(() => {
+    socket.on("new notification", (data) => {
+      setNotifications((notifications) => notifications + 1);
+    });
 
+    return () => {
+      socket.off("new notification");
+    };
+  }, [socket]);
   const handleSendMessage = async () => {
     try {
       let newMessage = newMessageClient;
@@ -142,6 +153,12 @@ function Message({ userId }) {
         await sendMessage(newMessage, chatId, token).then((data) => {
           socket.emit("new message", data.newMessage);
           setMessages([...messages, data.newMessage]);
+          const receiver = data.newMessage.chat.users.find(
+            (user) => user._id !== userContext.userState?._id
+          );
+          if (receiver) {
+            socket.emit("new notification", { receiverId: receiver._id });
+          }
         });
       }
     } catch (error) {

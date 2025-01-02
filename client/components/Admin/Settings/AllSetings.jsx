@@ -27,13 +27,15 @@ function AllSetings() {
     const payload = {
       [keyName]: value
     };
-    const token = Cookies.get("token");
-    const data = await EditUser(payload, token);
-    Swal.fire({
-      text: data.message
-    });
-    handleClose();
-    window.location.reload();
+    try {
+      const token = Cookies.get("token");
+      const { message } = await EditUser(payload, token);
+      Swal.fire(`${name} Updated Successfully}`, message, "success");
+      handleClose();
+      window.location.reload();
+    } catch (error) {
+      Swal.fire("Oops", error.message, "error");
+    }
   };
 
   const handleProfilePicUpdate = (e) => {

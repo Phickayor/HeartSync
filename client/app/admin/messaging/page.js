@@ -8,10 +8,8 @@ import { useSearchParams } from "next/navigation";
 function Page() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
-  const [notifications, setNotifications] = useState([]);
-  const test = () => {
-    alert("Testinggggggg");
-  };
+  const [notifications, setNotifications] = useState(0);
+
   return (
     <AdminComp navName={"message"}>
       <div className="grid lg:grid-cols-3 w-full">
@@ -19,12 +17,7 @@ function Page() {
           <Contact notifications={notifications} />
         </div>
         <div className={userId ? "col-span-2" : "hidden lg:block col-span-2 "}>
-          <Message
-            userId={userId}
-            fetchAgain={test}
-            notifications={notifications}
-            setNotifications={setNotifications}
-          />
+          <Message userId={userId} setNotifications={setNotifications} />
         </div>
       </div>
     </AdminComp>
