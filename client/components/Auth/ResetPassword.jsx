@@ -3,15 +3,17 @@ import React, { useEffect, useState } from "react";
 import ButtonLoader from "../Loaders/ButtonLoader";
 import { resetPassword } from "../Controllers/AuthController";
 import { useRouter } from "next/navigation";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons for show/hide password
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons for show/hide password// Import the modal component
+import PopupModal from "./Registration/popup";
 
 function ResetPassword({ resetToken }) {
   const [password, setPassword] = useState("");
   const [passwordTwo, setPasswordTwo] = useState("");
   const [loader, setLoader] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // State to hold the error message
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
-  const [isPasswordTwoVisible, setIsPasswordTwoVisible] = useState(false); // State for confirm password visibility
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isPasswordTwoVisible, setIsPasswordTwoVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState(""); // Store the modal message
   const router = useRouter();
 
   // Regex pattern for password validation
@@ -23,14 +25,12 @@ function ResetPassword({ resetToken }) {
       setLoader(true);
       setErrorMessage(""); // Clear any previous errors
 
-      // Check if passwords match
       if (password !== passwordTwo) {
         setErrorMessage("Passwords must match.");
         setLoader(false);
         return;
       }
 
-      // Check if the password matches the regex pattern
       if (!passwordRegex.test(password)) {
         setErrorMessage(
           "Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character."
@@ -44,7 +44,8 @@ function ResetPassword({ resetToken }) {
 
       if (response.ok) {
         setLoader(false);
-        router.push("/auth/");
+        setModalMessage("Your password has been successfully reset.");
+        setTimeout(() => router.push("/auth/"), 3000); // Redirect after 3 seconds
       } else {
         setErrorMessage(response.message || "An error occurred. Please try again.");
         setLoader(false);
@@ -52,6 +53,11 @@ function ResetPassword({ resetToken }) {
     } catch (error) {
       setErrorMessage(error?.message || "Something went wrong. Please try again later.");
       setLoader(false);
+
+      // Handle no internet connection scenario
+      if (!navigator.onLine) {
+        setModalMessage("Please check your internet connection and try again.");
+      }
     }
   };
 
@@ -67,13 +73,12 @@ function ResetPassword({ resetToken }) {
       <div className="md:px-10 md:py-8 p-5 rounded-xl flex flex-col gap-5">
         <h1 className="auth-header">Reset Password</h1>
 
-           {/* Custom error message */}
-           {errorMessage && (
-            <div className="text-red-600 mt-2 text-sm sm:text-base md:text-lg lg:text-xl">
-              {errorMessage}
-            </div>
-          )}
-          
+        {errorMessage && (
+          <div className="text-[#FF8A60] mt-2 text-sm sm:text-base md:text-lg lg:text-xl">
+            {errorMessage}
+          </div>
+        )}
+
         <form
           className="flex flex-col gap-3 md:gap-5 md:p-5"
           onSubmit={handleSubmit}
@@ -81,7 +86,7 @@ function ResetPassword({ resetToken }) {
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="password">New Password</label>
             <input
-              type={isPasswordVisible ? "text" : "password"} // Toggle between text and password type
+              type={isPasswordVisible ? "text" : "password"}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -91,17 +96,17 @@ function ResetPassword({ resetToken }) {
             />
             <button
               type="button"
-              onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
             >
-              {isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Toggle the icon */}
+              {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
 
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="passwordTwo">Confirm Password</label>
             <input
-              type={isPasswordTwoVisible ? "text" : "password"} // Toggle between text and password type
+              type={isPasswordTwoVisible ? "text" : "password"}
               required
               value={passwordTwo}
               onChange={(e) => setPasswordTwo(e.target.value)}
@@ -111,10 +116,10 @@ function ResetPassword({ resetToken }) {
             />
             <button
               type="button"
-              onClick={() => setIsPasswordTwoVisible(!isPasswordTwoVisible)} // Toggle visibility
+              onClick={() => setIsPasswordTwoVisible(!isPasswordTwoVisible)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600"
             >
-              {isPasswordTwoVisible ? <FaEyeSlash /> : <FaEye />} {/* Toggle the icon */}
+              {isPasswordTwoVisible ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
 
@@ -128,6 +133,9 @@ function ResetPassword({ resetToken }) {
           </button>
         </form>
       </div>
+
+      {/* Success/Error Modal */}
+      <PopupModal message={modalMessage} onClose={() => setModalMessage("")} />
     </div>
   );
 }

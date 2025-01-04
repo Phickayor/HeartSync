@@ -98,7 +98,7 @@ function About({ onNext, onPrev }) {
           <div className="flex justify-center pb-4 gap-2 [&>*]:self-center">
             <AiFillInfoCircle className="text-lg md:text-xl" />
             {errorMessage.map((msg, index) => (
-              <span key={index} className="text-center text-red-500 text-sm md:text-base">
+              <span key={index} className="text-center text-[#FF8A60] text-sm md:text-base">
                 {msg}
               </span>
             ))}

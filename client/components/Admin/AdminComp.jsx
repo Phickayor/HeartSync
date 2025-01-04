@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/loader/PageLoader";
-import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 
 function AdminComp({ navName, children }) {
@@ -26,8 +25,10 @@ function AdminComp({ navName, children }) {
     cardPicture: "",
     preferences: []
   });
+  const [error, setError] = useState(null); // State for error handling
   const router = useRouter();
   const userContext = useContext(UserContext);
+
   const reducer = (state, action) => {
     switch (action.type) {
       case "signIn":
@@ -40,27 +41,22 @@ function AdminComp({ navName, children }) {
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         const token = Cookies.get("token");
-        await GetUser(token).then((result) => {
-          return dispatch({ type: "signIn", payload: result.user });
-        });
+        const result = await GetUser(token);
+        dispatch({ type: "signIn", payload: result.user });
       } catch (error) {
-        Swal.fire(
-          "Oops!",
-          error.message
-            ? error.message
-            : "Check your internet connection and try again.",
-          "error"
-        ).then(() => {
-          if (error.message == "Unauthorized") {
-            userContext?.dispatch({ type: "signOut" });
-            Cookies.remove("token");
-            router.push("/auth");
-          }
+        setError({
+          message: error.message || "Check your internet connection and try again.",
         });
+        if (error.message === "Unauthorized") {
+          userContext?.dispatch({ type: "signOut" });
+          Cookies.remove("token");
+          router.push("/auth");
+        }
       }
       setIsAuthorizationChecked(true);
     };
@@ -71,6 +67,10 @@ function AdminComp({ navName, children }) {
     return <PageLoader />;
   }
 
+  const handleCloseError = () => {
+    setError(null); // Reset the error when closing
+  };
+
   return (
     <UserContext.Provider value={{ userState: state, userDispatch: dispatch }}>
       <div className="fixed flex flex-col justify-between lg:justify-start lg:flex-row h-screen w-full">
@@ -80,6 +80,23 @@ function AdminComp({ navName, children }) {
         <div className="lg:overflow-y-auto bg-[#171717] text-white w-full order-1 lg:order-2">
           {children}
         </div>
+
+        {/* Custom error popup */}
+        {error && (
+           <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
+           <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
+             <p className="text-lg text-white font-semibold">{error.message}</p>
+             <div className="flex justify-between mt-6">
+               <button
+                 onClick={handleCloseError}
+                 className="px-6 py-3 bg-[#444444] text-white font-bold rounded-lg hover:bg-gray-800 transition"
+               >
+                 Ok
+               </button>
+             </div>
+           </div>
+         </div>
+        )}
       </div>
     </UserContext.Provider>
   );

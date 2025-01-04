@@ -108,20 +108,20 @@ function ActivityBar({ activeBar }) {
 
       {/* Error Confirmation Modal */}
       {isErrorModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-          <div className="bg-gradient-to-r from-red-800 to-black p-8 rounded-lg shadow-2xl w-96 max-w-xs">
-            <h2 className="text-2xl font-extrabold text-white mb-6">Confirmation</h2>
-            <p className="text-lg text-white font-semibold">{errorMessage}</p>
-            <div className="flex justify-between mt-6">
+         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
+         <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
+            <h2 className=" flex text-2xl font-extrabold text-white mb-6">Confirmation</h2>
+            <p className="flex text-lg text-white font-semibold">{errorMessage}</p>
+            <div className="flex items-center justify-between mt-3 gap-20">
               <button
                 onClick={confirmLogout}
-                className="px-6 py-3 bg-red-700 text-white font-bold rounded-lg hover:bg-red-800 transition"
+                className="px-6 py-3 bg-[#FF8A60] text-white font-bold rounded-lg hover:bg-red-500 transition"
               >
                 Yes, Logout
               </button>
               <button
                 onClick={closeErrorModal}
-                className="px-6 py-3 bg-gray-700 text-white font-bold rounded-lg hover:bg-gray-800 transition"
+                className="px-6 py-3 bg-[#444444] text-white font-bold rounded-lg hover:bg-gray-800 transition"
               >
                 Cancel
               </button>

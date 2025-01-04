@@ -1,4 +1,3 @@
-"use client";
 import React, { useContext, useState } from "react";
 import ButtonLoader from "../../Loaders/ButtonLoader";
 import { checkExistingUser } from "@/components/Controllers/AuthController";
@@ -10,6 +9,7 @@ import RegistrationComp from "@/components/Auth/Registration/RegistrationComp";
 import Preference from "@/components/Auth/Registration/Preference";
 import Link from "next/link";
 import RegCardPreview from "./RegCardPreview";
+import PopupModal from "@/components/Auth/Registration/popup" // Import PopupModal
 
 function Register() {
   const regContext = useContext(RegContext);
@@ -20,6 +20,9 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [popupMessage, setPopupMessage] = useState(""); // For handling popups
+  const [popupType, setPopupType] = useState(""); // Success, Error, Info
+  const [showPopup, setShowPopup] = useState(false); // Show or hide popup modal
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -59,19 +62,27 @@ function Register() {
       // Validation checks
       if (!emailRegex.test(email)) {
         setErrorMessage("Invalid email format");
-        setShowModal(true); // Show modal with error
+        setShowPopup(true);
+        setPopupMessage("Invalid email format");
+        setPopupType("error");
         setLoader(false);
         return;
       }
 
       if (!passwordRegex.test(pswd1)) {
         setErrorMessage("Password must be at least 8 characters long, contain one uppercase, one lowercase, one number, and one special character.");
+        setShowPopup(true);
+        setPopupMessage("Password doesn't meet criteria");
+        setPopupType("error");
         setLoader(false);
         return;
       }
 
       if (!handleMatchingPassword()) {
         setErrorMessage("Passwords do not match");
+        setShowPopup(true);
+        setPopupMessage("Passwords do not match");
+        setPopupType("error");
         setLoader(false);
         return;
       }
@@ -79,6 +90,9 @@ function Register() {
       const response = await checkExistingUser(email);
       if (response?.existingUser) {
         setErrorMessage(response.message);
+        setShowPopup(true);
+        setPopupMessage("User already exists");
+        setPopupType("error");
         setLoader(false);
         return;
       }
@@ -86,13 +100,31 @@ function Register() {
       const payload = { email, password: pswd1 };
       regContext.RegDispatch({ type: "update", payload });
 
-      // Show modal and initialize counter
       setShowModal(true);
+      setPopupMessage("Registration successful!");
+      setPopupType("success");
+      setShowPopup(true);
       setLoader(false);
     } catch (error) {
+      if (error.message === "Network Error") {
+        setPopupMessage("No internet connection.");
+        setPopupType("info");
+        setShowPopup(true);
+      } else {
+        setErrorMessage(error.message);
+        setPopupMessage(error.message);
+        setPopupType("error");
+        setShowPopup(true);
+      }
       setLoader(false);
-      setErrorMessage(error.message);
-      console.error(error);
+    }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    if (popupType === "success") {
+      // Optionally, redirect or reset form after success
+      // history.push("/some-route"); or setFields to reset
     }
   };
 
@@ -111,7 +143,7 @@ function Register() {
           <h1 className="font-medium text-center text-4xl">
             Create an account
           </h1>
-          {errorMessage && <p className="text-red-500 text-center text-sm md:text-base lg:text-lg">{errorMessage}</p>}
+          {errorMessage && <p className="text-[#FF8A60] text-center text-sm md:text-base lg:text-lg">{errorMessage}</p>}
           <div className="flex flex-col gap-2">
             <label className="font-extralight">Email</label>
             <input
@@ -203,6 +235,15 @@ function Register() {
       <div className="hidden w-4/6 mx-auto md:block [&>*]:self-center  text-center hover:[&>*]:scale-110 [&>*]:duration-150 p-4 text-xs md:text-lg">
         <Link href="/auth/">Already have an account?</Link>
       </div>
+
+      {/* Popup Modal for Errors, Success, or Info */}
+      {showPopup && (
+        <PopupModal
+          message={popupMessage}
+          onClose={closePopup}
+          type={popupType}
+        />
+      )}
 
       {/* Modal Display */}
       {showModal && (

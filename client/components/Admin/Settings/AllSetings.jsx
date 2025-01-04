@@ -1,27 +1,33 @@
-"use client";
+"use client"
 import { UserContext } from "@/contexts/UserContext";
 import Link from "next/link";
 import React, { useContext, useRef, useState } from "react";
 import EditProfile from "./EditProfile";
 import { EditUser } from "@/components/Controllers/UserController";
-import Swal from "sweetalert2";
-import { FaCamera } from "react-icons/fa";
 import Cookies from "js-cookie";
-function AllSetings() {
+// Import CustomPopup
+import PopupModal from "@/components/Auth/Registration/popup";
+import { FaCamera } from "react-icons/fa";
+
+function AllSettings() {
   const userContext = useContext(UserContext);
   const profile = userContext.userState;
   const [showAbovePageComponent, setShowAbovePageComponent] = useState(false);
   const [name, setName] = useState(null);
   const [keyName, setKeyName] = useState(null);
+  const [popup, setPopup] = useState({ show: false, message: "" }); // State for custom popup without type
   const profilePic = useRef(null);
+
   const handleEdit = (name, keyName) => {
     setShowAbovePageComponent(true);
     setName(name);
     setKeyName(keyName);
   };
+
   const handleClose = () => {
     setShowAbovePageComponent(false);
   };
+
   const handleSubmit = async (e, keyName, value) => {
     e.preventDefault();
     const payload = {
@@ -29,11 +35,15 @@ function AllSetings() {
     };
     const token = Cookies.get("token");
     const data = await EditUser(payload, token);
-    Swal.fire({
-      text: data.message
+
+    // Set the popup message depending on success or error
+    setPopup({
+      show: true,
+      message: data.success ? data.message || "Update successful!" : data.message || "An error occurred!"
     });
+
     handleClose();
-    window.location.reload();
+    window.location.reload(); // Optionally reload the page after a successful update
   };
 
   const handleProfilePicUpdate = (e) => {
@@ -46,6 +56,7 @@ function AllSetings() {
       reader.readAsDataURL(file);
     }
   };
+
   return (
     <div className="w-full lg:h-full overflow-auto h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] lg:max-h-screen flex lg:py-10 ">
       <div className="mx-auto pb-6 lg:py-0 w-full md:w-10/12 lg:w-8/12 relative bg-[#1E1D1D] rounded-2xl overflow-auto">
@@ -58,10 +69,12 @@ function AllSetings() {
             />
             <div className="absolute top-0 hidden group-hover:flex flex-col w-full h-full justify-center">
               <div className="w-24 h-24 flex justify-center self-center">
-                <FaCamera
+                <span
                   className="cursor-pointer self-center text-2xl text-white"
                   onClick={() => profilePic.current.click()}
-                />
+                >
+                  <FaCamera />
+                </span>
                 <input
                   type="file"
                   onChange={handleProfilePicUpdate}
@@ -97,42 +110,45 @@ function AllSetings() {
               Edit
             </span>
           </div>
+
+          {/* Full Name Section */}
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className="self-center">
-              <h3 className="lg:text-lg">Fullname</h3>
+              <h3 className="lg:text-lg">Full Name</h3>
               <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.fullName}
               </span>
             </div>
             <span
-              onClick={() => handleEdit("Fullname", "fullName")}
+              onClick={() => handleEdit("Full Name", "fullName")}
               onKeyDown={(event) =>
-                event.key == "Enter" && handleEdit("Fullname", "fullName")
+                event.key == "Enter" && handleEdit("Full Name", "fullName")
               }
               className="text-sm font-semibold underline cursor-pointer"
             >
               Edit
             </span>
           </div>
+
+          {/* Email Section */}
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
-            <div className=" self-center">
-              <h3 className="lg:text-lg">Edit Card Preview</h3>
-            </div>
-            <Link
-              href="/admin/settings/edit-profile-card"
-              className="text-sm font-semibold underline cursor-pointer"
-            >
-              Edit
-            </Link>
-          </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
-            <div className=" self-center">
-              <h3 className="lg:text-lg">Email address</h3>
+            <div className="self-center">
+              <h3 className="lg:text-lg">Email</h3>
               <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.email}
               </span>
             </div>
+            <span
+              onClick={() => handleEdit("Email", "email")}
+              onKeyDown={(event) =>
+                event.key == "Enter" && handleEdit("Email", "email")
+              }
+              className="text-sm font-semibold underline cursor-pointer"
+            >
+              Edit
+            </span>
           </div>
+
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className="self-center">
               <h3 className="lg:text-lg">Long Bio</h3>
@@ -171,25 +187,8 @@ function AllSetings() {
             </span>
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
-            <div className="self-center">
-              <h3 className="lg:text-lg">School Name</h3>
-              <span className="lg:text-md text-sm text-[#717171]">
-                {profile.school ? profile.school : "Not Required"}
-              </span>
-            </div>
-            <span
-              onClick={() => handleEdit("School Name", "school")}
-              onKeyDown={(event) =>
-                event.key == "Enter" && handleEdit("School Name", "school")
-              }
-              className="text-sm font-semibold underline cursor-pointer"
-            >
-              Edit
-            </span>
-          </div>
-          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
-              <h3 className="lg:text-lg">Your preferences</h3>
+              <h3 className="lg:text-lg">Change preferences</h3>
               <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.preferences
                   ? profile.preferences.join(", ")
@@ -230,8 +229,16 @@ function AllSetings() {
           />
         )}
       </div>
+
+      {/* Display the custom popup */}
+      {popup.show && (
+        <PopupModal
+          message={popup.message}
+          onClose={() => setPopup({ show: false, message: "" })}
+        />
+      )}
     </div>
   );
 }
 
-export default AllSetings;
+export default AllSettings;
