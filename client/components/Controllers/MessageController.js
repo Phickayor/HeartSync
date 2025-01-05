@@ -39,9 +39,9 @@ const getAllMessages = async (chatId, token) => {
     throw new Error("Unauthorized");
   }
 };
-const markAsRead = async (messageId) => {
+const markAsRead = async (chatId, token) => {
   try {
-    const res = await fetch(`${baseUrl}/message/toogle-read/${messageId}`, {
+    const res = await fetch(`${baseUrl}/message/toggle-read/${chatId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,6 +49,11 @@ const markAsRead = async (messageId) => {
       }
     });
     const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error);
+    } else {
+      return data;
+    }
   } catch (error) {
     console.error(error.message);
   }

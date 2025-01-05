@@ -6,6 +6,7 @@ import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/loader/PageLoader";
 import Cookies from "js-cookie";
+import { handleLogoutFromSocket } from "@/config/socket";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);

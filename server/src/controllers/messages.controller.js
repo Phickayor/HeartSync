@@ -5,13 +5,11 @@ const sendMessage = async (req, res) => {
   try {
     const { content, chatId } = req.body;
     if (!chatId) {
-      return res
-        .status(400)
-        .json({ message: "Chat id missing in request body" });
+      return res.status(400).json({ error: "Chat id missing in request body" });
     }
     const verifyChatId = await Chat.findById(chatId);
     if (!verifyChatId) {
-      return res.status(404).json({ message: "Chat doesn't exist" });
+      return res.status(404).json({ error: "Chat doesn't exist" });
     }
     let message = await Message.create({
       sender: req.user._id,
@@ -28,7 +26,7 @@ const sendMessage = async (req, res) => {
 
     res.status(200).json({ newMessage: message });
   } catch (error) {
-    return res.status(501).json({ message: error.message });
+    return res.status(501).json({ error: error.message });
   }
 };
 
@@ -52,24 +50,26 @@ const allMessages = async (req, res) => {
     );
     res.status(200).json({ messages });
   } catch (error) {
-    return res.status(501).json({ message: error.message });
+    return res.status(501).json({ error: error.message });
   }
 };
 
-const readMessage = async (req, res) => {
+const readAllMessagesInChat = async (req, res) => {
   try {
-    const { messageId } = req.params;
-    const markAsRead = await Message.findByIdAndUpdate(messageId, {
-      unread: false
-    });
-    markAsRead && res.status(200).json({ message: "Message has been read" });
-    res.end();
+    const { chatId } = req.params;
+    const readMessages = await Message.updateMany(
+      { chat: chatId },
+      { $set: { unread: false } }
+    );
+    if (readMessages) {
+      return res.status(200).json({ message: "Messages has been read" });
+    }
   } catch (error) {
-    return res.status(501).json({ message: error.message });
+    return res.status(501).json({ error: error.message });
   }
 };
 module.exports = {
   sendMessage,
   allMessages,
-  readMessage
+  readAllMessagesInChat
 };

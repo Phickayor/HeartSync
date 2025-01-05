@@ -43,7 +43,7 @@ function Login() {
         setModalMessage("User not registered. Please sign up.");
         setShowModal(true);
       } else {
-        setErrorMessage(data.message);
+        setErrorMessage(data.error);
       }
     } catch (error) {
       console.log(error.message);

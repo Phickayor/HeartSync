@@ -19,12 +19,12 @@ const CheckExistingUser = async (req, res) => {
     } else {
       res
         .status(200)
-        .json({ existingUser: false, message: "Account does not exist" });
+        .json({ existingUser: false, error: "Account does not exist" });
     }
   } catch (error) {
     res.status(501).json({
       existingUser: null,
-      message: "Check your internet connection and try again"
+      error: "Check your internet connection and try again"
     });
   }
 };
@@ -49,7 +49,7 @@ const registerAUser = async (req, res) => {
     const findUser = await User.findOne({ email });
     if (findUser) {
       res.status(403).json({
-        message: "Account already exist"
+        error: "Account already exist"
       });
     } else {
       if (profilePicture) {
@@ -135,10 +135,10 @@ const logInUser = async (req, res) => {
           token
         });
       } else {
-        res.status(403).json({ message: "Incorrect password" });
+        res.status(403).json({ error: "Incorrect password" });
       }
     } else {
-      res.status(403).json({ message: "This Account does not exist" });
+      res.status(403).json({ error: "This Account does not exist" });
     }
   } catch (error) {
     res.status(502).json({
@@ -170,10 +170,10 @@ const sendVerificationMail = async (req, res) => {
         }
       });
     } else {
-      res.status(403).json({ message: "email is verified" });
+      res.status(403).json({ error: "email is verified" });
     }
   } catch (error) {
-    res.status(502).json({ message: error.message });
+    res.status(502).json({ error: error.message });
   }
   res.end();
 };
@@ -221,7 +221,7 @@ const resetPassword = async (req, res) => {
       res.status(200).json({ message: "Pasword has been reset" });
       updatePassword.save();
     } else {
-      res.status(501).json({ message: "An error occured please try again." });
+      res.status(501).json({ error: "An error occured please try again." });
     }
   } catch (error) {
     res.status(502).json({
@@ -245,12 +245,12 @@ const checkAuth = async (req, res, next) => {
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {
-      res.status(401).json({ unauthorized: true, message: "Unauthorized" });
+      res.status(401).json({ unauthorized: true, error: "Unauthorized" });
     }
   }
 
   if (!token) {
-    res.status(401).json({ unauthorized: true, message: "Unauthorized" });
+    res.status(401).json({ unauthorized: true, error: "Unauthorized" });
   }
 };
 module.exports = {
