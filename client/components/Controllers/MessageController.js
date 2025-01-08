@@ -39,27 +39,27 @@ const getAllMessages = async (chatId, token) => {
     throw new Error("Unauthorized");
   }
 };
-const markAsRead = async (chatId, token) => {
-  try {
-    const res = await fetch(`${baseUrl}/message/toggle-read/${chatId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${JSON.parse(token)}`
-      }
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error);
-    } else {
-      return data;
-    }
-  } catch (error) {
-    console.error(error.message);
-  }
-};
+// const markAsRead = async (chatId, token) => {
+//   try {
+//     const res = await fetch(`${baseUrl}/message/toggle-read/${chatId}`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${JSON.parse(token)}`
+//       }
+//     });
+//     const data = await res.json();
+//     if (!res.ok) {
+//       throw new Error(data.error);
+//     } else {
+//       return data;
+//     }
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// };
 module.exports = {
   sendMessage,
   getAllMessages,
-  markAsRead
+  // markAsRead
 };

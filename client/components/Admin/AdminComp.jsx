@@ -7,7 +7,6 @@ import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/loader/PageLoader";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { handleLogoutFromSocket } from "@/config/socket";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
@@ -57,7 +56,6 @@ function AdminComp({ navName, children }) {
           "error"
         ).then(() => {
           if (error.message == "Unauthorized") {
-            handleLogoutFromSocket();
             userContext?.dispatch({ type: "signOut" });
             Cookies.remove("token");
             router.push("/auth");

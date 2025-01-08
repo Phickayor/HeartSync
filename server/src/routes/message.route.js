@@ -9,6 +9,6 @@ const messageRouter = express();
 
 messageRouter.get("/:chatId", checkAuth, allMessages);
 messageRouter.post("/", checkAuth, sendMessage);
-messageRouter.post("/toggle-read/:chatId", checkAuth, readAllMessagesInChat);
+// messageRouter.post("/toggle-read/:chatId", checkAuth, readAllMessagesInChat);
 
 module.exports = messageRouter;

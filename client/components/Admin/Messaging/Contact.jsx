@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
@@ -7,12 +7,11 @@ import ChatLoader from "@/loader/ChatLoader";
 import { getAllChats } from "@/components/Controllers/ChatController";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import Cookies from "js-cookie";
-import { createConnection } from "@/config/socket";
+import socket from "@/config/socket";
 function Contact({ notifications }) {
   const userContext = useContext(UserContext);
   const [chats, setChats] = useState(null);
   const [filteredChats, setFilteredChats] = useState(null);
-
   const handleSearch = (input) => {
     if (input) {
       let filter = chats?.filter((result) =>
@@ -23,22 +22,33 @@ function Contact({ notifications }) {
       setFilteredChats(chats);
     }
   };
+  const fetchChats = useCallback(async () => {
+    try {
+      const token = Cookies.get("token");
+      const { chats } = await getAllChats(token);
+      setChats(chats);
+      setFilteredChats(chats);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
   useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const token = Cookies.get("token");
-        const { chats } = await getAllChats(token);
-        setChats(chats);
-        setFilteredChats(chats);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchChats();
   }, [notifications]);
+
   useEffect(() => {
-    createConnection();
-  });
+    console.log("Socket:", socket);
+    const handleMessageReceived = () => {
+      console.log("Message received event triggered.");
+      fetchChats();
+    };
+
+    socket.on("message received", handleMessageReceived);
+    return () => {
+      socket.off("message received", handleMessageReceived);
+    };
+  }, [socket]);
+
   return (
     <div className="px-5 w-full lg:h-screen h-[calc(100vh-3.5rem)] overflow-hidden max-w-screen max-h-screen">
       <div className="space-y-4 pt-10 sticky top-0  backdrop-blur">

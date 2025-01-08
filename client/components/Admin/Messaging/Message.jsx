@@ -16,6 +16,7 @@ import { capitalize } from "@/utilities/firstLetterCaps";
 import MessageLoader from "@/loader/MessageLoader";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
+import socket from "@/config/socket";
 
 export const UserText = ({ image, content }) => {
   return content ? (
@@ -51,7 +52,6 @@ export const OtherUserText = ({ image, content }) => {
     </div>
   );
 };
-let socket = io(baseUrl);
 
 function Message({ userId, setNotifications }) {
   const userContext = useContext(UserContext);
@@ -60,7 +60,6 @@ function Message({ userId, setNotifications }) {
   const [newMessageClient, setNewMessageClient] = useState("");
   const [messages, setMessages] = useState(null);
   const [otherUser, setOtherUser] = useState({});
-  const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [loader, setLoader] = useState(false);
   useEffect(() => {
@@ -70,7 +69,7 @@ function Message({ userId, setNotifications }) {
         const token = Cookies.get("token");
         const { messages } = await getAllMessages(chatId, token);
         if (messages) {
-          setMessages(messages); // Ensure proper message structure
+          setMessages(messages);
         }
       } catch (error) {
         console.error("Error fetching messages:", error.message);
@@ -86,7 +85,7 @@ function Message({ userId, setNotifications }) {
     };
 
     scrollToBottom();
-  }, [messages]); // Scroll whenever messages change
+  }, [messages]);
 
   useEffect(() => {
     const fetchOtherUserDetails = async () => {
@@ -112,17 +111,11 @@ function Message({ userId, setNotifications }) {
   useEffect(() => {
     if (userContext.userState && chatId) {
       socket.emit("setup", userContext.userState._id);
-      socket.on("connected", async () => {
-        setSocketConnected(true);
-        const token = Cookies.get("token");
-        await markAsRead(chatId, token);
-      });
-      socket.emit("join chat", chatId);
+      socket.emit("join chat", userContext.userState._id, chatId);
 
       const handleMessageReceived = async (newMessageReceived) => {
+        setNotifications((notifications) => notifications + 1);
         if (chatId === newMessageReceived.chat._id) {
-          const token = Cookies.get("token");
-          await markAsRead(newMessageReceived.chat._id, token);
           setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
         }
       };
@@ -139,11 +132,17 @@ function Message({ userId, setNotifications }) {
     socket.on("new notification", (data) => {
       setNotifications((notifications) => notifications + 1);
     });
+    socket.on("typing", () => {
+      setIsTyping(true);
+    });
 
     return () => {
+      setIsTyping(false);
       socket.off("new notification");
+      socket.off("typing");
     };
   }, [socket]);
+
   const handleSendMessage = async () => {
     try {
       let newMessage = newMessageClient;
@@ -217,7 +216,14 @@ function Message({ userId, setNotifications }) {
             <h1>No Messages so far. Your Messages would appear here</h1>
           </div>
         )}
-
+        {isTyping && (
+          <div className="flex gap-2">
+            <div className="size-10 md:size-12 bg-[#202020] card-skeleton rounded-full self-end"></div>
+            <div className="bg-slate-400 card-skeleton rounded-l-full rounded-tr-full flex w-1/2 py-8 cursor-pointer gap-5 max-w-96">
+              <h3 className="text-white">typing...</h3>
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
       <div className="bg-[#202020] px-5 rounded-2xl flex cursor-pointer gap-5">
@@ -226,7 +232,12 @@ function Message({ userId, setNotifications }) {
           className="py-3 rounded-lg font-light bg-[#202020] px-2 w-full focus:outline-none"
           placeholder="Message"
           value={newMessageClient}
-          onChange={(e) => setNewMessageClient(e.target.value)}
+          onChange={(e) => {
+            setNewMessageClient(e.target.value);
+            socket.on("typing", () => {
+              setIsTyping(true);
+            });
+          }}
           onKeyDown={(e) => e.key == "Enter" && handleSendMessage()}
         />
         <div className="flex self-center gap-3 text-white text-2xl">

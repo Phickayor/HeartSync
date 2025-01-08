@@ -34,8 +34,7 @@ function ActivityBar({ activeBar }) {
             icon: "success",
             timer: 2000
           }).then(() => {
-            handleLogoutFromSocket()
-            userContext.userDispatch({type:"signOut"});
+            userContext.userDispatch({ type: "signOut" });
             Cookies.remove("token");
             router.push("/auth");
           });

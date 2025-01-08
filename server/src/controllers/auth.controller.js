@@ -132,7 +132,8 @@ const logInUser = async (req, res) => {
         let token = signPayload({ id: userDetails._id }, "2h");
         res.status(200).json({
           message: `Successful Login`,
-          token
+          token,
+          user: userDetails
         });
       } else {
         res.status(403).json({ error: "Incorrect password" });

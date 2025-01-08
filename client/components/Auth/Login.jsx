@@ -21,9 +21,8 @@ function Login() {
 
     // Email and password regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    ;
-
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!emailRegex.test(email)) {
       setLoader(false);
       return setErrorMessage("Invalid email format.");
@@ -31,7 +30,9 @@ function Login() {
 
     if (!passwordRegex.test(password)) {
       setLoader(false);
-      return setErrorMessage("Password must be at least 8 characters long and include both letters and numbers.");
+      return setErrorMessage(
+        "Password must be at least 8 characters long and include both letters and numbers."
+      );
     }
 
     try {
@@ -51,7 +52,9 @@ function Login() {
       }
     } catch (error) {
       console.log(error.message);
-      setErrorMessage("Something went wrong! Check your internet connection and try again.");
+      setErrorMessage(
+        "Something went wrong! Check your internet connection and try again."
+      );
     } finally {
       setLoader(false);
     }
@@ -67,12 +70,16 @@ function Login() {
         />
         <form
           onSubmit={HandleSubmit}
-          className="flex flex-col font-urbanist gap-5 py-5"
+          className="flex flex-col font-urbanxist gap-5 py-5"
         >
           <h1 className="font-medium text-center text-4xl">
             Login to your account
           </h1>
-          {errorMessage && <p className="text-red-500 text-center text-sm md:text-base lg:text-lg">{errorMessage}</p>}
+          {errorMessage && (
+            <p className="text-red-500 text-center text-sm md:text-base lg:text-lg">
+              {errorMessage}
+            </p>
+          )}
           <div className="flex flex-col gap-2">
             <label className="font-extralight">Email</label>
             <input
