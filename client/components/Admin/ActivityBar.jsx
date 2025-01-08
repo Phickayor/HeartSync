@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import {
   AiOutlineHome,
   AiOutlineLogout,
@@ -10,43 +10,40 @@ import {
 import Link from "next/link";
 import { UserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { handleLogoutFromSocket } from "@/config/socket";
+
 function ActivityBar({ activeBar }) {
   const userContext = useContext(UserContext);
   const router = useRouter();
 
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const handleLogout = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#F15A24",
-      confirmButtonText: "Yes, Logout!"
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          Swal.fire({
-            title: " Logout Successful",
-            icon: "success",
-            timer: 2000
-          }).then(() => {
-            userContext.userDispatch({ type: "signOut" });
-            Cookies.remove("token");
-            router.push("/auth");
-          });
-        } catch (error) {
-          if (error instanceof Error) {
-            Swal.fire("Oops!", error.message, "error");
-          } else {
-            Swal.fire("Oops!", "An unknown error has occured", "error");
-          }
-        }
+    // Show confirmation modal instead of window.confirm
+    setIsErrorModalOpen(true);
+    setErrorMessage(
+      "Are you sure you want to log out? This action cannot be undone."
+    );
+  };
+
+  const confirmLogout = () => {
+    try {
+      userContext.userDispatch({ type: "signOut" });
+      Cookies.remove("token");
+      router.push("/auth");
+      setIsErrorModalOpen(false); // Close the modal after logout
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("An unknown error has occurred");
       }
-    });
+    }
+  };
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
   };
 
   return (
@@ -55,7 +52,7 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/"
           className={
-            activeBar == "home"
+            activeBar === "home"
               ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
@@ -65,7 +62,7 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/search"
           className={
-            activeBar == "search"
+            activeBar === "search"
               ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
@@ -75,7 +72,7 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/messaging"
           className={
-            activeBar == "message"
+            activeBar === "message"
               ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
@@ -85,7 +82,7 @@ function ActivityBar({ activeBar }) {
         <Link
           href="/admin/settings"
           className={
-            activeBar == "settings"
+            activeBar === "settings"
               ? "activityBar lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar"
           }
@@ -95,7 +92,7 @@ function ActivityBar({ activeBar }) {
         <div
           onClick={handleLogout}
           className={
-            activeBar == "logout"
+            activeBar === "logout"
               ? "activityBar cursor-pointer lg:text-white text-btnColor lg:bg-btnColor"
               : "activityBar cursor-pointer"
           }
@@ -110,6 +107,34 @@ function ActivityBar({ activeBar }) {
           className="hidden lg:block size-12 rounded-full border-2 border-btnColor object-cover  mx-auto self-center"
         />
       </Link>
+
+      {/* Error Confirmation Modal */}
+      {isErrorModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
+          <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
+            <h2 className=" flex text-2xl font-extrabold text-white mb-6">
+              Confirmation
+            </h2>
+            <p className="flex text-lg text-white font-semibold">
+              {errorMessage}
+            </p>
+            <div className="flex items-center justify-between mt-3 gap-20">
+              <button
+                onClick={confirmLogout}
+                className="px-6 py-3 bg-[#FF8A60] text-white font-bold rounded-lg hover:bg-red-500 transition"
+              >
+                Yes, Logout
+              </button>
+              <button
+                onClick={closeErrorModal}
+                className="px-6 py-3 bg-[#444444] text-white font-bold rounded-lg hover:bg-gray-800 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

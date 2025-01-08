@@ -163,7 +163,7 @@ function Preference({ onPrev, action }) {
 
       {/* Display all error messages at the top */}
       {Object.values(errors).some((error) => error) && (
-        <div className="error-messages w-11/12 xl:w-4/5 mx-auto py-4 text-center rounded-lg mb-6 text-red-500 text-sm md:text-base xl:text-lg">
+        <div className="error-messages w-11/12 xl:w-4/5 mx-auto py-4 text-center rounded-lg mb-6text-[#FF8A60] text-sm md:text-base xl:text-lg">
           {Object.values(errors)
             .filter((error) => error)
             .map((error, index) => (

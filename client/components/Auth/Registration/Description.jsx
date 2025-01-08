@@ -71,7 +71,7 @@ function Description({ onNext, onPrev }) {
             {genderError && (
               <div className="flex justify-center gap-2 [&>*]:self-center">
                 <AiFillInfoCircle className="text-xl md:text-2xl" />
-                <span className="text-center text-red-500 text-sm md:text-base">
+                <span className="text-center text-[#FF8A60] text-sm md:text-base">
                   {genderError}
                 </span>
               </div>
@@ -79,7 +79,7 @@ function Description({ onNext, onPrev }) {
             {schoolError && (
               <div className="flex justify-center gap-2 [&>*]:self-center">
                 <AiFillInfoCircle className="text-xl md:text-2xl" />
-                <span className="text-center text-red-500 text-sm md:text-base">
+                <span className="text-center text-[#FF8A60] text-sm md:text-base">
                   {schoolError}
                 </span>
               </div>

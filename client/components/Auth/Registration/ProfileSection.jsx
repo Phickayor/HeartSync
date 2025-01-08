@@ -103,7 +103,7 @@ function ProfileSection({ onNext, onPrev }) {
             {errors.map((error, index) => (
               <div key={index} className="flex justify-center gap-2 [&>*]:self-center">
                 <AiFillInfoCircle />
-                <span className="text-center text-red-500 text-sm md:text-base xl:text-lg">{error}</span>
+                <span className="text-center text-[#FF8A60] text-sm md:text-base xl:text-lg">{error}</span>
               </div>
             ))}
           </div>
