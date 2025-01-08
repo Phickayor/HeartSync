@@ -80,7 +80,7 @@ function RegCardPreview({ onNext, onPrev }) {
     <div className="mx-auto p-5 md:px-10 space-y-4 bg-[#1B1B1B] rounded-xl w-96 flex flex-col">
       {/* Display all error messages at the top of the form */}
       {(errorMessage || bioError || picError) && (
-        <div className="text-red-500 text-center space-y-2">
+        <div className="text-[#FF8A60] text-center space-y-2">
           {errorMessage && <p className="text-sm md:text-base lg:text-lg">{errorMessage}</p>}
           {bioError && <p className="text-sm md:text-base lg:text-lg">{bioError}</p>}
           {picError && <p className="text-sm md:text-base lg:text-lg">{picError}</p>}
