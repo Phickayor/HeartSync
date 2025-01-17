@@ -40,7 +40,7 @@ function Login() {
           router.push("/admin");
         }, 2000);
       } else if (res.status === 403) {
-        setModalMessage("User not registered. Please sign up.");
+        setModalMessage("User not found , kindly create an account to get started.");
         setShowModal(true);
       } else {
         setErrorMessage(data.error);
