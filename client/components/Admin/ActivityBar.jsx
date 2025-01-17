@@ -22,7 +22,9 @@ function ActivityBar({ activeBar }) {
   const handleLogout = () => {
     // Show confirmation modal instead of window.confirm
     setIsErrorModalOpen(true);
-    setErrorMessage("Are you sure you want to log out? This action cannot be undone.");
+    setErrorMessage(
+      "Are you sure you want to log out? This action cannot be undone."
+    );
   };
 
   const confirmLogout = () => {
@@ -108,10 +110,14 @@ function ActivityBar({ activeBar }) {
 
       {/* Error Confirmation Modal */}
       {isErrorModalOpen && (
-         <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
-         <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
-            <h2 className=" flex text-2xl font-extrabold text-white mb-6">Confirmation</h2>
-            <p className="flex text-lg text-white font-semibold">{errorMessage}</p>
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
+          <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
+            <h2 className=" flex text-2xl font-extrabold text-white mb-6">
+              Confirmation
+            </h2>
+            <p className="flex text-lg text-white font-semibold">
+              {errorMessage}
+            </p>
             <div className="flex items-center justify-between mt-3 gap-20">
               <button
                 onClick={confirmLogout}

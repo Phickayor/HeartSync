@@ -54,22 +54,22 @@ const allMessages = async (req, res) => {
   }
 };
 
-const readAllMessagesInChat = async (req, res) => {
-  try {
-    const { chatId } = req.params;
-    const readMessages = await Message.updateMany(
-      { chat: chatId },
-      { $set: { unread: false } }
-    );
-    if (readMessages) {
-      return res.status(200).json({ message: "Messages has been read" });
-    }
-  } catch (error) {
-    return res.status(501).json({ error: error.message });
-  }
-};
+// const readAllMessagesInChat = async (req, res) => {
+//   try {
+//     const { chatId } = req.params;
+//     const readMessages = await Message.updateMany(
+//       { chat: chatId },
+//       { $set: { unread: false } }
+//     );
+//     if (readMessages) {
+//       return res.status(200).json({ message: "Messages has been read" });
+//     }
+//   } catch (error) {
+//     return res.status(501).json({ error: error.message });
+//   }
+// };
 module.exports = {
   sendMessage,
   allMessages,
-  readAllMessagesInChat
+  // readAllMessagesInChat
 };

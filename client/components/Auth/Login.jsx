@@ -23,6 +23,22 @@ function Login() {
     setLoader(true);
     setErrorMessage("");
 
+    // Email and password regex validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!emailRegex.test(email)) {
+      setLoader(false);
+      return setErrorMessage("Invalid email format.");
+    }
+
+    if (!passwordRegex.test(password)) {
+      setLoader(false);
+      return setErrorMessage(
+        "Password must be at least 8 characters long and include both letters and numbers."
+      );
+    }
+
     try {
       const res = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
@@ -81,7 +97,7 @@ function Login() {
         />
         <form
           onSubmit={HandleSubmit}
-          className="flex flex-col font-urbanist gap-5 py-5"
+          className="flex flex-col font-urbanxist gap-5 py-5"
         >
           <h1 className="font-medium text-center text-4xl">
             Login to your account

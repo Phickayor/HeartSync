@@ -6,7 +6,6 @@ import { GetUser } from "@/components/Controllers/UserController";
 import { UserContext } from "@/contexts/UserContext";
 import PageLoader from "@/loader/PageLoader";
 import Cookies from "js-cookie";
-import { handleLogoutFromSocket } from "@/config/socket";
 
 function AdminComp({ navName, children }) {
   const [isAuthorizationChecked, setIsAuthorizationChecked] = useState(false);
@@ -51,7 +50,8 @@ function AdminComp({ navName, children }) {
         dispatch({ type: "signIn", payload: result.user });
       } catch (error) {
         setError({
-          message: error.message || "Check your internet connection and try again.",
+          message:
+            error.message || "Check your internet connection and try again."
         });
         if (error.message === "Unauthorized") {
           userContext?.dispatch({ type: "signOut" });
@@ -84,19 +84,21 @@ function AdminComp({ navName, children }) {
 
         {/* Custom error popup */}
         {error && (
-           <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
-           <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
-             <p className="text-lg text-white font-semibold">{error.message}</p>
-             <div className="flex justify-between mt-6">
-               <button
-                 onClick={handleCloseError}
-                 className="px-6 py-3 bg-[#444444] text-white font-bold rounded-lg hover:bg-gray-800 transition"
-               >
-                 Ok
-               </button>
-             </div>
-           </div>
-         </div>
+          <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 w-full">
+            <div className="bg-[#202020] p-8 rounded-lg flex flex-col items-center gap-1 w-fit">
+              <p className="text-lg text-white font-semibold">
+                {error.message}
+              </p>
+              <div className="flex justify-between mt-6">
+                <button
+                  onClick={handleCloseError}
+                  className="px-6 py-3 bg-[#444444] text-white font-bold rounded-lg hover:bg-gray-800 transition"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </UserContext.Provider>

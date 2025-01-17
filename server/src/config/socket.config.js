@@ -1,8 +1,23 @@
 const socketIo = require("socket.io");
-const users = new Map(); // Store userId -> socketId mapping
+const users = new Map();
 
 const getSocketByUserId = (userId) => {
+  console.log("Users ", users);
   return users.get(userId);
+};
+
+const setUserSocketAndChat = (userId, socketId, chatId) => {
+  users.set(userId, { socketId, chatId });
+  console.log("Users ", users);
+};
+
+const deleteUser = (userId) => {
+  users.delete(userId);
+};
+
+const updateUserChatId = (userId, socketId, chatId) => {
+  deleteUser(userId);
+  setUserSocketAndChat(userId, socketId, chatId);
 };
 
 const socketConfig = (server) => {
@@ -14,10 +29,8 @@ const socketConfig = (server) => {
 
   io.on("connection", (socket) => {
     socket.on("setup", (userId) => {
-      socket.join(userId);
-      users.set(userId, socket.id);
-      socket.emit("connected");
-      console.log("Setup successfully");
+      setUserSocketAndChat(userId, socket.id, null);
+      // socket.emit("connected", socket);
     });
     socket.on("disconnect", () => {
       for (const [userId, socketId] of users.entries()) {
@@ -28,29 +41,36 @@ const socketConfig = (server) => {
         }
       }
     });
-    socket.on("join chat", (room) => {
-      socket.join(room);
-      console.log("User Joined Room: " + room);
+    socket.on("join chat", (userId, chatId) => {
+      updateUserChatId(userId, socket.id, chatId);
+      socket.join(chatId);
+      console.log("Joined chat " + chatId);
     });
 
-    socket.on("typing", (room) => socket.in(room).emit("typing"));
-    socket.on("new message", (newMessageReceived) => {
-      let chat = newMessageReceived.chat;
-      if (!chat.users) return console.log("chat.users not defined");
-      chat.users.forEach((user) => {
-        if (user._id == newMessageReceived.sender._id) return;
-        try {
-          socket.to(user._id).emit("message received", newMessageReceived);
-        } catch (error) {
-          console.log(error.message);
-        }
-      });
-    });
-    socket.on("new notification", ({ receiverId }) => {
+    socket.on("typing", (receiverId, chat) => {
       const receiverSocket = getSocketByUserId(receiverId);
       if (receiverSocket) {
-        console.log("Present");
-        io.to(receiverSocket).emit("new notification");
+        socket.in(chat).emit("typing");
+      }
+    });
+    socket.on("notifications", (receiverId) => {
+      const receiverSocket = getSocketByUserId(receiverId);
+      if (receiverSocket) {
+        io.to(receiverSocket.socketId).emit("notifications");
+      }
+    });
+    socket.on("new message", (newMessageReceived) => {
+      let chat = newMessageReceived.chat;
+      let receiver = chat.users.filter(
+        (user) => user._id != newMessageReceived.sender._id
+      );
+      const receiverSocket = getSocketByUserId(receiver[0]._id);
+      console.log("Receiver ", receiverSocket);
+      if (receiverSocket) {
+        io.to(receiverSocket.socketId).emit(
+          "message received",
+          newMessageReceived
+        );
       }
     });
   });
