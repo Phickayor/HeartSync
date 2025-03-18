@@ -14,9 +14,9 @@ function Hero() {
 
         <Link
           href="/auth"
-          className="mx-auto group w-fit rounded-full bg-[#131725] text-[#FFDFBA] md:px-5 p-3 md:py-4 flex gap-6 justify-center"
+          className="mx-auto group w-fit rounded-full bg-[#131725] text-[#FFDFBA] md:px-5 p-3 flex gap-2 justify-center"
         >
-          <span className="self-center md:text-lg font-extralight">
+          <span className="self-center md:text-lg font-extralight text-center">
             Start your Journey
           </span>
           <div className="bg-[#FFDFBA] self-center rounded-full p-1 md:p-2">
@@ -24,7 +24,7 @@ function Hero() {
           </div>
         </Link>
       </div>
-      <div className="md:block hidden w-full lg:h-1/2">
+      <div className="md:block hidden w-full lg:h-1/2 border">
         <img
           src="/images/lp-desktop.png"
           alt=""
