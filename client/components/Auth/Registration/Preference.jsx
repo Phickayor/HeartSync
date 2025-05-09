@@ -11,27 +11,36 @@ import Cookies from "js-cookie";
 function Preference({ onPrev, action }) {
   const [createAccount, setCreateAccount] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [success, setSuccess] = useState("");
   const [errors, setErrors] = useState({
     interests: "",
     gender: "",
     traits: "",
     reason: "",
     general: "",
-  }); // State for each field's error messages
+  });
+
+  const [preferences, setPreferences] = useState({
+    interests: [],
+    gender: [],
+    traits: [],
+    reason: [],
+  });
+
   const router = useRouter();
-  const [chosenPreference, setChosenPreferences] = useState([]);
   const regContext = useContext(RegContext);
 
   const setActive = (e, type) => {
     e.preventDefault();
-    let preference = chosenPreference.find((item) => item == e.target.innerText);
-    if (!preference) {
-      setChosenPreferences([...chosenPreference, e.target.innerText]);
-    } else {
-      let filter = chosenPreference.filter((item) => item != e.target.innerText);
-      setChosenPreferences(filter);
-    }
-    // Clear error for that field when user interacts
+    const value = e.target.innerText;
+    setPreferences((prev) => {
+      const exists = prev[type].includes(value);
+      const updated = exists
+        ? prev[type].filter((item) => item !== value)
+        : [...prev[type], value];
+      return { ...prev, [type]: updated };
+    });
+
     setErrors((prevErrors) => ({ ...prevErrors, [type]: "" }));
   };
 
@@ -56,36 +65,30 @@ function Preference({ onPrev, action }) {
       setLoader(true);
       let validationErrors = {};
 
-      // Validate Interests
-      if (chosenPreference.length === 0) {
+      if (preferences.interests.length === 0) {
         validationErrors.interests = "Please select at least one interest.";
       }
-
-      // Validate Gender (ensure at least one gender is selected)
-      if (!chosenPreference.includes("Male") && !chosenPreference.includes("Female")) {
+      if (preferences.gender.length === 0) {
         validationErrors.gender = "Please select a gender of interest.";
       }
-
-      // Validate Traits
-      if (chosenPreference.length === 0) {
+      if (preferences.traits.length === 0) {
         validationErrors.traits = "Please select at least one personality trait.";
       }
-
-      // Validate Reason for Joining
-      if (!chosenPreference.includes("Make friends") && !chosenPreference.includes("Relationships") && !chosenPreference.includes("Fun Buddies")) {
+      if (preferences.reason.length === 0) {
         validationErrors.reason = "Please select a reason for joining.";
       }
 
-      // If there are validation errors, update the state and stop submission
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors);
         setLoader(false);
         return;
       }
 
-      // Proceed with registration or edit logic if no errors
+      setSuccess("Successfully!");
+      setErrors({ interests: "", gender: "", traits: "", reason: "", general: "" });
+
       if (action === "edit") {
-        const values = { preferences: chosenPreference };
+        const values = { preferences: Object.values(preferences).flat() };
         const token = Cookies.get("token");
         let profile = await EditUser(values, token);
         if (profile.success) {
@@ -98,49 +101,36 @@ function Preference({ onPrev, action }) {
       if (action === "creation") {
         regContext.RegDispatch({
           type: "update",
-          payload: { preferences: chosenPreference },
+          payload: { preferences: Object.values(preferences).flat() },
         });
         setCreateAccount(true);
       }
     } catch (error) {
       setLoader(false);
-      setErrors((prevErrors) => ({ ...prevErrors, general: "An unexpected error occurred. Please try again later." }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: "An unexpected error occurred. Please try again later.",
+      }));
+    } finally {
+      setLoader(false);
     }
   };
-
-  const interests = [
-    "Sports",
-    "Movies and Television",
-    "Fashion",
-    "Fitness",
-    "Music",
-    "Food & Cooking",
-    "Technology",
-    "Gaming",
-  ];
-  const traits = [
-    "Introvert",
-    "Extrovert",
-    "Independent",
-    "Dependent",
-    "Creative",
-    "Timid",
-    "Bold",
-    "Kind",
-    "Muslim",
-    "Christian",
-    "Reserved",
-    "Outspoken",
-    "Easy going",
-    "Empathetic",
-  ];
 
   useEffect(() => {
     if (action === "edit") {
       const fetchPreviousPreferences = async () => {
         const token = Cookies.get("token");
         const { user } = await GetUser(token);
-        setChosenPreferences(user.preferences);
+        const categories = { interests: [], gender: [], traits: [], reason: [] };
+
+        user.preferences.forEach((pref) => {
+          if (interests.includes(pref)) categories.interests.push(pref);
+          else if (["Male", "Female"].includes(pref)) categories.gender.push(pref);
+          else if (traits.includes(pref)) categories.traits.push(pref);
+          else if (["Make friends", "Relationships", "Fun Buddies"].includes(pref)) categories.reason.push(pref);
+        });
+
+        setPreferences(categories);
       };
       fetchPreviousPreferences();
     }
@@ -153,6 +143,22 @@ function Preference({ onPrev, action }) {
     }
   }, [createAccount]);
 
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => setSuccess(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
+
+  const interests = [
+    "Sports", "Movies and Television", "Fashion", "Fitness", "Music",
+    "Food & Cooking", "Technology", "Gaming",
+  ];
+  const traits = [
+    "Introvert", "Extrovert", "Independent", "Dependent", "Creative", "Timid", "Bold",
+    "Kind", "Muslim", "Christian", "Reserved", "Outspoken", "Easy going", "Empathetic",
+  ];
+
   return (
     <div className={action === "creation" ? "pb-20 h-screen overflow-auto text-white bg-[#1B1B1B]" : "pb-20 h-screen overflow-auto text-white"}>
       {action === "creation" && (
@@ -161,14 +167,19 @@ function Preference({ onPrev, action }) {
         </div>
       )}
 
-      {/* Display all error messages at the top */}
       {Object.values(errors).some((error) => error) && (
-        <div className="error-messages w-11/12 xl:w-4/5 mx-auto py-4 text-center rounded-lg mb-6text-[#FF8A60] text-sm md:text-base xl:text-lg">
+        <div className="error-messages w-11/12 xl:w-4/5 mx-auto py-4 text-center rounded-lg mb-6 text-[#FF8A60] text-sm md:text-base xl:text-lg">
           {Object.values(errors)
             .filter((error) => error)
             .map((error, index) => (
               <p key={index} className="text-sm font-semibold">{error}</p>
             ))}
+        </div>
+      )}
+
+      {success && (
+        <div className="w-11/12 xl:w-4/5 mx-auto py-4 text-center rounded-lg mb-6 text-[#ff8a60] font-semibold text-sm md:text-base xl:text-lg">
+          {success}
         </div>
       )}
 
@@ -180,7 +191,7 @@ function Preference({ onPrev, action }) {
               <div
                 key={interest}
                 onClick={(e) => setActive(e, "interests")}
-                className={chosenPreference?.includes(interest) ? "active-preference-item" : "preference-item"}
+                className={preferences.interests.includes(interest) ? "active-preference-item" : "preference-item"}
               >
                 {interest}
               </div>
@@ -191,18 +202,15 @@ function Preference({ onPrev, action }) {
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Gender Of Interest</h3>
           <div className="flex justify-around md:w-10/12 [&>*]:w-full gap-3 md:gap-6 ">
-            <div
-              onClick={(e) => setActive(e, "gender")}
-              className={chosenPreference?.includes("Male") ? "active-preference-item" : "preference-item"}
-            >
-              Male
-            </div>
-            <div
-              onClick={(e) => setActive(e, "gender")}
-              className={chosenPreference?.includes("Female") ? "active-preference-item" : "preference-item"}
-            >
-              Female
-            </div>
+            {["Male", "Female"].map((gender) => (
+              <div
+                key={gender}
+                onClick={(e) => setActive(e, "gender")}
+                className={preferences.gender.includes(gender) ? "active-preference-item" : "preference-item"}
+              >
+                {gender}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -213,7 +221,7 @@ function Preference({ onPrev, action }) {
               <div
                 key={trait}
                 onClick={(e) => setActive(e, "traits")}
-                className={chosenPreference?.includes(trait) ? "active-preference-item" : "preference-item"}
+                className={preferences.traits.includes(trait) ? "active-preference-item" : "preference-item"}
               >
                 {trait}
               </div>
@@ -224,24 +232,15 @@ function Preference({ onPrev, action }) {
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Why did you join us</h3>
           <div className="flex flex-wrap gap-4 md:gap-6 ">
-            <div
-              onClick={(e) => setActive(e, "reason")}
-              className={chosenPreference?.includes("Make friends") ? "active-preference-item" : "preference-item"}
-            >
-              Make friends
-            </div>
-            <div
-              onClick={(e) => setActive(e, "reason")}
-              className={chosenPreference?.includes("Relationships") ? "active-preference-item" : "preference-item"}
-            >
-              Relationships
-            </div>
-            <div
-              onClick={(e) => setActive(e, "reason")}
-              className={chosenPreference?.includes("Fun Buddies") ? "active-preference-item" : "preference-item"}
-            >
-              Fun Buddies
-            </div>
+            {["Make friends", "Relationships", "Fun Buddies"].map((reason) => (
+              <div
+                key={reason}
+                onClick={(e) => setActive(e, "reason")}
+                className={preferences.reason.includes(reason) ? "active-preference-item" : "preference-item"}
+              >
+                {reason}
+              </div>
+            ))}
           </div>
         </div>
 

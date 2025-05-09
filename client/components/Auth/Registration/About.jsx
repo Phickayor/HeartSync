@@ -43,9 +43,6 @@ function About({ onNext, onPrev }) {
     if (!/^[0-9]{10,15}$/.test(phoneNumber)) {
       errors.push("Phone number must be 10-15 digits.");
     }
-    if (!/^[a-zA-Z0-9_]{3,10}$/.test(userName)) {
-      errors.push("Username must be 3-10 alphanumeric characters.");
-    }
     if (!dob) {
       errors.push("Date of birth is required.");
     }

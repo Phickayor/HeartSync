@@ -13,8 +13,6 @@ function ProfileSection({ onNext, onPrev }) {
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState([]); // Combined errors
 
-  // Regex for bio validation (e.g., at least 20 characters and no special characters)
-  const bioRegex = /^[a-zA-Z0-9\s,.'-]{20,}$/;  // Allow letters, numbers, spaces, and some common punctuation
 
   // Regex for image validation (only .jpg, .jpeg, .png files)
   const imageRegex = /(\.jpg|\.jpeg|\.png)$/i;
@@ -49,7 +47,6 @@ function ProfileSection({ onNext, onPrev }) {
 
     // Validate bio using regex
     if (!longBio) formErrors.push("Please provide a bio.");
-    if (longBio && !bioRegex.test(longBio)) formErrors.push("Bio should be at least 20 characters long and contain only letters, numbers, and basic punctuation.");
 
     if (formErrors.length > 0) {
       setErrors(formErrors);
@@ -74,7 +71,6 @@ function ProfileSection({ onNext, onPrev }) {
     // Validate image and bio before moving to the next section
     if (!image) formErrors.push("Please upload a profile picture.");
     if (!longBio) formErrors.push("Please provide a bio.");
-    if (longBio && !bioRegex.test(longBio)) formErrors.push("Bio should be at least 20 characters long and contain only letters, numbers, and basic punctuation.");
 
     if (formErrors.length > 0) {
       setErrors(formErrors);
@@ -133,7 +129,7 @@ function ProfileSection({ onNext, onPrev }) {
                   />
                 </div>
               )}
-              <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full">
+              <div className="hidden absolute top-0 group-hover:flex justify-center w-full h-full aspect-square">
                 <AiOutlineCamera
                   onClick={() => {
                     pic.current.click();

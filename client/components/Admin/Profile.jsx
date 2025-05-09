@@ -47,7 +47,7 @@ function Profile({ userId }) {
     return;
   }
   return (
-    <div className="grid h-[calc(100vh-3.5rem)] py-10 lg:min-h-screen gap-5 overflow-auto">
+    <div className="grid h-[calc(100vh-3.5rem)] py-10 lg:min-h-screen gap-5 overflow-auto mb-5">
       <div className="mx-auto py-2 flex flex-col md:justify-center gap-5 lg:w-8/12 w-11/12 overflow-auto h-fit">
         <img
           src={profile?.profilePicture}
@@ -91,7 +91,7 @@ function Profile({ userId }) {
           )}
           <button
             onClick={handleShareClick}
-            className=" block text-center font-semibold underline cursor-pointer py-4"
+            className=" block text-center font-semibold underline cursor-pointer py-4 mb-10"
           >
             Share Profile
           </button>
