@@ -10,7 +10,7 @@ import { AccessChat } from "@/components/Controllers/ChatController";
 import {
   getAllMessages,
   markAsRead,
-  sendMessage
+  sendMessage,
 } from "@/components/Controllers/MessageController";
 import { capitalize } from "@/utilities/firstLetterCaps";
 import MessageLoader from "@/loader/MessageLoader";
@@ -35,6 +35,7 @@ export const UserText = ({ image, content }) => {
     </div>
   );
 };
+
 export const OtherUserText = ({ image, content }) => {
   return content ? (
     <div className="flex gap-2 w-10/12">
@@ -56,12 +57,15 @@ export const OtherUserText = ({ image, content }) => {
 function Message({ userId, setNotifications }) {
   const userContext = useContext(UserContext);
   const messagesEndRef = useRef();
+
   const [chatId, setChatId] = useState(null);
   const [newMessageClient, setNewMessageClient] = useState("");
   const [messages, setMessages] = useState(null);
   const [otherUser, setOtherUser] = useState({});
   const [isTyping, setIsTyping] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
+
   useEffect(() => {
     const fetchMessages = async () => {
       if (!chatId) return;
@@ -128,6 +132,7 @@ function Message({ userId, setNotifications }) {
       };
     }
   }, [chatId, userContext]);
+
   useEffect(() => {
     socket.on("new notification", (data) => {
       setNotifications((notifications) => notifications + 1);
@@ -142,6 +147,22 @@ function Message({ userId, setNotifications }) {
       socket.off("typing");
     };
   }, [socket]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.visualViewport) {
+        setKeyboardOffset(window.innerHeight - window.visualViewport.height);
+      }
+    };
+
+    window.visualViewport?.addEventListener("resize", handleResize);
+    window.visualViewport?.addEventListener("scroll", handleResize);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", handleResize);
+      window.visualViewport?.removeEventListener("scroll", handleResize);
+    };
+  }, []);
 
   const handleSendMessage = async () => {
     try {
@@ -164,6 +185,7 @@ function Message({ userId, setNotifications }) {
       console.error(error.message);
     }
   };
+
   if ((!messages && userId) || loader) {
     return <MessageLoader />;
   }
@@ -176,7 +198,10 @@ function Message({ userId, setNotifications }) {
   }
 
   return (
-    <div className="p-5 lg:px-10 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-3.5rem)]">
+    <div
+      className="p-5 lg:px-10 flex flex-col lg:gap-5 justify-between lg:h-screen h-[calc(100vh-3.5rem)]"
+      style={{ paddingBottom: keyboardOffset + 20 }}
+    >
       <Link
         href={`/profile/${userId}`}
         className="lg:h-20 rounded-2xl flex p-3 cursor-pointer gap-4"
@@ -226,6 +251,7 @@ function Message({ userId, setNotifications }) {
         )}
         <div ref={messagesEndRef} />
       </div>
+
       <div className="bg-[#202020] px-5 rounded-2xl flex cursor-pointer gap-5">
         <input
           type="text"
