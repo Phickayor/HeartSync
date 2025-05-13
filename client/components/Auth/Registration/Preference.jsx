@@ -40,11 +40,12 @@ function Preference({ onPrev, action }) {
   };
 
   const handleRegistration = async () => {
+    setLoader(true);
     const response = await createUser(regContext.RegState);
     if (response.ok) {
       setSuccess("Account created successfully!");
       setShowModal(true);
-      setLoader(true);
+    setLoader(false);
     } else {
       setErrors((prev) => ({
         ...prev,
