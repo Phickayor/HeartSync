@@ -183,7 +183,6 @@ function Preference({ onPrev, action }) {
 
 
       <form onSubmit={handleSubmit} className="mx-auto w-11/12 xl:w-4/5 flex flex-col gap-8 py-8 pt-5">
-        {/* Interests */}
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Choose your interests</h3>
           <div className="flex flex-wrap gap-4 md:gap-6">
@@ -191,10 +190,9 @@ function Preference({ onPrev, action }) {
               <button
                 key={item}
                 onClick={(e) => setActive(e, "interests")}
-                className={`border px-4 py-2 rounded-2xl transition ${
+                className={` ${
                   chosenPreference.includes(item)
-                    ? "bg-white text-black border-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
+                    ?  "active-preference-item" : "preference-item"
                 }`}
               >
                 {item}
@@ -206,15 +204,14 @@ function Preference({ onPrev, action }) {
         {/* Gender */}
         <div className="flex flex-col gap-6">
           <h3 className="font-medium text-xl">Gender of Interest</h3>
-          <div className="flex gap-4 md:gap-6">
+          <div className="flex justify-around md:w-10/12 [&>*]:w-full gap-3 md:gap-6">
             {["Male", "Female"].map((item) => (
               <button
                 key={item}
                 onClick={(e) => setActive(e, "gender")}
-                className={`w-full border px-4 py-2 rounded-2xl transition ${
+                className={` ${
                   chosenPreference.includes(item)
-                    ? "bg-white text-black border-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
+                    ? "active-preference-item" : "preference-item"
                 }`}
               >
                 {item}
@@ -231,10 +228,9 @@ function Preference({ onPrev, action }) {
               <button
                 key={item}
                 onClick={(e) => setActive(e, "traits")}
-                className={`border px-4 py-2 rounded-2xl transition ${
+                className={` ${
                   chosenPreference.includes(item)
-                    ? "bg-white text-black border-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
+                    ? "active-preference-item" : "preference-item"
                 }`}
               >
                 {item}
@@ -251,10 +247,9 @@ function Preference({ onPrev, action }) {
               <button
                 key={item}
                 onClick={(e) => setActive(e, "reason")}
-                className={`border px-4 py-2 rounded-2xl transition ${
+                className={` ${
                   chosenPreference.includes(item)
-                    ? "bg-white text-black border-white"
-                    : "border-white text-white hover:bg-white hover:text-black"
+                    ? "active-preference-item" : "preference-item"
                 }`}
               >
                 {item}
@@ -264,7 +259,7 @@ function Preference({ onPrev, action }) {
         </div>
 
         {/* Submit */}
-        <button type="submit" className="auth-btn">
+        <button type="submit" className="bg-[#FFEBE4] hover:bg-[#F15A24] text-black duration-300 hover:text-white mx-auto md:mx-0 w-fit px-16 rounded-lg py-3 md:text-xl">
             {loader ? <ButtonLoader /> : "Save"}
           </button>
       </form>

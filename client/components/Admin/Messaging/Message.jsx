@@ -252,7 +252,7 @@ function Message({ userId, setNotifications }) {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="bg-[#202020] px-5 rounded-2xl flex cursor-pointer gap-5">
+      <div className="bg-[#202020] px-5 rounded-2xl flex cursor-pointer gap-5 mb-[5rem]">
         <input
           type="text"
           className="py-3 rounded-lg font-light bg-[#202020] px-2 w-full focus:outline-none"

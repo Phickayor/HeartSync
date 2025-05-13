@@ -52,8 +52,8 @@ function RegCardPreview({ onNext, onPrev }) {
       }
 
       // Check if bio is provided
-      if (!shortBio || shortBio.length < 7 || shortBio.length > 40) {
-        setBioError("Bio must be between 7 and 40 characters.");
+      if (!shortBio ) {
+        setBioError("Please fill out all fields before proceeding");
         setLoader(false);
         return;
       }
