@@ -24,7 +24,7 @@ function Hero() {
           </div>
         </Link>
       </div>
-      <div className="md:block hidden w-full lg:h-1/2 border">
+      <div className="md:block hidden w-full lg:h-1/2">
         <img
           src="/images/lp-desktop.png"
           alt=""
