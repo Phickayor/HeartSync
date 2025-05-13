@@ -188,6 +188,17 @@ function AllSettings() {
           </div>
           <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
             <div className=" self-center">
+              <h3 className="lg:text-lg">Edit Card Preview</h3>
+            </div>
+            <Link
+              href="/admin/settings/edit-profile-card"
+              className="text-sm font-semibold underline cursor-pointer"
+            >
+              Edit
+            </Link>
+          </div>
+          <div className="border-b-2 border-[#EBEBEB] flex justify-between py-2 lg:py-3">
+            <div className=" self-center">
               <h3 className="lg:text-lg">Change preferences</h3>
               <span className="lg:text-md text-sm text-[#717171]">
                 {profile?.preferences
