@@ -119,7 +119,7 @@ function ProfileSection({ onNext, onPrev }) {
               {image ? (
                 <img
                   src={image}
-                  className="border-2 border-btnColor rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
+                  className="border-2 border-btnColor aspect-square rounded-full w-24 h-24 self-center object-cover group-hover:opacity-60"
                 />
               ) : (
                 <div className="border-2 border-btnColor rounded-full size-20 flex flex-col justify-center place-content-center group-hover:opacity-0">
