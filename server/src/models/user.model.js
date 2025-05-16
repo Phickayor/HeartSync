@@ -29,8 +29,7 @@ const profileSchema = new mongoose.Schema(
     userName: {
       type: String,
       required: [true, "Username is required"],
-      minlength: 3,
-      maxlength: 10
+      minlength: 3
       // unique: true
     },
     fullName: {
