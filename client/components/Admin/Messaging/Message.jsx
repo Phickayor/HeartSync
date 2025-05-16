@@ -24,7 +24,7 @@ export const UserText = ({ image, content }) => {
       <div className="bg-[#202020] rounded-l-3xl rounded-tr-3xl flex py-4 px-6 cursor-pointer gap-5 w-fit">
         <span className="text-white text-sm md:text-base">{content}</span>
       </div>
-      <img src={image} className="size-8 md:size-12 rounded-full self-end" />
+      <img src={image} className="size-8 md:size-12 rounded-full self-end object-cover object-top" />
     </div>
   ) : (
     <div className="flex gap-2 justify-end self-end w-10/12">
@@ -39,7 +39,7 @@ export const UserText = ({ image, content }) => {
 export const OtherUserText = ({ image, content }) => {
   return content ? (
     <div className="flex gap-2 w-10/12">
-      <img src={image} className="size-8 md:size-12 self-end rounded-full" />
+      <img src={image} className="size-8 md:size-12 self-end rounded-full object-cover objdct-top" />
       <div className="bg-[#202020] rounded-r-3xl rounded-tl-3xl flex py-4 px-6 cursor-pointer gap-5 max-w-96">
         <h3 className="text-white text-sm md:text-base">{content}</h3>
       </div>
