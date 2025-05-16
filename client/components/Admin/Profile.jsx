@@ -18,7 +18,7 @@ function Profile({ userId }) {
         await navigator.share({
           title: `${capitalize(profile.userName)}'s Big Circle Profile`,
           text: `Get to meet ${profile.userName} on Big Circle `,
-          url: `https://hibuddydev.netlify.app/profile/${profile._id}`
+          url: `https://www.bigcirclehq.com/profile/${profile._id}`
         });
         console.log("Successfully shared");
       } else {

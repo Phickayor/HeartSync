@@ -97,7 +97,7 @@ function AllSettings() {
             <div className="self-center">
               <h3 className="lg:text-lg">Username</h3>
               <span className="lg:text-md text-sm text-[#717171]">
-                www.hibuddy/{profile?.userName}
+                {profile?.userName}
               </span>
             </div>
             <span
