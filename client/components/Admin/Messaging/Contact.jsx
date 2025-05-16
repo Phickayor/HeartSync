@@ -83,7 +83,7 @@ function Contact({ notifications }) {
                         <div className="flex gap-4 py-3 ">
                           <img
                             src={chat.chat.users[i].profilePicture}
-                            className="size-12 rounded-full self-center"
+                            className="size-12 rounded-full self-center object-cover object-top"
                           />
                           <div className="self-center space-y-3 max-w-72 md:max-w-96 lg:max-w-60 truncate overflow-hidden">
                             <h3 className="">
