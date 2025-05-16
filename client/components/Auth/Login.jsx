@@ -26,7 +26,7 @@ function Login() {
     // Email and password regex validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};:'"\\|,.<>\/?`~])[A-Za-z\d!@#$%^&*()_\-+=\[\]{};:'"\\|,.<>\/?`~]{8,}$/;
     if (!emailRegex.test(email)) {
       setLoader(false);
       return setErrorMessage("Invalid email format.");
