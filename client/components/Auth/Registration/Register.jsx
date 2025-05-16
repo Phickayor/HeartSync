@@ -25,7 +25,7 @@ function Register() {
   const [showPopup, setShowPopup] = useState(false); // Show or hide popup modal
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};:'"\\|,.<>\/?`~])[A-Za-z\d!@#$%^&*()_\-+=\[\]{};:'"\\|,.<>\/?`~]{8,}$/;
 
   const handleMatchingPassword = () => {
     return pswd1 === pswd2;
